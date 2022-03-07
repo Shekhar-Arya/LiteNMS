@@ -79,6 +79,10 @@
                                         <div class="input-group has-validation">
                                             <input type="password" name="password" class="form-control" name="password" id="password" required>
                                             <i class='input-group-text lg bx bx-lock bx-sm' ></i>
+                                            <button type="button" id="watchPassword" style="padding: 0; border: grey;">
+                                                <i class='input-group-text lg bi bi-eye-fill' style="font-size: x-large;"></i>
+                                                <i class='input-group-text lg bi bi-eye-slash-fill' style="font-size: x-large; display: none;"></i>
+                                            </button>
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
                                     </div>
@@ -91,8 +95,11 @@
                             </div>
                         </div>
 
-                        <div id="loginFailMessage">
-
+                        <div id="loginFailMessage" style="display:none">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Wrong username or password
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                         </div>
 
                     </div>

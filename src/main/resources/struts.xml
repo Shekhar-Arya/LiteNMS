@@ -25,6 +25,10 @@
             <result name="error">login.jsp</result>
         </action>
 
+        <action name="logout" class="litenms.action.LoginAndLogOutAction" method="logout">
+            <result name="logout">login.jsp</result>
+        </action>
+
     </package>
 
 </struts>
