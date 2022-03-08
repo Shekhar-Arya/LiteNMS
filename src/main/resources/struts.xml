@@ -16,17 +16,38 @@
             </result-type>
         </result-types>
 
+        <interceptors>
+            <interceptor name="userSession" class="litenms.interceptor.LoginSessionInterceptor"></interceptor>
+            <interceptor-stack name="loginSession">
+                <interceptor-ref name="userSession"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <global-results>
+            <result name="loginError">login.jsp</result>
+        </global-results>
+
+
         <action name="">
             <result>/login.jsp</result>
         </action>
 
+
         <action name="login" class="litenms.action.LoginAndLogOutAction" method="login">
+            <interceptor-ref name="loginSession"></interceptor-ref>
             <result name="login"> WEB-INF/index.jsp</result>
             <result name="error">login.jsp</result>
         </action>
 
         <action name="logout" class="litenms.action.LoginAndLogOutAction" method="logout">
+            <interceptor-ref name="loginSession"></interceptor-ref>
             <result name="logout">login.jsp</result>
+        </action>
+
+        <action name="addDeviceForDiscovery" class="litenms.action.DiscoveryAction" method="addDeviceForDiscovery">
+            <interceptor-ref name="loginSession"></interceptor-ref>
+            <result name="success" type="json"></result>
         </action>
 
     </package>

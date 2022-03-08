@@ -5,7 +5,7 @@ let ajaxCalls = {
             type: "POST",
             cache: false,
             data: request.param,
-            timeout: 180000,
+            // timeout: 180000,
             success: function (data){
                 var callbacks;
                 if(request.callback!=undefined){
@@ -16,8 +16,8 @@ let ajaxCalls = {
                     callbacks.remove(request.callback);
                 }
             },
-            error: function (){},
-            dataType: "json"
+            error: function (){console.log("ErrorRRRRRRR----")},
+            dataType: "json",
         });
     }
 }

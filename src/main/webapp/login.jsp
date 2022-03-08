@@ -122,9 +122,9 @@
 <script src="ExternalStylingAndLibraries/assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/php-email-form/validate.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
 <!-- Template Main JS File -->
-
+<script src="ExternalStylingAndLibraries/assets/js/jquery-3.6.0.min.js"></script>
 <script src="scripts/login.js"></script>
 <script>
     $(document).ready(function (){

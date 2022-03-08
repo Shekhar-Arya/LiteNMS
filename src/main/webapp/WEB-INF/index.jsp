@@ -5,11 +5,10 @@
   Time: 12:28 PM
   To change this template use File | Settings | File Templates.
 --%>
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset = "UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>LiteNMS | Monitor</title>
@@ -57,7 +56,11 @@
     </style>
 </head>
 <body>
-
+<%
+response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); //HTTP 1.1
+response.setHeader("Pragma","no-cache"); // HTTP 1.0
+response.setHeader("Expires","0"); // Proxies
+%>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -135,14 +138,14 @@
 
 
 
-<main id="main" class="main">
-
-</main><!-- End #main -->
+<div id="main" class="main">
+</div><!-- End #main -->
 
 
 
 
 <!-- Vendor JS Files -->
+<script src="ExternalStylingAndLibraries/assets/js/jquery-3.6.0.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/chart.js/chart.min.js"></script>
@@ -156,19 +159,19 @@
 <script src="ExternalStylingAndLibraries/assets/js/main.js"></script>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--%>
+<%--<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>--%>
+
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="scripts/login.js"></script>
 <script src="scripts/discovery.js"></script>
+<script src="scripts/ajaxCalls.js"></script>
 <script>
     $(document).ready(function (){
         login.logout();
         discovery.loadDiscoveryPage();
-        $("table#discoveryTable").DataTable({
-            lengthMenu: [5, 10, 20, 50, 100, 200, 500]
-        });
         discovery.addDevice();
+        discovery.displaySSHFields();
     });
 </script>
 </body>
