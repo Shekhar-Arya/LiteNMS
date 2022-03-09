@@ -140,6 +140,29 @@ response.setHeader("Expires","0"); // Proxies
 
 <div id="main" class="main">
 </div><!-- End #main -->
+<%--Edit Form Start--%>
+<button id="editForm" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDiscoveryModal" style="display: none;">
+</button>
+<div class="modal fade" id="editDiscoveryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Device</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" id="discoveryFormEdit"> <div class="col-md-12"> <label for="editid" class="form-label">Id</label>  <input type="text" class="form-control" id="editid" required="required" disabled/> </div> <div class="col-md-12"> <label for="editname" class="form-label">Name</label>  <input type="text" class="form-control" id="editname" required="required"/> </div> <div class="col-md-6"> <label for="editip" class="form-label">IP/Host</label> <input type="text" class="form-control" id="editip" required/></div> <div class="col-md-6"> <label for="edittype" class="form-label">Type</label> <select id="edittype" class="form-select" required disabled> <option selected>Ping</option> <option>SSH</option> </select> </div> <div class="col-md-6" id="usernameDiv" style="display: none"> <label for="editusername" class="form-label">Username</label> <input type="text" class="form-control" id="editusername"/> </div> <div class="col-md-6" id="passwordDiv" style="display: none"> <label for="editpassword" class="form-label">Password</label> <input id="editpassword" type="password" class="form-control"/></div> <div class="text-center"> <button type="submit" class="btn btn-primary">Submit</button> <button type="reset" class="btn btn-secondary">Reset</button> </div> </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
+<%--Edit Form Ends--%>
+
+</div>
+</div>
 
 
 
@@ -172,6 +195,9 @@ response.setHeader("Expires","0"); // Proxies
         discovery.loadDiscoveryPage();
         discovery.addDevice();
         discovery.displaySSHFields();
+        discovery.getDiscoveryDevices();
+        discovery.deleteDiscoveryRow();
+        discovery.getDiscoveryRow();
     });
 </script>
 </body>

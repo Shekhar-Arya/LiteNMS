@@ -1,5 +1,7 @@
 package litenms.models;
 
+import java.util.HashMap;
+
 public class DiscoveryModel {
     private int id;
     private String name;
@@ -8,6 +10,7 @@ public class DiscoveryModel {
     private String username;
     private String password;
     private String message;
+    private HashMap<String,Object> result;
 
     public String getMessage() {
         return message;
@@ -27,6 +30,14 @@ public class DiscoveryModel {
 
     public String getName() {
         return name;
+    }
+
+    public HashMap<String, Object> getResult() {
+        return result;
+    }
+
+    public void setResult(HashMap<String, Object> result) {
+        this.result = result;
     }
 
     public void setName(String name) {
