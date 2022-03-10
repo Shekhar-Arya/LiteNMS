@@ -27,10 +27,10 @@ public class DatabaseConnection {
 
     public static void closeConnection(Connection connection, PreparedStatement preparedStatement){
         try {
-            if(preparedStatement!=null || !preparedStatement.isClosed()){
+            if(preparedStatement!=null && !preparedStatement.isClosed()){
                 preparedStatement.close();
             }
-            if(connection!=null || !connection.isClosed()){
+            if(connection!=null && !connection.isClosed()){
                 connection.close();
             }
         } catch (SQLException e) {

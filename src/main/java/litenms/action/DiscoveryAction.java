@@ -44,9 +44,13 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         if(DiscoveryService.deleteDiscoveryRow(discoveryModel.getId()))
         {
-            return "success";
+            discoveryModel.setMessage("Device Deleted Successfully");
         }
-        return "error";
+        else
+        {
+            discoveryModel.setMessage("Unsuccessful Device Deletion");
+        }
+        return "success";
     }
 
     public String getDiscoveryRow()
@@ -64,9 +68,27 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         if(DiscoveryService.updateDiscoveryRow(discoveryModel))
         {
-            return "success";
+            discoveryModel.setMessage("Device Updated Successfully");
         }
-        return "error";
+        else
+        {
+            discoveryModel.setMessage("Unsuccessful Device Update");
+        }
+        return "success";
+    }
+
+    public String runDiscoveryDevice()
+    {
+        if(DiscoveryService.runDiscovery(discoveryModel.getId()))
+        {
+            System.out.println(discoveryModel.getId());
+            discoveryModel.setMessage("Discovery Successful");
+        }
+        else
+        {
+            discoveryModel.setMessage("Discovery Unsuccessful");
+        }
+        return "success";
     }
 
     @Override

@@ -2,6 +2,7 @@ package litenms.dao;
 
 import litenms.models.DiscoveryModel;
 
+import javax.xml.crypto.Data;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class DiscoveryDao {
 
                 preparedStatement.setString(2,discoveryModel.getUsername());
 
-                preparedStatement.setString(3, Base64.getEncoder().encodeToString(discoveryModel.getIp().getBytes()));
+                preparedStatement.setString(3, Base64.getEncoder().encodeToString(discoveryModel.getPassword().getBytes()));
 
                 preparedStatement.setInt(4,set.getInt(1));
 
@@ -124,6 +125,13 @@ public class DiscoveryDao {
             statement.setInt(1,id);
             statement.executeUpdate();
 
+            statement = connection.prepareStatement("delete from sshCredential where discovery_id = ?");
+            statement.setInt(1,id);
+            statement.executeUpdate();
+
+            statement = connection.prepareStatement("delete from discovery_provision where discovery_id = ?");
+            statement.setInt(1,id);
+            statement.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -161,6 +169,7 @@ public class DiscoveryDao {
                 if(set.next())
                 {
                     discoveryModel.setUsername(set.getString(3));
+                    discoveryModel.setPassword(new String(Base64.getDecoder().decode(set.getString(4))));
                 }
             }
 
@@ -183,12 +192,18 @@ public class DiscoveryDao {
             statement.setString(2,discoveryModel.getIp());
             statement.setInt(3,discoveryModel.getId());
             statement.executeUpdate();
+
+            statement = connection.prepareStatement("update discovery_provision set ip=?,name=? where discovery_id=?");
+            statement.setString(1,discoveryModel.getIp());
+            statement.setString(2,discoveryModel.getName());
+            statement.setInt(3,discoveryModel.getId());
             if(discoveryModel.getType().equals("SSH"))
             {
-                statement = connection.prepareStatement("update sshCredential set username = ?, password=? where discovery_id = ?");
-                statement.setString(1,discoveryModel.getUsername());
-                statement.setString(2,discoveryModel.getPassword());
-                statement.setInt(3,discoveryModel.getId());
+                statement = connection.prepareStatement("update sshCredential set ip=?, username = ?, password=? where discovery_id = ?");
+                statement.setString(1,discoveryModel.getIp());
+                statement.setString(2,discoveryModel.getUsername());
+                statement.setString(3,Base64.getEncoder().encodeToString(discoveryModel.getPassword().getBytes()));
+                statement.setInt(4,discoveryModel.getId());
                 statement.executeUpdate();
             }
             return true;
@@ -201,4 +216,40 @@ public class DiscoveryDao {
         }
     }
 
+    public static boolean addDiscoveryProvision(DiscoveryModel discoveryModel)
+    {
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement("insert into discovery_provision (name,ip,type,discovery_id) values (?,?,?,?)");
+            statement.setString(1,discoveryModel.getName());
+            statement.setString(2,discoveryModel.getIp());
+            statement.setString(3,discoveryModel.getType());
+            statement.setInt(4,discoveryModel.getId());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        finally {
+            DatabaseConnection.closeConnection(connection,statement);
+        }
+    }
+
+    public static void removeDiscoveryProvision(int discoveryId)
+    {
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement("delete from discovery_provision where discovery_id = ?");
+            statement.setInt(1,discoveryId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            DatabaseConnection.closeConnection(connection,statement);
+        }
+    }
 }

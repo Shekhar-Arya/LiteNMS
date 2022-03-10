@@ -1,5 +1,7 @@
 package litenms.service;
 
+import litenms.commonUtil.PingDevice;
+import litenms.commonUtil.SSHConnection;
 import litenms.dao.DiscoveryDao;
 import litenms.models.DiscoveryModel;
 
@@ -34,4 +36,51 @@ public class DiscoveryService {
         return DiscoveryDao.updateDiscoveryRow(discoveryModel);
     }
 
+    public static boolean runDiscovery(int id)
+    {
+        DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
+        if(pingDiscoveryDevice(model))
+        {
+            if(model.getType().equals("SSH"))
+            {
+                return sshDiscoveryDevice(model);
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean pingDiscoveryDevice(DiscoveryModel model)
+    {
+//        DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
+        StringBuilder pingData = PingDevice.pingDevice(model.getIp());
+//        System.out.println(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim());
+        if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
+        {
+            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            DiscoveryDao.addDiscoveryProvision(model);
+            return true;
+        }
+        else
+        {
+            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            return false;
+        }
+    }
+
+    public static boolean sshDiscoveryDevice(DiscoveryModel model) {
+        String sshResult = SSHConnection.getSSHConnection(model, "uname");
+        if (sshResult != null && !sshResult.isEmpty() && sshResult.equals("Linux"))
+        {
+            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            DiscoveryDao.addDiscoveryProvision(model);
+            return true;
+        }
+        else {
+            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            return false;
+        }
+    }
 }
