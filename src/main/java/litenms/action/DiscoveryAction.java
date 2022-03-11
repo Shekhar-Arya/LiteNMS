@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import litenms.models.DiscoveryModel;
 import litenms.service.DiscoveryService;
+import litenms.service.MonitorService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,12 +82,25 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         if(DiscoveryService.runDiscovery(discoveryModel.getId()))
         {
-            System.out.println(discoveryModel.getId());
+//            System.out.println(discoveryModel.getId());
             discoveryModel.setMessage("Discovery Successful");
         }
         else
         {
             discoveryModel.setMessage("Discovery Unsuccessful");
+        }
+        return "success";
+    }
+
+    public String addDeviceToMonitor()
+    {
+        if(MonitorService.addDeviceToMonitor(discoveryModel.getId()))
+        {
+            discoveryModel.setMessage("Device Provision Successfully");
+        }
+        else
+        {
+            discoveryModel.setMessage("Device Already Provisioned");
         }
         return "success";
     }

@@ -3,6 +3,7 @@ package litenms.service;
 import litenms.commonUtil.PingDevice;
 import litenms.commonUtil.SSHConnection;
 import litenms.dao.DiscoveryDao;
+import litenms.dao.MonitorDao;
 import litenms.models.DiscoveryModel;
 
 import java.sql.ResultSet;
@@ -59,28 +60,33 @@ public class DiscoveryService {
 //        System.out.println(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim());
         if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
         {
-            DiscoveryDao.removeDiscoveryProvision(model.getId());
-            DiscoveryDao.addDiscoveryProvision(model);
+//            DiscoveryDao.removeDiscoveryProvision(model.getId());
+//            DiscoveryDao.addDiscoveryProvision(model);
+            DiscoveryDao.runDiscoverySuccessfull(model.getId());
             return true;
         }
         else
         {
-            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
             return false;
         }
     }
 
     public static boolean sshDiscoveryDevice(DiscoveryModel model) {
         String sshResult = SSHConnection.getSSHConnection(model, "uname");
-        if (sshResult != null && !sshResult.isEmpty() && sshResult.equals("Linux"))
+        if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
         {
-            DiscoveryDao.removeDiscoveryProvision(model.getId());
-            DiscoveryDao.addDiscoveryProvision(model);
+//            DiscoveryDao.removeDiscoveryProvision(model.getId());
+//            DiscoveryDao.addDiscoveryProvision(model);
+            DiscoveryDao.runDiscoverySuccessfull(model.getId());
             return true;
         }
         else {
-            DiscoveryDao.removeDiscoveryProvision(model.getId());
+//            DiscoveryDao.removeDiscoveryProvision(model.getId());
+            DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
             return false;
         }
     }
+
+
 }

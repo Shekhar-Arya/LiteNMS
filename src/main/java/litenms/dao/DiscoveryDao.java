@@ -1,6 +1,7 @@
 package litenms.dao;
 
 import litenms.models.DiscoveryModel;
+import litenms.models.MonitorModel;
 
 import javax.xml.crypto.Data;
 import java.nio.charset.StandardCharsets;
@@ -17,13 +18,15 @@ public class DiscoveryDao {
         PreparedStatement preparedStatement = null;
         try {
 
-            preparedStatement = connection.prepareStatement("insert into discovery (name,ip,type) values (?,?,?);", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement("insert into discovery (name,ip,type,status) values (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1,discoveryModel.getName());
 
             preparedStatement.setString(2,discoveryModel.getIp());
 
             preparedStatement.setString(3,discoveryModel.getType());
+
+            preparedStatement.setInt(4,0);
 
             preparedStatement.executeUpdate();
 
@@ -93,6 +96,8 @@ public class DiscoveryDao {
 
                         modal.setType(set.getString(4));
 
+                        modal.setStatus(set.getInt(5));
+
                         discoveryModelList.add(modal);
                     }
 
@@ -160,6 +165,8 @@ public class DiscoveryDao {
                 discoveryModel.setIp(set.getString(3));
 
                 discoveryModel.setType(set.getString(4));
+
+                discoveryModel.setStatus(set.getInt(5));
             }
             if(discoveryModel.getType().equals("SSH"))
             {
@@ -168,6 +175,7 @@ public class DiscoveryDao {
                 set = statement.executeQuery();
                 if(set.next())
                 {
+                    discoveryModel.setSshId(set.getInt(1));
                     discoveryModel.setUsername(set.getString(3));
                     discoveryModel.setPassword(new String(Base64.getDecoder().decode(set.getString(4))));
                 }
@@ -216,16 +224,14 @@ public class DiscoveryDao {
         }
     }
 
-    public static boolean addDiscoveryProvision(DiscoveryModel discoveryModel)
+    public static boolean runDiscoverySuccessfull(int id)
     {
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement("insert into discovery_provision (name,ip,type,discovery_id) values (?,?,?,?)");
-            statement.setString(1,discoveryModel.getName());
-            statement.setString(2,discoveryModel.getIp());
-            statement.setString(3,discoveryModel.getType());
-            statement.setInt(4,discoveryModel.getId());
+            statement = connection.prepareStatement("update discovery set status=? where id = ?");
+            statement.setInt(1,1);
+            statement.setInt(2,id);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -237,19 +243,25 @@ public class DiscoveryDao {
         }
     }
 
-    public static void removeDiscoveryProvision(int discoveryId)
+
+    public static boolean runDiscoveryUnsuccessfull(int id)
     {
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement("delete from discovery_provision where discovery_id = ?");
-            statement.setInt(1,discoveryId);
+            statement = connection.prepareStatement("update discovery set status=? where id = ?");
+            statement.setInt(1,0);
+            statement.setInt(2,id);
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
         finally {
             DatabaseConnection.closeConnection(connection,statement);
         }
     }
+
+
 }

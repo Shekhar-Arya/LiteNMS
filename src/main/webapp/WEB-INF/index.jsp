@@ -63,7 +63,7 @@
             z-index: 100;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(192, 192, 192, 0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
         .headerLoading{
             z-index: 100;
@@ -128,27 +128,26 @@ response.setHeader("Expires","0"); // Proxies
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link " href="index.html">
+        <li class="nav-item" id="discovery" style="cursor: pointer">
+            <a class="nav-link ">
                 <i class="bi bi-search"></i>
                 <span>Discovery</span>
             </a>
         </li><!-- End Monitor Discovery Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="index.html">
+        <li class="nav-item"  id="monitor" style="cursor: pointer">
+            <a class="nav-link collapsed">
                 <i class="bi bi-display"></i>
                 <span>Monitor</span>
             </a>
         </li><!-- End Monitor Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="index.html">
+        <li class="nav-item" id="dashboard" style="cursor: pointer">
+            <a class="nav-link collapsed">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
-
 
     </ul>
 
@@ -183,17 +182,14 @@ response.setHeader("Expires","0"); // Proxies
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="scripts/login.js"></script>
 <script src="scripts/discovery.js"></script>
+<script src="scripts/monitor.js"></script>
 <script src="scripts/ajaxCalls.js"></script>
 <script>
     $(document).ready(function (){
         login.logout();
         discovery.loadDiscoveryPage();
-        discovery.addDevice();
-        discovery.displaySSHFields();
-        discovery.getDiscoveryDevices();
-        discovery.deleteDiscoveryRow();
-        discovery.getDiscoveryRow();
-        discovery.runDiscoveryDevice();
+        monitor.loadMonitorData();
+        $("#discovery").click();
     });
 </script>
 </body>

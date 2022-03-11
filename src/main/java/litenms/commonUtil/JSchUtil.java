@@ -32,9 +32,11 @@ public class JSchUtil {
 
             responseString = new String(responseStream.toByteArray());
         } catch (JSchException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+//            e.printStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             if (session != null) {
                 session.disconnect();
