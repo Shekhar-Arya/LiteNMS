@@ -55,7 +55,6 @@ public class DiscoveryService {
 
     public static boolean pingDiscoveryDevice(DiscoveryModel model)
     {
-//        DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
         StringBuilder pingData = PingDevice.pingDevice(model.getIp());
 //        System.out.println(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim());
         if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)

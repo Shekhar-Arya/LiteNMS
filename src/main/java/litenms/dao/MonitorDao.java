@@ -1,5 +1,6 @@
 package litenms.dao;
 
+import litenms.commonUtil.CacheStore;
 import litenms.models.DiscoveryModel;
 import litenms.models.MonitorModel;
 
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MonitorDao {
 
@@ -51,6 +53,7 @@ public class MonitorDao {
                 statement.setString(2,discoveryModel.getType());
                 statement.setInt(3,discoveryModel.getSshId());
                 statement.executeUpdate();
+                CacheStore.setCacheList("monitorList",getMonitorDevices());
                 return true;
             }
             else

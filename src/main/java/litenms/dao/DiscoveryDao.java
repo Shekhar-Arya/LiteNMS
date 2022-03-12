@@ -1,16 +1,20 @@
 package litenms.dao;
 
+import litenms.commonUtil.CacheStore;
 import litenms.models.DiscoveryModel;
-import litenms.models.MonitorModel;
+import litenms.models.SSHCredentialModel;
 
 import javax.xml.crypto.Data;
-import java.nio.charset.StandardCharsets;
+import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DiscoveryDao {
+
 
     public static boolean addDeviceForDiscovery(DiscoveryModel discoveryModel)
     {
@@ -48,6 +52,9 @@ public class DiscoveryDao {
                 preparedStatement.executeUpdate();
             }
 
+
+            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
+            CacheStore.setCacheList("sshCredList", getAllSSHCred());
             return true;
 
         } catch (SQLException e) {
@@ -134,9 +141,10 @@ public class DiscoveryDao {
             statement.setInt(1,id);
             statement.executeUpdate();
 
-            statement = connection.prepareStatement("delete from discovery_provision where discovery_id = ?");
-            statement.setInt(1,id);
-            statement.executeUpdate();
+
+            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
+            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -201,10 +209,6 @@ public class DiscoveryDao {
             statement.setInt(3,discoveryModel.getId());
             statement.executeUpdate();
 
-            statement = connection.prepareStatement("update discovery_provision set ip=?,name=? where discovery_id=?");
-            statement.setString(1,discoveryModel.getIp());
-            statement.setString(2,discoveryModel.getName());
-            statement.setInt(3,discoveryModel.getId());
             if(discoveryModel.getType().equals("SSH"))
             {
                 statement = connection.prepareStatement("update sshCredential set ip=?, username = ?, password=? where discovery_id = ?");
@@ -214,6 +218,11 @@ public class DiscoveryDao {
                 statement.setInt(4,discoveryModel.getId());
                 statement.executeUpdate();
             }
+
+
+            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
+            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -233,6 +242,11 @@ public class DiscoveryDao {
             statement.setInt(1,1);
             statement.setInt(2,id);
             statement.executeUpdate();
+
+
+            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
+            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -253,6 +267,11 @@ public class DiscoveryDao {
             statement.setInt(1,0);
             statement.setInt(2,id);
             statement.executeUpdate();
+
+
+            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
+            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -261,6 +280,31 @@ public class DiscoveryDao {
         finally {
             DatabaseConnection.closeConnection(connection,statement);
         }
+    }
+
+    public static HashMap<Integer,SSHCredentialModel> getAllSSHCred()
+    {
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = null;
+        HashMap<Integer,SSHCredentialModel> sshCredentialModels = new HashMap<>();
+        try {
+            statement = connection.prepareStatement("seelct * from sshCredential");
+            ResultSet set = statement.executeQuery();
+            while (set.next())
+            {
+                SSHCredentialModel model = new SSHCredentialModel();
+                model.setSshId(set.getInt(1));
+                model.setUsername(set.getString(3));
+                model.setPassword(set.getString(4));
+                sshCredentialModels.put(set.getInt(1),model);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            DatabaseConnection.closeConnection(connection,statement);
+        }
+        return sshCredentialModels;
     }
 
 
