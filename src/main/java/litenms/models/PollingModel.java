@@ -13,6 +13,15 @@ public class PollingModel {
     private int otherMemory;    // free -h
     private int diskSpaceUsage; // df -ht -ext4
     private Date date;          //time
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getAvgRtt() {
         return avgRtt;
