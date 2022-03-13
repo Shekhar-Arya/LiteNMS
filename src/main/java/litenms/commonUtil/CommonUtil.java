@@ -1,13 +1,16 @@
 package litenms.commonUtil;
 
 import litenms.models.DiscoveryModel;
+import litenms.models.MonitorModel;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommonUtil {
-    private static LinkedBlockingQueue<DiscoveryModel> discoveryModels = new LinkedBlockingQueue<>();
+    private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>();
 
-    public static void addModel(DiscoveryModel model)
+    public static void addModel(MonitorModel model)
     {
         try {
             discoveryModels.put(model);
@@ -16,9 +19,9 @@ public class CommonUtil {
         }
     }
 
-    public static DiscoveryModel takeModel()
+    public static MonitorModel takeModel()
     {
-        DiscoveryModel model = null;
+        MonitorModel model = null;
         try {
             model =  discoveryModels.take();
         } catch (InterruptedException e) {
@@ -26,4 +29,5 @@ public class CommonUtil {
         }
         return model;
     }
+
 }

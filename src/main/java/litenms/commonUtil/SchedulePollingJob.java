@@ -20,10 +20,12 @@ public class SchedulePollingJob implements Job {
         if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
         {
            monitorModels = MonitorDao.getMonitorDevices();
+           CacheStore.setCacheList("monitorList",monitorModels);
         }
-        else if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("sshCredList")==null)
+        if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("sshCredList")==null)
         {
             map = DiscoveryDao.getAllSSHCred();
+            CacheStore.setCacheList("sshCredList",map);
         }
         else {
 
@@ -31,11 +33,12 @@ public class SchedulePollingJob implements Job {
             map = (HashMap<Integer, SSHCredentialModel>) CacheStore.getCacheList().get("sshCredList");
         }
 
-        for (MonitorModel m:monitorModels) {
-            DiscoveryModel model = new DiscoveryModel();
-            model.setIp(m.getIp());
-            model.setUsername(map.get(m.getSshId()).getUsername());
-            model.setPassword(map.get(m.getSshId()).getPassword());
+        for (MonitorModel model:monitorModels) {
+            if(model.getType().equals("SSH"))
+            {
+                model.setUsername(map.get(model.getSshId()).getUsername());
+                model.setPassword(map.get(model.getSshId()).getPassword());
+            }
             CommonUtil.addModel(model);
         }
 

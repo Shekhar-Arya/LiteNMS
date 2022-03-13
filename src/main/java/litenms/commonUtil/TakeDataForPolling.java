@@ -1,6 +1,8 @@
 package litenms.commonUtil;
 
+import litenms.dao.MonitorDao;
 import litenms.models.DiscoveryModel;
+import litenms.models.MonitorModel;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,7 +15,7 @@ public class TakeDataForPolling implements Runnable{
         ExecutorService service = Executors.newFixedThreadPool(5);
         while (true)
         {
-            DiscoveryModel model = CommonUtil.takeModel();
+            MonitorModel model = CommonUtil.takeModel();
             service.execute(new PollingRunnable(model));
         }
     }

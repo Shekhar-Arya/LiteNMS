@@ -3,17 +3,26 @@ package litenms.models;
 import java.sql.Date;
 
 public class PollingModel {
-    private int avgRtt;         // ping
-    private int packetLoss;     //ping
-    private int availability;   //ping
-    private int cpuUsage;       // free -h
-    private int totalMemory;    // free -h
-    private int usedMemory;     // free -h
-    private int freeMemory;     // free -h
-    private int otherMemory;    // free -h
-    private int diskSpaceUsage; // df -ht -ext4
+    private double avgRtt;         // ping
+    private double packetLoss;     //ping
+    private double availability;   //ping
+    private double cpuUsage;       // top
+    private double totalMemory;    // free -h
+    private double usedMemory;     // free -h
+    private double freeMemory;     // free -h
+    private double otherMemory;    // free -h
+    private double diskSpaceUsage; // df -ht -ext4
     private Date date;          //time
     private String type;
+    private int monitor_id;
+
+    public int getMonitor_id() {
+        return monitor_id;
+    }
+
+    public void setMonitor_id(int monitor_id) {
+        this.monitor_id = monitor_id;
+    }
 
     public String getType() {
         return type;
@@ -23,75 +32,75 @@ public class PollingModel {
         this.type = type;
     }
 
-    public int getAvgRtt() {
+    public double getAvgRtt() {
         return avgRtt;
     }
 
-    public void setAvgRtt(int avgRtt) {
+    public void setAvgRtt(double avgRtt) {
         this.avgRtt = avgRtt;
     }
 
-    public int getPacketLoss() {
+    public double getPacketLoss() {
         return packetLoss;
     }
 
-    public void setPacketLoss(int packetLoss) {
+    public void setPacketLoss(double packetLoss) {
         this.packetLoss = packetLoss;
     }
 
-    public int getAvailability() {
+    public double getAvailability() {
         return availability;
     }
 
-    public void setAvailability(int availability) {
+    public void setAvailability(double availability) {
         this.availability = availability;
     }
 
-    public int getCpuUsage() {
+    public double getCpuUsage() {
         return cpuUsage;
     }
 
-    public void setCpuUsage(int cpuUsage) {
+    public void setCpuUsage(double cpuUsage) {
         this.cpuUsage = cpuUsage;
     }
 
-    public int getTotalMemory() {
+    public double getTotalMemory() {
         return totalMemory;
     }
 
-    public void setTotalMemory(int totalMemory) {
+    public void setTotalMemory(double totalMemory) {
         this.totalMemory = totalMemory;
     }
 
-    public int getUsedMemory() {
+    public double getUsedMemory() {
         return usedMemory;
     }
 
-    public void setUsedMemory(int usedMemory) {
+    public void setUsedMemory(double usedMemory) {
         this.usedMemory = usedMemory;
     }
 
-    public int getFreeMemory() {
+    public double getFreeMemory() {
         return freeMemory;
     }
 
-    public void setFreeMemory(int freeMemory) {
+    public void setFreeMemory(double freeMemory) {
         this.freeMemory = freeMemory;
     }
 
-    public int getOtherMemory() {
+    public double getOtherMemory() {
         return otherMemory;
     }
 
-    public void setOtherMemory(int otherMemory) {
+    public void setOtherMemory(double otherMemory) {
         this.otherMemory = otherMemory;
     }
 
-    public int getDiskSpaceUsage() {
+    public double getDiskSpaceUsage() {
         return diskSpaceUsage;
     }
 
-    public void setDiskSpaceUsage(int diskSpaceUsage) {
+    public void setDiskSpaceUsage(double diskSpaceUsage) {
         this.diskSpaceUsage = diskSpaceUsage;
     }
 

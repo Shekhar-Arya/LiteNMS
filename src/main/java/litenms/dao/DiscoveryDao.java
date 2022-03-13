@@ -288,14 +288,14 @@ public class DiscoveryDao {
         PreparedStatement statement = null;
         HashMap<Integer,SSHCredentialModel> sshCredentialModels = new HashMap<>();
         try {
-            statement = connection.prepareStatement("seelct * from sshCredential");
+            statement = connection.prepareStatement("select * from sshCredential");
             ResultSet set = statement.executeQuery();
             while (set.next())
             {
                 SSHCredentialModel model = new SSHCredentialModel();
                 model.setSshId(set.getInt(1));
                 model.setUsername(set.getString(3));
-                model.setPassword(set.getString(4));
+                model.setPassword(new String(Base64.getDecoder().decode(set.getString(4))));
                 sshCredentialModels.put(set.getInt(1),model);
             }
         } catch (SQLException e) {

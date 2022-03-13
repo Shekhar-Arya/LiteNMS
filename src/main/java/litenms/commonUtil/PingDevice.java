@@ -7,12 +7,13 @@ public class PingDevice {
 
    public static StringBuilder pingDevice(String ip)
    {
+
+        commandList.clear();
         commandList.add("ping");
         commandList.add("-c");
         commandList.add("5");
         commandList.add(ip);
         StringBuilder stringBuilder = ProcessBuilderUtil.runCommand(commandList);
-        commandList.clear();
         return stringBuilder;
    }
 }

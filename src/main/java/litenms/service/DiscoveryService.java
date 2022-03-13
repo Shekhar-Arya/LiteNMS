@@ -72,7 +72,7 @@ public class DiscoveryService {
     }
 
     public static boolean sshDiscoveryDevice(DiscoveryModel model) {
-        String sshResult = SSHConnection.getSSHConnection(model, "uname");
+        String sshResult = SSHConnection.getSSHConnection(model.getUsername(),model.getPassword(),model.getIp(), "uname");
         if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
         {
 //            DiscoveryDao.removeDiscoveryProvision(model.getId());
