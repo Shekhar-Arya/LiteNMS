@@ -55,7 +55,8 @@ public class DiscoveryService {
 
     public static boolean pingDiscoveryDevice(DiscoveryModel model)
     {
-        StringBuilder pingData = PingDevice.pingDevice(model.getIp());
+        String pingData = PingDevice.pingDevice(model.getIp());
+        if(pingData !=null && !pingData.isEmpty() ){
 //        System.out.println(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim());
         if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
         {
@@ -69,6 +70,8 @@ public class DiscoveryService {
             DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
             return false;
         }
+        }
+        return false;
     }
 
     public static boolean sshDiscoveryDevice(DiscoveryModel model) {

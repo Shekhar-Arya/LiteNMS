@@ -7,24 +7,26 @@ import java.util.ArrayList;
 
 public class ProcessBuilderUtil {
 
-    public static StringBuilder runCommand(ArrayList<String> commandList) {
+    public static String runCommand(ArrayList<String> commandList) {
         ProcessBuilder builder = new ProcessBuilder(commandList);
         String data = null;
-        StringBuilder builder1 = null;
+        String result = null;
         BufferedReader input = null;
         BufferedReader error = null;
         try {
             Process process = builder.start();
             input = new BufferedReader(new InputStreamReader(process.getInputStream()));
             error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            builder1 = new StringBuilder();
+//            builder1 = new StringBuilder();
             while ((data = input.readLine()) != null) {
-                builder1.append(data);
+//                builder1.append(data);
+                result+=data;
             }
             while ((data = error.readLine()) != null) {
-                builder1.append(data);
+//                builder1.append(data);
+                result+=data;
             }
-            return builder1;
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,6 +39,6 @@ public class ProcessBuilderUtil {
             }
 
         }
-        return builder1;
+        return result;
     }
 }

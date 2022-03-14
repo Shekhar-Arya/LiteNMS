@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PingDevice {
    static ArrayList<String> commandList = new ArrayList<String>();
 
-   public static StringBuilder pingDevice(String ip)
+   public static String pingDevice(String ip)
    {
 
         commandList.clear();
@@ -13,7 +13,7 @@ public class PingDevice {
         commandList.add("-c");
         commandList.add("5");
         commandList.add(ip);
-        StringBuilder stringBuilder = ProcessBuilderUtil.runCommand(commandList);
-        return stringBuilder;
+        String result = ProcessBuilderUtil.runCommand(commandList);
+        return result;
    }
 }

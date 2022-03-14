@@ -74,16 +74,16 @@
 
         .good{
             color: white;
-            background-color: #2eca6a;
-            height: 200px;
+            background-color: rgb(75, 192, 192);
+            height: 300px;
             font-size: large;
             font-weight: bold;
             border-radius: 10px;
         }
         .bad{
             color: white;
-            background-color: #e74c3c;
-            height: 200px;
+            background-color: rgb(255, 99, 132);
+            height: 300px;
             font-size: large;
             font-weight: bold;
             border-radius: 10px;
@@ -205,7 +205,14 @@ response.setHeader("Expires","0"); // Proxies
         login.logout();
         discovery.loadDiscoveryPage();
         monitor.loadMonitorData();
-        $("#discovery").click();
+        console.log(sessionStorage.getItem("page"));
+        if(sessionStorage.getItem("page")==undefined)
+        {
+            $("#discovery").click();
+        }
+        else {
+            $(sessionStorage.getItem("page")).click();
+        }
     });
 </script>
 </body>

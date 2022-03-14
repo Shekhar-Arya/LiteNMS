@@ -30,7 +30,7 @@ public class CacheStore {
             Trigger trigger = TriggerBuilder.newTrigger()
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                            .withIntervalInSeconds(120)
+                            .withIntervalInSeconds(60)
                             .repeatForever())
                     .build();
             scheduler.scheduleJob(job,trigger);

@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -28,7 +30,7 @@ public class PollingDao {
             statement.setDouble(7,pollingModel.getFreeMemory());
             statement.setDouble(8,pollingModel.getCpuUsage());
             statement.setDouble(9,pollingModel.getDiskSpaceUsage());
-            statement.setDate(10,pollingModel.getDate());
+            statement.setString(10,pollingModel.getDate());
            statement.setInt(11,pollingModel.getAvailability());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -58,7 +60,7 @@ public class PollingDao {
                 model.setFreeMemory(set.getDouble(8));
                 model.setCpuUsage(set.getDouble(9));
                 model.setDiskSpaceUsage(set.getDouble(10));
-                model.setDate(set.getDate(11));
+                model.setDate(set.getString(11));
                 model.setAvailability(set.getInt(12));
             }
         } catch (SQLException e) {
@@ -75,9 +77,14 @@ public class PollingDao {
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = null;
         List<PollingModel> pollingModelList = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String startDate = formatter.format(new Date())+" 00:00:00";
+        String endDate = formatter.format(new Date())+" 23:59:59";
         try {
-            statement = connection.prepareStatement("select * from polling where monitor_id = ? order by id desc limit 10");
+            statement = connection.prepareStatement("select * from polling where monitor_id = ? and date between ? and ?");
             statement.setInt(1,id);
+            statement.setString(2,startDate);
+            statement.setString(3,endDate);
             ResultSet set = statement.executeQuery();
             while(set.next())
             {
@@ -90,7 +97,7 @@ public class PollingDao {
                 model.setFreeMemory(set.getDouble(8));
                 model.setCpuUsage(set.getDouble(9));
                 model.setDiskSpaceUsage(set.getDouble(10));
-                model.setDate(set.getDate(11));
+                model.setDate(set.getString(11));
                 model.setAvailability(set.getInt(12));
                 pollingModelList.add(model);
             }

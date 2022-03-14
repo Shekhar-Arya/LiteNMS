@@ -13,7 +13,7 @@ public class PollingModel {
     private double freeMemory;     // free -h
     private double otherMemory;    // free -h
     private double diskSpaceUsage; // df -ht -ext4
-    private Date date;          //time
+    private String date;          //time
     private String type;
     private int monitor_id;
     private String message;
@@ -123,11 +123,11 @@ public class PollingModel {
         this.diskSpaceUsage = diskSpaceUsage;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
