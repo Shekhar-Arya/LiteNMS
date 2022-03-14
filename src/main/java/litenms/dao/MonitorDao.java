@@ -30,6 +30,7 @@ public class MonitorDao {
                 model.setIp(set.getString(2));
                 model.setType(set.getString(3));
                 model.setSshId(set.getInt(4));
+                model.setStatus(set.getString(5));
                 monitorModels.add(model);
             }
         } catch (SQLException e) {
@@ -48,10 +49,11 @@ public class MonitorDao {
 //            System.out.println(getDeviceFromMonitor(discoveryModel.getIp()));
             if(getDeviceFromMonitor(discoveryModel.getIp(),discoveryModel.getType()).getIp() == null)
             {
-                statement = connection.prepareStatement("insert into monitor (ip,type,ssh_id) values (?,?,?)");
+                statement = connection.prepareStatement("insert into monitor (ip,type,ssh_id,status) values (?,?,?,?)");
                 statement.setString(1,discoveryModel.getIp());
                 statement.setString(2,discoveryModel.getType());
                 statement.setInt(3,discoveryModel.getSshId());
+                statement.setString(4,"Unknown");
                 statement.executeUpdate();
                 CacheStore.setCacheList("monitorList",getMonitorDevices());
                 return true;
@@ -85,6 +87,7 @@ public class MonitorDao {
                 model.setIp(set.getString(2));
                 model.setType(set.getString(3));
                 model.setSshId(set.getInt(4));
+                model.setStatus(set.getString(5));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,4 +97,19 @@ public class MonitorDao {
         }
         return model;
     }
+
+    public static void updateMonitorStatus(String status, int id)
+    {
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement("update monitor set status = ? where id = ?");
+            statement.setString(1,status);
+            statement.setInt(2,id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

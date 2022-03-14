@@ -10,6 +10,16 @@ public class MonitorModel {
     private String message;
     private HashMap<String,Object> result;
     private String username;
+    private String status;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getUsername() {
         return username;

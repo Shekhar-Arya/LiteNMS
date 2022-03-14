@@ -86,6 +86,11 @@
             <result name="success" type="json"></result>
         </action>
 
+        <action name="getMonitorData" class="litenms.action.PollingAction" method="getMonitorData">
+            <interceptor-ref name="loginSession"></interceptor-ref>
+            <result name="success" type="json"></result>
+        </action>
+
 
     </package>
 

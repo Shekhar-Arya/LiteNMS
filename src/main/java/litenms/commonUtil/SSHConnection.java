@@ -31,10 +31,8 @@ public class SSHConnection {
             channel.setOutputStream(responseStream);
             channel.connect();
 
-            if(channel.isConnected() && command.equals("top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print $8}'")) {
-                Thread.sleep(5000);
-            }
-            else if(channel.isConnected())
+
+            if(channel.isConnected())
             {
                 Thread.sleep(100);
             }

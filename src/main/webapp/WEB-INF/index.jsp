@@ -71,6 +71,23 @@
         .sidebarLoading{
             z-index: 100;
         }
+
+        .good{
+            color: white;
+            background-color: #2eca6a;
+            height: 200px;
+            font-size: large;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+        .bad{
+            color: white;
+            background-color: #e74c3c;
+            height: 200px;
+            font-size: large;
+            font-weight: bold;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -160,7 +177,6 @@ response.setHeader("Expires","0"); // Proxies
 
 
 
-
 <!-- Vendor JS Files -->
 <script src="ExternalStylingAndLibraries/assets/js/jquery-3.6.0.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -171,7 +187,7 @@ response.setHeader("Expires","0"); // Proxies
 <script src="ExternalStylingAndLibraries/assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="ExternalStylingAndLibraries/assets/vendor/php-email-form/validate.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Template Main JS File -->
 <script src="ExternalStylingAndLibraries/assets/js/main.js"></script>
 
