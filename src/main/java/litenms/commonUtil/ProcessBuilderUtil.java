@@ -10,7 +10,7 @@ public class ProcessBuilderUtil {
     public static String runCommand(ArrayList<String> commandList) {
         ProcessBuilder builder = new ProcessBuilder(commandList);
         String data = null;
-        String result = null;
+        String result = "";
         BufferedReader input = null;
         BufferedReader error = null;
         try {

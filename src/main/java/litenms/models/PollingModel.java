@@ -18,6 +18,15 @@ public class PollingModel {
     private int monitor_id;
     private String message;
     private HashMap<String,Object> result;
+    private String labelForBar;
+
+    public String getLabelForBar() {
+        return labelForBar;
+    }
+
+    public void setLabelForBar(String labelForBar) {
+        this.labelForBar = labelForBar;
+    }
 
     public String getMessage() {
         return message;

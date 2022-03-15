@@ -159,12 +159,14 @@ response.setHeader("Expires","0"); // Proxies
             </a>
         </li><!-- End Monitor Nav -->
 
+<%--
         <li class="nav-item" id="dashboard" style="cursor: pointer">
             <a class="nav-link collapsed">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+--%>
 
     </ul>
 

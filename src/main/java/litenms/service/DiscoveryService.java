@@ -1,5 +1,6 @@
 package litenms.service;
 
+import com.jcraft.jsch.Session;
 import litenms.commonUtil.PingDevice;
 import litenms.commonUtil.SSHConnection;
 import litenms.dao.DiscoveryDao;
@@ -75,19 +76,29 @@ public class DiscoveryService {
     }
 
     public static boolean sshDiscoveryDevice(DiscoveryModel model) {
-        String sshResult = SSHConnection.getSSHConnection(model.getUsername(),model.getPassword(),model.getIp(), "uname");
-        if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
-        {
+        Session session = null;
+        try {
+            session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
+            if(session!=null)
+            {
+                String sshResult = SSHConnection.getSSHConnection(session, "uname");
+                if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
+                {
 //            DiscoveryDao.removeDiscoveryProvision(model.getId());
 //            DiscoveryDao.addDiscoveryProvision(model);
-            DiscoveryDao.runDiscoverySuccessfull(model.getId());
-            return true;
-        }
-        else {
+                    DiscoveryDao.runDiscoverySuccessfull(model.getId());
+                    return true;
+                }
+                else {
 //            DiscoveryDao.removeDiscoveryProvision(model.getId());
-            DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
-            return false;
+                    DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+                }
+            }
         }
+        finally {
+            SSHConnection.closeSSHSession(session);
+        }
+        return false;
     }
 
 

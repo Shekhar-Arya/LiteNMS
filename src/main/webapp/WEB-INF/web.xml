@@ -23,4 +23,10 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <servlet>
+    <servlet-name>schedular</servlet-name>
+    <servlet-class>litenms.commonUtil.Scheduler</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
 </web-app>

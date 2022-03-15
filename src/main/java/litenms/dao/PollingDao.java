@@ -72,19 +72,17 @@ public class PollingDao {
         return model;
     }
 
-    public static List<PollingModel> getPollingLastTenData(int id)
+    public static List<PollingModel> getPollingLastTwentyFourHourData(int id, String startTime,String endTime)
     {
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = null;
         List<PollingModel> pollingModelList = new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String startDate = formatter.format(new Date())+" 00:00:00";
-        String endDate = formatter.format(new Date())+" 23:59:59";
+
         try {
             statement = connection.prepareStatement("select * from polling where monitor_id = ? and date between ? and ?");
             statement.setInt(1,id);
-            statement.setString(2,startDate);
-            statement.setString(3,endDate);
+            statement.setString(2,startTime);
+            statement.setString(3,endTime);
             ResultSet set = statement.executeQuery();
             while(set.next())
             {

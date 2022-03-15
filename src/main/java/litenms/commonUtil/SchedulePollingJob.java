@@ -27,7 +27,7 @@ public class SchedulePollingJob implements Job {
             map = DiscoveryDao.getAllSSHCred();
             CacheStore.setCacheList("sshCredList",map);
         }
-        else {
+        if(CacheStore.getCacheList()!=null && CacheStore.getCacheList().get("sshCredList")!=null && CacheStore.getCacheList().get("monitorList")!=null) {
 
             monitorModels = (List<MonitorModel>) CacheStore.getCacheList().get("monitorList");
             map = (HashMap<Integer, SSHCredentialModel>) CacheStore.getCacheList().get("sshCredList");

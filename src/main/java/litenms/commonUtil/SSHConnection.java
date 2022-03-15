@@ -11,19 +11,35 @@ import java.io.ByteArrayOutputStream;
 
 public class SSHConnection {
 
-    public static String getSSHConnection(String username, String password, String host, String command)
+    public static Session getSSHSession(String username, String password, String host)
     {
-//        String sshResult = JSchUtil.createSSHConnection(discoveryModel.getUsername(),discoveryModel.getPassword(),discoveryModel.getIp(),command);
-//        return sshResult;
         Session session = null;
-        ChannelExec channel = null;
-        String responseString = null;
-
         try {
             session = new JSch().getSession(username, host, 22);
             session.setPassword(password);
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
+        } catch (JSchException e) {
+            e.printStackTrace();
+        }
+        return session;
+    }
+
+    public static void closeSSHSession(Session session)
+    {
+        if (session != null) {
+            session.disconnect();
+        }
+    }
+
+    public static String getSSHConnection(Session session,String command)
+    {
+//        String sshResult = JSchUtil.createSSHConnection(discoveryModel.getUsername(),discoveryModel.getPassword(),discoveryModel.getIp(),command);
+//        return sshResult;
+        ChannelExec channel = null;
+        String responseString = null;
+
+        try {
 
             channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
@@ -47,9 +63,7 @@ public class SSHConnection {
             System.out.println(e.getMessage());
             return null;
         } finally {
-            if (session != null) {
-                session.disconnect();
-            }
+
             if (channel != null) {
                 channel.disconnect();
             }

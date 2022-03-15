@@ -107,8 +107,12 @@ public class MonitorDao {
             statement.setString(1,status);
             statement.setInt(2,id);
             statement.executeUpdate();
+            CacheStore.setCacheList("monitorList",getMonitorDevices());
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            DatabaseConnection.closeConnection(connection,statement);
         }
     }
 

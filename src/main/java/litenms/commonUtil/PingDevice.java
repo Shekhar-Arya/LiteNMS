@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PingDevice {
    static ArrayList<String> commandList = new ArrayList<String>();
 
-   public static String pingDevice(String ip)
+   public static synchronized String pingDevice(String ip)
    {
 
         commandList.clear();
