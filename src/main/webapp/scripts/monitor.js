@@ -323,7 +323,7 @@ let monitor =
     {
         let func = monitor.getMonitorDevices;
 
-        moniterInterval =  setInterval(func, 30000);
+        moniterInterval =  setInterval(func, 3000000);
     },
 }
 
