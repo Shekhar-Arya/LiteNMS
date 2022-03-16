@@ -39,7 +39,7 @@ let monitor = {
         addRow.clear().draw();
         $.each(request.data.result.result,function (i,v){
 
-            addRow.row.add([v.ip,v.type,v.status,'<button class="btn btn-outline-primary btn-sm showMonitorData" data-id="'+v.id+'"><i class="bi bi-display"></i></button>']).draw();
+            addRow.row.add([v.ip,v.type,v.status,'<button class="btn btn-outline-primary btn-sm showMonitorData" data-id="'+v.id+'" data-ip="'+v.ip+'"><i class="bi bi-display"></i></button>']).draw();
 
         });
 
@@ -49,9 +49,9 @@ let monitor = {
     {
         $("#monitorTable").on("click",".showMonitorData",function (e){
             var param = {
-                monitor_id:$(e.currentTarget).data("id")
+                monitor_id:$(e.currentTarget).data("id"),
+                ip:$(e.currentTarget).data("ip")
             }
-
             var request = {
                 url:"getMonitorData",
                 param:param,
@@ -69,16 +69,17 @@ let monitor = {
         }
         else
         {
-            let availability= request.data.result.dataModel.availability==0?"bad":"good";
-                $("#dataDiagramBody").html('<h1 class="d-flex justify-content-center">Type: '+request.data.result.dataModel.type+'</h1> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="doughnutChart" style="max-height: 300px;"></canvas> </div> <div class="col-sm d-flex align-items-center '+availability+' justify-content-center"  style="margin: 30px;"> Packet Loss : '+request.data.result.dataModel.packetLoss+'% </div> <div id="availability" class="col-sm d-flex justify-content-center align-items-center good"  style="margin: 30px;">   Average RTT Time : '+request.data.result.dataModel.avgRtt+'ms  </div> </div></div> <div class="container"> <div id="columnChart" style="height: 400px; font-size: large"><canvas id="myChart"></canvas></div></div> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHMemory" style="max-height: 300px;"></canvas></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHCpu" style="max-height: 300px;"></canvas></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHDisk" style="max-height: 300px;"></canvas></div> </div></div>');
-            var avgRTT = [];
-            var packetReceive = [];
-            var date = [];
+            let packetLossColor= request.data.result.dataModel.packetLoss==100?"bad":"good";
+                $("#dataDiagramBody").html('<div class="container"> <div class="row"> <div class="col-sm"><h1 class="d-flex justify-content-center">Ip: '+request.param.ip+'</h1></div> <div class="col-sm">   <h1 class="d-flex justify-content-center">Type: '+request.data.result.dataModel.type+'</h1>  </div></div></div> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="doughnutChart" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3"> Availability Chart </h5> </div> <div class="col-sm d-flex align-items-center '+packetLossColor+' justify-content-center"  style="margin: 30px;"> Packet Loss : '+request.data.result.dataModel.packetLoss+'% </div> <div class="col-sm d-flex justify-content-center align-items-center '+packetLossColor+'"  style="margin: 30px;">   Average RTT Time : '+request.data.result.dataModel.avgRtt+'ms  </div> </div></div> <br> <div class="container"> <div id="columnChart" style="height: 400px; font-size: large"><canvas id="myChart"></canvas><h5 class="d-flex justify-content-center mt-3" style="font-weight: bold"> Last 24 Hours Polled Data </h5></div></div> <br><br> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHMemory" style="max-height: 300px;"></canvas><h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Memory Chart (Total : '+request.data.result.dataModel.totalMemory+') </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHCpu" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> CPU Usage </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHDisk" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Disk Memory Usage </h5> </div> </div></div> <h3 id="sshError" class="d-flex justify-content-center fade"> Due to Device down no Data has been Polled </h3>');
+
+                var packetReceive = [];
+                var date = [];
             $.each(request.data.result.dataModelList,function (i,v){
-                avgRTT[i] = v.avgRtt;
-                packetReceive[i] = 100-v.packetLoss;
-                date[i] = v.labelForBar;
-            });
+                    packetReceive[i] = 100-v.packetLoss;
+                    date[i] = v.labelForBar;
+                });
+            $("#sshError").removeClass("show");
+            $(".chartLabel").removeClass("show");
 
               const data = {
                 labels: date,
@@ -119,13 +120,7 @@ let monitor = {
                                 }
                             }
                         },
-                        title: {
-                            display: true,
-                            text: 'Last 24 hours Polled Data',
-                            font: {
-                                size: 20
-                            }
-                        }
+
                     }
                 },
             };
@@ -152,8 +147,10 @@ let monitor = {
                     }]
                 }
             });
-            if(request.data.result.dataModel.type=="SSH")
+            if(request.data.result.dataModel.type=="SSH" && request.data.result.dataModel.totalMemory!=0)
             {
+
+                $(".chartLabel").addClass("show");
                 const donustChartSSHMemory = new Chart($('#donustChartSSHMemory'), {
                     type: 'doughnut',
                     data: {
@@ -212,6 +209,10 @@ let monitor = {
                     }
                 });
 
+            }
+            else if(request.data.result.dataModel.type=="SSH")
+            {
+                $("#sshError").addClass("show");
             }
             $(".modal-dialog").addClass("modal-fullscreen");
             $("#dataDiagramButton").click();

@@ -42,7 +42,8 @@ public class PollingRunnable implements Runnable{
                         totalMemory = Double.parseDouble(SSHConnection.getSSHConnection(session,"free -t | grep Total | awk '{print $2}'").trim())/1000000;
                         usedMemory = Double.parseDouble(SSHConnection.getSSHConnection(session,"free -t | grep Total | awk '{print $3}'").trim())/1000000;
                         freeMemory = Double.parseDouble(SSHConnection.getSSHConnection(session,"free -t | grep Total | awk '{print $4}'").trim())/1000000;
-                        cpuUsage = Double.parseDouble(SSHConnection.getSSHConnection(session,"mpstat | grep all | awk '{print $13}'").trim());
+                        String[] cpuUsageOutput = SSHConnection.getSSHConnection(session,"mpstat | grep all").trim().split(" ");
+                        cpuUsage = Double.parseDouble(cpuUsageOutput[cpuUsageOutput.length-1]);
                         diskDetail = Double.parseDouble(SSHConnection.getSSHConnection(session,"df -ht ext4 | grep / | awk '{print $5}'").replace("%"," ").trim());
                         System.out.println(totalMemory+" : "+usedMemory+" : "+freeMemory+" : "+cpuUsage+" : "+diskDetail+" ");
                     }

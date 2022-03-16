@@ -24,7 +24,6 @@ public class PollingService {
     public static List<PollingModel> getPollingLastTwentyFourHourData(int id)
     {
         List<PollingModel> result = new ArrayList<>();
-        double avgPacketLoss = 0.0, avgUsedMem = 0.0;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         long millis = 0;
         try {
@@ -40,6 +39,7 @@ public class PollingService {
             PollingModel model = new PollingModel();
             if (models!=null && !models.isEmpty())
             {
+                double avgPacketLoss = 0.0;
                 for (PollingModel model1:models)
                 {
                     avgPacketLoss+=model1.getPacketLoss();
