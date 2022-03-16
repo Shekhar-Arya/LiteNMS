@@ -8,17 +8,26 @@ public class PingDevice {
 
    public static synchronized String pingDevice(String ip)
    {
-        commandList.clear();
 
-        commandList.add("ping");
+       String result = "";
+       try
+       {
+           commandList.clear();
 
-        commandList.add("-c");
+           commandList.add("ping");
 
-        commandList.add("5");
+           commandList.add("-c");
 
-        commandList.add(ip);
+           commandList.add("5");
 
-        String result = ProcessBuilderUtil.runCommand(commandList);
+           commandList.add(ip);
+
+           result = ProcessBuilderUtil.runCommand(commandList);
+       }
+       catch (Exception e)
+       {
+           e.printStackTrace();
+       }
 
         return result;
    }

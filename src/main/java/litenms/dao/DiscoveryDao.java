@@ -14,12 +14,14 @@ public class DiscoveryDao {
 
     public static boolean addDeviceForDiscovery(DiscoveryModel discoveryModel)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement preparedStatement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             preparedStatement = connection.prepareStatement("insert into discovery (name,ip,type,status) values (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1,discoveryModel.getName());
@@ -49,16 +51,14 @@ public class DiscoveryDao {
                 preparedStatement.setInt(4,set.getInt(1));
 
                 preparedStatement.executeUpdate();
+
+                CacheStore.setCacheList("sshCredList", getAllSSHCred());
             }
-
-            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
-
-            CacheStore.setCacheList("sshCredList", getAllSSHCred());
 
             return true;
 
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -73,23 +73,26 @@ public class DiscoveryDao {
 
     public static List<DiscoveryModel> getDiscoveryDevices()
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         ResultSet set = null;
 
-        List<DiscoveryModel> discoveryModelList = new ArrayList<>();
+        List<DiscoveryModel> discoveryModelList = null;
+
         try
         {
+            discoveryModelList = new ArrayList<>();
+
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("select * from discovery");
 
             set = statement.executeQuery();
 
             if(set!=null)
             {
-                try
-                {
                     while (set.next())
                     {
                         DiscoveryModel modal = new DiscoveryModel();
@@ -106,16 +109,10 @@ public class DiscoveryDao {
 
                         discoveryModelList.add(modal);
                     }
-
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
             }
 
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -129,31 +126,23 @@ public class DiscoveryDao {
 
     public static boolean deleteDiscoveryRow(int id)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("delete from discovery where id = ?");
 
             statement.setInt(1,id);
 
             statement.executeUpdate();
 
-            statement = connection.prepareStatement("delete from sshCredential where discovery_id = ?");
-
-            statement.setInt(1,id);
-
-            statement.executeUpdate();
-
-            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
-
-            CacheStore.setCacheList("sshCredList", getAllSSHCred());
-
             return true;
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -167,14 +156,18 @@ public class DiscoveryDao {
 
     public static DiscoveryModel getDiscoveryRow(int id)
     {
-        DiscoveryModel discoveryModel = new DiscoveryModel();
+        DiscoveryModel discoveryModel = null;
 
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            discoveryModel =  new DiscoveryModel();
+
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("select * from discovery where id = ?");
 
             statement.setInt(1,id);
@@ -212,7 +205,7 @@ public class DiscoveryDao {
             }
 
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -225,12 +218,14 @@ public class DiscoveryDao {
 
     public static boolean updateDiscoveryRow(DiscoveryModel discoveryModel)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("update discovery set name = ?, ip = ? where id = ?");
 
             statement.setString(1,discoveryModel.getName());
@@ -254,14 +249,13 @@ public class DiscoveryDao {
                 statement.setInt(4,discoveryModel.getId());
 
                 statement.executeUpdate();
-            }
-            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
 
-            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+                CacheStore.setCacheList("sshCredList", getAllSSHCred());
+            }
 
             return true;
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -275,12 +269,14 @@ public class DiscoveryDao {
 
     public static boolean runDiscoverySuccessfull(int id)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("update discovery set status=? where id = ?");
 
             statement.setInt(1,1);
@@ -289,13 +285,11 @@ public class DiscoveryDao {
 
             statement.executeUpdate();
 
-            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
-
-            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+//            CacheStore.setCacheList("sshCredList", getAllSSHCred());
 
             return true;
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -310,12 +304,14 @@ public class DiscoveryDao {
 
     public static boolean runDiscoveryUnsuccessfull(int id)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("update discovery set status=? where id = ?");
 
             statement.setInt(1,0);
@@ -324,13 +320,11 @@ public class DiscoveryDao {
 
             statement.executeUpdate();
 
-            CacheStore.setCacheList("discoveryList",getDiscoveryDevices());
-
-            CacheStore.setCacheList("sshCredList", getAllSSHCred());
+//            CacheStore.setCacheList("sshCredList", getAllSSHCred());
 
             return true;
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -344,7 +338,7 @@ public class DiscoveryDao {
 
     public static HashMap<Integer,SSHCredentialModel> getAllSSHCred()
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
@@ -352,6 +346,8 @@ public class DiscoveryDao {
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("select * from sshCredential");
 
             ResultSet set = statement.executeQuery();
@@ -369,7 +365,7 @@ public class DiscoveryDao {
                 sshCredentialModels.put(set.getInt(1),model);
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

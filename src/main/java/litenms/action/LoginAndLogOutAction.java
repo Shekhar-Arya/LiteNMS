@@ -15,29 +15,42 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
 
     public String login(){
 
-        if(loginModel.getUsername()!=null){
+        try
+        {
+            if(loginModel.getUsername()!=null){
 
-            if(LoginService.checkUserExists(loginModel))
-            {
-                sessionMap.put("username",loginModel.getUsername());
+                if(LoginService.checkUserExists(loginModel))
+                {
+                    sessionMap.put("username",loginModel.getUsername());
 
-                return "login";
+                    return "login";
+                }
+            }
+            else {
+                if(sessionMap.get("username")!=null){
+
+                    return "login";
+                }
             }
         }
-        else {
-            if(sessionMap.get("username")!=null){
-
-                return "login";
-            }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         return "error";
     }
 
 
-    public String logout(){
-
-        sessionMap.remove("username");
-
+    public String logout()
+    {
+        try
+        {
+            sessionMap.remove("username");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return "logout";
     }
 

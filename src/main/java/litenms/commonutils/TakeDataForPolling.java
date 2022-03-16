@@ -11,12 +11,18 @@ public class TakeDataForPolling implements Runnable{
     public void run() {
 
         ExecutorService service = Executors.newFixedThreadPool(5);
-
-        while (true)
+        try
         {
-            MonitorModel model = CommonUtil.takeModel();
+            while (true)
+            {
+                MonitorModel model = CommonUtil.takeModel();
 
-            service.execute(new PollingRunnable(model));
+                service.execute(new PollingRunnable(model));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

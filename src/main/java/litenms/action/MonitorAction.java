@@ -14,24 +14,30 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 
     public String getMonitorDevices()
     {
-        HashMap<String,Object> result = new HashMap<>();
-
-        if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
+        try
         {
-            List<MonitorModel> monitorModels =  MonitorService.getMonitorDevices();
+            HashMap<String,Object> result = new HashMap<>();
 
-            result.put("result",monitorModels);
+            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
+            {
+                List<MonitorModel> monitorModels =  MonitorService.getMonitorDevices();
 
-            CacheStore.setCacheList("monitorList",monitorModels);
+                result.put("result",monitorModels);
+
+                CacheStore.setCacheList("monitorList",monitorModels);
+            }
+
+            else {
+
+                result.put("result",CacheStore.getCacheList().get("monitorList"));
+            }
+
+            monitorModel.setResult(result);
         }
-
-        else {
-
-            result.put("result",CacheStore.getCacheList().get("monitorList"));
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
-
-        monitorModel.setResult(result);
-
         return "success";
     }
 

@@ -4,25 +4,25 @@ import java.util.HashMap;
 
 public class PollingModel {
 
-    private double avgRtt;         // ping
+    private double avgRtt;
 
-    private double packetLoss;     //ping
+    private double packetLoss;
 
-    private int availability;   //ping
+    private int availability;
 
-    private double cpuUsage;       // mpstat
+    private double cpuUsage;
 
-    private double totalMemory;    // free -h
+    private double totalMemory;
 
-    private double usedMemory;     // free -h
+    private double usedMemory;
 
-    private double freeMemory;     // free -h
+    private double freeMemory;
 
-    private double otherMemory;    // free -h
+    private double otherMemory;
 
-    private double diskSpaceUsage; // df -ht -ext4
+    private double diskSpaceUsage;
 
-    private String date;          //time
+    private String date;
 
     private String type;
 

@@ -9,7 +9,7 @@ public class ProcessBuilderUtil {
 
     public static String runCommand(ArrayList<String> commandList) {
 
-        ProcessBuilder builder = new ProcessBuilder(commandList);
+        ProcessBuilder builder = null;
 
         String data = null;
 
@@ -20,6 +20,8 @@ public class ProcessBuilderUtil {
         BufferedReader error = null;
 
         try {
+            builder = new ProcessBuilder(commandList);
+
             Process process = builder.start();
 
             input = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -38,7 +40,7 @@ public class ProcessBuilderUtil {
 
             return result;
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

@@ -3,7 +3,6 @@ package litenms.commonutils;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import java.io.ByteArrayOutputStream;
@@ -23,7 +22,7 @@ public class SSHConnection {
 
             session.connect();
         }
-        catch (JSchException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -33,9 +32,16 @@ public class SSHConnection {
 
     public static void closeSSHSession(Session session)
     {
-        if (session != null)
+        try
         {
-            session.disconnect();
+            if (session != null)
+            {
+                session.disconnect();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -62,15 +68,9 @@ public class SSHConnection {
                 Thread.sleep(100);
             }
 
-            responseString = new String(responseStream.toByteArray());
+            responseString = responseStream.toString();
         }
-        catch (JSchException e)
-        {
-            e.printStackTrace();
-
-            return null;
-        }
-        catch (InterruptedException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 

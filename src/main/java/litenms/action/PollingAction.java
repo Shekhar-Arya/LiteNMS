@@ -14,38 +14,46 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
 
     public String getMonitorData()
     {
-
-        PollingModel dataModel = PollingService.getPollingLatestData(model.getMonitor_id());
-
-        List<PollingModel> dataModelList = PollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());
-
-        List<PollingModel> dataForAvailability = PollingService.getListForAvailabaility(model.getMonitor_id());
-
-        int availability = 0;
-
-        if(dataModel.getType()==null)
+        try
         {
-            model.setMessage("Unknown");
-        }
-        else
-        {
-            for (PollingModel model:dataForAvailability)
+
+            PollingModel dataModel = PollingService.getPollingLatestData(model.getMonitor_id());
+
+            List<PollingModel> dataModelList = PollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());
+
+            List<PollingModel> dataForAvailability = PollingService.getListForAvailabaility(model.getMonitor_id());
+
+            int availability = 0;
+
+            if(dataModel.getType()==null)
             {
-                availability+=model.getAvailability();
+                model.setMessage("Unknown");
             }
+            else
+            {
+                for (PollingModel model:dataForAvailability)
+                {
+                    availability+=model.getAvailability();
+                }
 
-            dataModel.setAvailability((availability*100)/dataForAvailability.size());
+                dataModel.setAvailability((availability*100)/dataForAvailability.size());
 
-            HashMap<String,Object> result = new HashMap<>();
+                HashMap<String,Object> result = new HashMap<>();
 
-            result.put("dataModel",dataModel);
+                result.put("dataModel",dataModel);
 
-            result.put("dataModelList",dataModelList);
+                result.put("dataModelList",dataModelList);
 
-            model.setMessage("Known");
+                model.setMessage("Known");
 
-            model.setResult(result);
+                model.setResult(result);
+            }
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         return "success";
     }
 

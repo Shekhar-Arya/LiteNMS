@@ -15,14 +15,18 @@ public class MonitorDao {
 
     public static List<MonitorModel> getMonitorDevices()
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
-        List<MonitorModel> monitorModels = new ArrayList<>();
+        List<MonitorModel> monitorModels = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
+            monitorModels = new ArrayList<>();
+
             statement = connection.prepareStatement("select * from monitor");
 
             ResultSet set = statement.executeQuery();
@@ -44,7 +48,7 @@ public class MonitorDao {
                 monitorModels.add(model);
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -56,12 +60,14 @@ public class MonitorDao {
 
     public static boolean addDeviceToMonitor(DiscoveryModel discoveryModel)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             if(getDeviceFromMonitor(discoveryModel.getIp(),discoveryModel.getType()).getIp() == null)
             {
                 statement = connection.prepareStatement("insert into monitor (ip,type,ssh_id,status) values (?,?,?,?)");
@@ -85,7 +91,7 @@ public class MonitorDao {
                 return false;
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
 
@@ -99,14 +105,18 @@ public class MonitorDao {
 
     public static MonitorModel getDeviceFromMonitor(String ip, String type)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
-        MonitorModel model = new MonitorModel();
+        MonitorModel model = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
+            model = new MonitorModel();
+
             statement = connection.prepareStatement("select * from monitor where ip=? and type = ?");
 
             statement.setString(1,ip);
@@ -128,7 +138,7 @@ public class MonitorDao {
                 model.setStatus(set.getString(5));
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -141,12 +151,14 @@ public class MonitorDao {
 
     public static void updateMonitorStatus(String status, int id)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("update monitor set status = ? where id = ?");
 
             statement.setString(1,status);
@@ -157,7 +169,7 @@ public class MonitorDao {
 
             CacheStore.setCacheList("monitorList",getMonitorDevices());
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

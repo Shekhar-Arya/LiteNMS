@@ -24,54 +24,58 @@ public class PollingService {
 
     public static List<PollingModel> getPollingLastTwentyFourHourData(int id)
     {
-        List<PollingModel> result = new ArrayList<>();
+        List<PollingModel> result = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-        long millis = 0;
 
         try
         {
+            result = new ArrayList<>();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            long millis = 0;
+
             Date date = formatter.parse(formatter.format(new Date()));
 
             millis = date.getTime();
+
+            for (int i = 24; i > 0; i--)
+            {
+                String startTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i)));
+
+                String endTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i-1)));
+
+                List<PollingModel>  models = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+
+                PollingModel model = new PollingModel();
+
+                if (models!=null && !models.isEmpty())
+                {
+                    double avgPacketLoss = 0.0;
+
+                    for (PollingModel model1:models)
+                    {
+                        avgPacketLoss+=model1.getPacketLoss();
+                    }
+                    model.setPacketLoss(avgPacketLoss/models.size());
+
+                    model.setLabelForBar(startTime+"--"+endTime);
+
+                    result.add(model);
+                }
+                else
+                {
+                    model.setPacketLoss(100);
+
+                    model.setLabelForBar(startTime+"--"+endTime);
+
+                    result.add(model);
+                }
+            }
         }
-        catch (ParseException e)
+        catch (Exception e)
         {
             e.printStackTrace();
-        }
-        for (int i = 24; i > 0; i--)
-        {
-            String startTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i)));
-
-            String endTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i-1)));
-
-            List<PollingModel>  models = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
-
-            PollingModel model = new PollingModel();
-
-            if (models!=null && !models.isEmpty())
-            {
-                double avgPacketLoss = 0.0;
-
-                for (PollingModel model1:models)
-                {
-                    avgPacketLoss+=model1.getPacketLoss();
-                }
-                model.setPacketLoss(avgPacketLoss/models.size());
-
-                model.setLabelForBar(startTime+"--"+endTime);
-
-                result.add(model);
-            }
-            else
-            {
-                model.setPacketLoss(100);
-
-                model.setLabelForBar(startTime+"--"+endTime);
-
-                result.add(model);
-            }
         }
         return result;
     }

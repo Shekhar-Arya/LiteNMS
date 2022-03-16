@@ -36,38 +36,56 @@ public class DiscoveryService {
 
     public static boolean runDiscovery(int id)
     {
-        DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
+        DiscoveryModel model = null;
 
-        if(pingDiscoveryDevice(model))
+        try
         {
-            if(model.getType().equals("SSH"))
+            model = DiscoveryDao.getDiscoveryRow(id);
+
+            if(pingDiscoveryDevice(model))
             {
-                return sshDiscoveryDevice(model);
+                if(model.getType().equals("SSH"))
+                {
+                    return sshDiscoveryDevice(model);
+                }
+                return true;
             }
-            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
-        else {
-            return false;
-        }
+        return false;
     }
 
     public static boolean pingDiscoveryDevice(DiscoveryModel model)
     {
-        String pingData = PingDevice.pingDevice(model.getIp());
-        if(pingData !=null && !pingData.isEmpty() )
-        {
+        String pingData = null;
 
-            if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
+        try
+        {
+            pingData = PingDevice.pingDevice(model.getIp());
+
+            if(pingData !=null && !pingData.isEmpty() )
             {
-                DiscoveryDao.runDiscoverySuccessfull(model.getId());
-                return true;
+
+                if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
+                {
+                    DiscoveryDao.runDiscoverySuccessfull(model.getId());
+
+                    return true;
+                }
+                else
+                {
+                    DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+
+                }
             }
-            else
-            {
-                DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
-                return false;
-            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         return false;
     }
@@ -95,6 +113,10 @@ public class DiscoveryService {
                     DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
                 }
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         finally
         {

@@ -13,13 +13,15 @@ public class Scheduler extends HttpServlet {
     {
         super.init();
 
-        Thread thread = new Thread(new TakeDataForPolling());
+        SchedulerFactory schedulerFactory = null;
 
-        thread.start();
+        try
+        {
+            Thread thread = new Thread(new TakeDataForPolling());
 
-        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            thread.start();
 
-        try {
+            schedulerFactory = new StdSchedulerFactory();
 
             org.quartz.Scheduler scheduler = schedulerFactory.getScheduler();
 
@@ -38,7 +40,7 @@ public class Scheduler extends HttpServlet {
 
             scheduler.scheduleJob(job,trigger);
         }
-        catch (SchedulerException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

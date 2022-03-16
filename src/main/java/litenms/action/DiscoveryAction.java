@@ -15,97 +15,140 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
 
     public String addDeviceForDiscovery()
     {
-        if(DiscoveryService.addDeviceToDiscovery(discoveryModel))
+        try
         {
-            discoveryModel.setMessage("Device Added Succesfully");
+            if(DiscoveryService.addDeviceToDiscovery(discoveryModel))
+            {
+                discoveryModel.setMessage("Device Added Succesfully");
+            }
+            else
+            {
+                discoveryModel.setMessage("Device not Added");
+            }
         }
-        else
+        catch (Exception e)
         {
-            discoveryModel.setMessage("Device not Added");
+            e.printStackTrace();
         }
-
         return "success";
     }
 
     public String getDiscoveryDevices()
     {
-        HashMap<String,Object> result = new HashMap<>();
-
-        if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("discoveryList")==null)
+        try
         {
+            HashMap<String,Object> result = new HashMap<>();
+
             List<DiscoveryModel> models = DiscoveryService.getDiscoveryDevices();
 
             CacheStore.setCacheList("discoveryList",models);
 
             result.put("result",models);
 
+            discoveryModel.setResult(result);
         }
-        else {
-            result.put("result",CacheStore.getCacheList().get("discoveryList"));
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
-        discoveryModel.setResult(result);
+
         return "success";
     }
 
     public String deleteDiscoveryRow()
     {
-        if(DiscoveryService.deleteDiscoveryRow(discoveryModel.getId()))
+        try
         {
-            discoveryModel.setMessage("Device Deleted Successfully");
+            if(DiscoveryService.deleteDiscoveryRow(discoveryModel.getId()))
+            {
+                discoveryModel.setMessage("Device Deleted Successfully");
+            }
+            else
+            {
+                discoveryModel.setMessage("Unsuccessful Device Deletion");
+            }
         }
-        else
+        catch (Exception e)
         {
-            discoveryModel.setMessage("Unsuccessful Device Deletion");
+            e.printStackTrace();
         }
         return "success";
     }
 
     public String getDiscoveryRow()
     {
-        HashMap<String,Object> result = new HashMap<>();
+        try
+        {
+            HashMap<String,Object> result = new HashMap<>();
 
-        result.put("result",DiscoveryService.getDiscoveryRow(discoveryModel.getId()));
+            result.put("result",DiscoveryService.getDiscoveryRow(discoveryModel.getId()));
 
-        discoveryModel.setResult(result);
+            discoveryModel.setResult(result);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return "success";
     }
 
     public String updateDiscoveryRow()
     {
-        if(DiscoveryService.updateDiscoveryRow(discoveryModel))
+        try
         {
-            discoveryModel.setMessage("Device Updated Successfully");
+            if(DiscoveryService.updateDiscoveryRow(discoveryModel))
+            {
+                discoveryModel.setMessage("Device Updated Successfully");
+            }
+            else
+            {
+                discoveryModel.setMessage("Unsuccessful Device Update");
+            }
         }
-        else
+        catch (Exception e)
         {
-            discoveryModel.setMessage("Unsuccessful Device Update");
+            e.printStackTrace();
         }
         return "success";
     }
 
     public String runDiscoveryDevice()
     {
-        if(DiscoveryService.runDiscovery(discoveryModel.getId()))
+        try
         {
-            discoveryModel.setMessage("Discovery Successful");
+            if(DiscoveryService.runDiscovery(discoveryModel.getId()))
+            {
+                discoveryModel.setMessage("Discovery Successful");
+            }
+            else
+            {
+                discoveryModel.setMessage("Discovery Unsuccessful");
+            }
         }
-        else
+        catch (Exception e)
         {
-            discoveryModel.setMessage("Discovery Unsuccessful");
+            e.printStackTrace();
         }
         return "success";
     }
 
     public String addDeviceToMonitor()
     {
-        if(MonitorService.addDeviceToMonitor(discoveryModel.getId()))
+        try
         {
-            discoveryModel.setMessage("Device Provision Successfully");
+            if(MonitorService.addDeviceToMonitor(discoveryModel.getId()))
+            {
+                discoveryModel.setMessage("Device Provision Successfully");
+            }
+            else
+            {
+                discoveryModel.setMessage("Device Already Provisioned");
+            }
         }
-        else
+        catch (Exception e)
         {
-            discoveryModel.setMessage("Device Already Provisioned");
+            e.printStackTrace();
         }
         return "success";
     }

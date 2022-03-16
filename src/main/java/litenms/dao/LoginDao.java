@@ -12,12 +12,14 @@ public class LoginDao {
 
     public static boolean checkUserExist(LoginModel loginModel){
 
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("select password from user where user_name=? and password=?");
 
             statement.setString(1,loginModel.getUsername());
@@ -31,7 +33,7 @@ public class LoginDao {
                 return true;
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

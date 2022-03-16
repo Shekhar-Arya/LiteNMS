@@ -18,40 +18,45 @@ public class SchedulePollingJob implements Job {
 
         List<MonitorModel> monitorModels = null;
 
-        HashMap<Integer,SSHCredentialModel> map = null;
-
-        if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
+        HashMap<Integer,SSHCredentialModel> sshCredList = null;
+        try
         {
-           monitorModels = MonitorDao.getMonitorDevices();
-
-           CacheStore.setCacheList("monitorList",monitorModels);
-        }
-
-        if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("sshCredList")==null)
-        {
-            map = DiscoveryDao.getAllSSHCred();
-
-            CacheStore.setCacheList("sshCredList",map);
-        }
-
-        if(CacheStore.getCacheList()!=null && CacheStore.getCacheList().get("sshCredList")!=null && CacheStore.getCacheList().get("monitorList")!=null)
-        {
-            monitorModels = (List<MonitorModel>) CacheStore.getCacheList().get("monitorList");
-
-            map = (HashMap<Integer, SSHCredentialModel>) CacheStore.getCacheList().get("sshCredList");
-        }
-
-        for (MonitorModel model:monitorModels)
-        {
-            if(model.getType().equals("SSH"))
+            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
             {
-                model.setUsername(map.get(model.getSshId()).getUsername());
+                monitorModels = MonitorDao.getMonitorDevices();
 
-                model.setPassword(map.get(model.getSshId()).getPassword());
+                CacheStore.setCacheList("monitorList",monitorModels);
             }
 
-            CommonUtil.addModel(model);
-        }
+            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("sshCredList")==null)
+            {
+                sshCredList = DiscoveryDao.getAllSSHCred();
 
+                CacheStore.setCacheList("sshCredList",sshCredList);
+            }
+
+            if(CacheStore.getCacheList()!=null && CacheStore.getCacheList().get("sshCredList")!=null && CacheStore.getCacheList().get("monitorList")!=null)
+            {
+                monitorModels = (List<MonitorModel>) CacheStore.getCacheList().get("monitorList");
+
+                sshCredList = (HashMap<Integer, SSHCredentialModel>) CacheStore.getCacheList().get("sshCredList");
+            }
+
+            for (MonitorModel model:monitorModels)
+            {
+                if(model.getType().equals("SSH"))
+                {
+                    model.setUsername(sshCredList.get(model.getSshId()).getUsername());
+
+                    model.setPassword(sshCredList.get(model.getSshId()).getPassword());
+                }
+
+                CommonUtil.addModel(model);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
      }
 }

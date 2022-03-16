@@ -12,12 +12,14 @@ public class PollingDao {
 
     public static void addDataOfPolling(PollingModel pollingModel)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("insert into polling (monitor_id,type,avg_rtt,packet_loss,total_memory,used_memory,free_memory,cpu_usage,disk_usage,date,availability) values (?,?,?,?,?,?,?,?,?,?,?)");
 
             statement.setInt(1,pollingModel.getMonitor_id());
@@ -44,7 +46,7 @@ public class PollingDao {
 
             statement.executeUpdate();
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -56,14 +58,18 @@ public class PollingDao {
 
     public static PollingModel getPollingLatestData(int id)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
-        PollingModel model = new PollingModel();
+        PollingModel model = null;
 
         try
         {
+            model =  new PollingModel();
+
+            connection = DatabaseConnection.getConnection();
+
             statement = connection.prepareStatement("select * from polling where monitor_id = ? order by id desc limit 1");
 
             statement.setInt(1,id);
@@ -93,7 +99,7 @@ public class PollingDao {
                 model.setAvailability(set.getInt(12));
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -106,14 +112,18 @@ public class PollingDao {
 
     public static List<PollingModel> getPollingLastTwentyFourHourData(int id, String startTime,String endTime)
     {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = null;
 
         PreparedStatement statement = null;
 
-        List<PollingModel> pollingModelList = new ArrayList<>();
+        List<PollingModel> pollingModelList = null;
 
         try
         {
+            connection = DatabaseConnection.getConnection();
+
+            pollingModelList = new ArrayList<>();
+
             statement = connection.prepareStatement("select * from polling where monitor_id = ? and date between ? and ?");
 
             statement.setInt(1,id);
@@ -151,7 +161,7 @@ public class PollingDao {
                 pollingModelList.add(model);
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
