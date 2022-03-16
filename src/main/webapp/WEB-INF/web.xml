@@ -25,7 +25,7 @@
 
   <servlet>
     <servlet-name>schedular</servlet-name>
-    <servlet-class>litenms.commonUtil.Scheduler</servlet-class>
+    <servlet-class>litenms.commonutils.Scheduler</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 

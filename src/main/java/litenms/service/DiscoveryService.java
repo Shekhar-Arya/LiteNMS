@@ -1,14 +1,10 @@
 package litenms.service;
 
 import com.jcraft.jsch.Session;
-import litenms.commonUtil.PingDevice;
-import litenms.commonUtil.SSHConnection;
+import litenms.commonutils.PingDevice;
+import litenms.commonutils.SSHConnection;
 import litenms.dao.DiscoveryDao;
-import litenms.dao.MonitorDao;
 import litenms.models.DiscoveryModel;
-
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DiscoveryService {
@@ -41,6 +37,7 @@ public class DiscoveryService {
     public static boolean runDiscovery(int id)
     {
         DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
+
         if(pingDiscoveryDevice(model))
         {
             if(model.getType().equals("SSH"))
@@ -49,6 +46,7 @@ public class DiscoveryService {
             }
             return true;
         }
+
         else {
             return false;
         }
@@ -57,47 +55,52 @@ public class DiscoveryService {
     public static boolean pingDiscoveryDevice(DiscoveryModel model)
     {
         String pingData = PingDevice.pingDevice(model.getIp());
-        if(pingData !=null && !pingData.isEmpty() ){
-//        System.out.println(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim());
-        if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
+        if(pingData !=null && !pingData.isEmpty() )
         {
-//            DiscoveryDao.removeDiscoveryProvision(model.getId());
-//            DiscoveryDao.addDiscoveryProvision(model);
-            DiscoveryDao.runDiscoverySuccessfull(model.getId());
-            return true;
-        }
-        else
-        {
-            DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
-            return false;
-        }
+
+            if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
+            {
+                DiscoveryDao.runDiscoverySuccessfull(model.getId());
+                return true;
+            }
+            else
+            {
+                DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+                return false;
+            }
         }
         return false;
     }
 
     public static boolean sshDiscoveryDevice(DiscoveryModel model) {
+
         Session session = null;
-        try {
+
+        try
+        {
             session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
+
             if(session!=null)
             {
                 String sshResult = SSHConnection.getSSHConnection(session, "uname");
+
                 if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
                 {
-//            DiscoveryDao.removeDiscoveryProvision(model.getId());
-//            DiscoveryDao.addDiscoveryProvision(model);
                     DiscoveryDao.runDiscoverySuccessfull(model.getId());
+
                     return true;
                 }
-                else {
-//            DiscoveryDao.removeDiscoveryProvision(model.getId());
+                else
+                {
                     DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
                 }
             }
         }
-        finally {
+        finally
+        {
             SSHConnection.closeSSHSession(session);
         }
+
         return false;
     }
 

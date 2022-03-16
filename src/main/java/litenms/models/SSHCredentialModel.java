@@ -1,9 +1,13 @@
 package litenms.models;
 
 public class SSHCredentialModel {
+
     private int sshId;
+
     private String username;
+
     private String password;
+
     private int discoveryId;
 
     public int getSshId() {

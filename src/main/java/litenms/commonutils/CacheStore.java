@@ -1,7 +1,4 @@
-package litenms.commonUtil;
-
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
+package litenms.commonutils;
 
 import java.util.concurrent.ConcurrentHashMap;
 

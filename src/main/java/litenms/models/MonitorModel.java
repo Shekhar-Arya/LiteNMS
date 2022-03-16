@@ -3,15 +3,22 @@ package litenms.models;
 import java.util.HashMap;
 
 public class MonitorModel {
-    private int id;
-    private String ip;
-    private String type;
-    private int sshId;
-    private String message;
-    private HashMap<String,Object> result;
-    private String username;
-    private String status;
 
+    private int id;
+
+    private String ip;
+
+    private String type;
+
+    private int sshId;
+
+    private String message;
+
+    private HashMap<String,Object> result;
+
+    private String username;
+
+    private String status;
 
     public String getStatus() {
         return status;

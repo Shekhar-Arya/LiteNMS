@@ -4,8 +4,6 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 
-<!--    <constant name="struts.devMode" value="true" />-->
-
     <package name="default" extends="struts-default, json-default">
 
         <result-types>
@@ -17,10 +15,10 @@
         </result-types>
 
         <interceptors>
-            <interceptor name="userSession" class="litenms.interceptor.LoginSessionInterceptor"></interceptor>
+            <interceptor name="userSession" class="litenms.interceptor.LoginSessionInterceptor"/>
             <interceptor-stack name="loginSession">
-                <interceptor-ref name="userSession"></interceptor-ref>
-                <interceptor-ref name="defaultStack"></interceptor-ref>
+                <interceptor-ref name="userSession"/>
+                <interceptor-ref name="defaultStack"/>
             </interceptor-stack>
         </interceptors>
 
@@ -35,60 +33,60 @@
 
 
         <action name="login" class="litenms.action.LoginAndLogOutAction" method="login">
-            <interceptor-ref name="loginSession"></interceptor-ref>
+            <interceptor-ref name="loginSession"/>
             <result name="login"> WEB-INF/index.jsp</result>
             <result name="error">login.jsp</result>
         </action>
 
         <action name="logout" class="litenms.action.LoginAndLogOutAction" method="logout">
-            <interceptor-ref name="loginSession"></interceptor-ref>
+            <interceptor-ref name="loginSession"/>
             <result name="logout">login.jsp</result>
         </action>
 
         <action name="addDeviceForDiscovery" class="litenms.action.DiscoveryAction" method="addDeviceForDiscovery">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="getDiscoveryDevices" class="litenms.action.DiscoveryAction" method="getDiscoveryDevices">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="deleteDiscoveryRow" class="litenms.action.DiscoveryAction" method="deleteDiscoveryRow">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
 
         <action name="getDiscoveryRow" class="litenms.action.DiscoveryAction" method="getDiscoveryRow">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="updateDiscoveryRow" class="litenms.action.DiscoveryAction" method="updateDiscoveryRow">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="runDiscoveryDevice" class="litenms.action.DiscoveryAction" method="runDiscoveryDevice">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="addDeviceToMonitor" class="litenms.action.DiscoveryAction" method="addDeviceToMonitor">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="getMonitorDevices" class="litenms.action.MonitorAction" method="getMonitorDevices">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
         <action name="getMonitorData" class="litenms.action.PollingAction" method="getMonitorData">
-            <interceptor-ref name="loginSession"></interceptor-ref>
-            <result name="success" type="json"></result>
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
         </action>
 
 

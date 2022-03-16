@@ -18,12 +18,15 @@ public class LoginSessionInterceptor implements Interceptor {
 
     @Override
     public String intercept(ActionInvocation actionInvocation) throws Exception {
+
         Map<String,Object> sessionMap = actionInvocation.getInvocationContext().getSession();
 
-        if(sessionMap.get("username")!=null || sessionMap !=null){
+        if(sessionMap !=null || sessionMap.get("username")!=null)
+        {
             return actionInvocation.invoke();
         }
-        else{
+        else
+        {
             return "loginError";
         }
     }

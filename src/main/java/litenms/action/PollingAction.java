@@ -14,24 +14,36 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
 
     public String getMonitorData()
     {
+
         PollingModel dataModel = PollingService.getPollingLatestData(model.getMonitor_id());
+
         List<PollingModel> dataModelList = PollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());
+
         List<PollingModel> dataForAvailability = PollingService.getListForAvailabaility(model.getMonitor_id());
+
         int availability = 0;
+
         if(dataModel.getType()==null)
         {
             model.setMessage("Unknown");
         }
         else
         {
-            for (PollingModel model:dataForAvailability) {
+            for (PollingModel model:dataForAvailability)
+            {
                 availability+=model.getAvailability();
             }
+
             dataModel.setAvailability((availability*100)/dataForAvailability.size());
+
             HashMap<String,Object> result = new HashMap<>();
+
             result.put("dataModel",dataModel);
+
             result.put("dataModelList",dataModelList);
+
             model.setMessage("Known");
+
             model.setResult(result);
         }
         return "success";

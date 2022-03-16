@@ -4,23 +4,28 @@ import java.util.HashMap;
 
 public class DiscoveryModel {
     private int id;
+
     private String name;
+
     private String ip;
+
     private String type;
+
     private String username;
+
     private String password;
+
     private String message;
+
     private HashMap<String,Object> result;
+
     private int status;
+
     private int sshId;
 
-    public int getSshId() {
-        return sshId;
-    }
+    public int getSshId() { return sshId; }
 
-    public void setSshId(int sshId) {
-        this.sshId = sshId;
-    }
+    public void setSshId(int sshId) { this.sshId = sshId; }
 
     public int getStatus() {
         return status;
@@ -29,7 +34,6 @@ public class DiscoveryModel {
     public void setStatus(int status) {
         this.status = status;
     }
-
 
     public String getMessage() {
         return message;

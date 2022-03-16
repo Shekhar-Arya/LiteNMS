@@ -2,15 +2,12 @@ package litenms.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import litenms.commonUtil.CacheStore;
+import litenms.commonutils.CacheStore;
 import litenms.models.DiscoveryModel;
 import litenms.service.DiscoveryService;
 import litenms.service.MonitorService;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class DiscoveryAction extends ActionSupport implements ModelDriven<DiscoveryModel> {
 
@@ -33,6 +30,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     public String getDiscoveryDevices()
     {
         HashMap<String,Object> result = new HashMap<>();
+
         if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("discoveryList")==null)
         {
             List<DiscoveryModel> models = DiscoveryService.getDiscoveryDevices();
@@ -90,7 +88,6 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         if(DiscoveryService.runDiscovery(discoveryModel.getId()))
         {
-//            System.out.println(discoveryModel.getId());
             discoveryModel.setMessage("Discovery Successful");
         }
         else

@@ -12,6 +12,7 @@ public class MonitorService {
     public static boolean addDeviceToMonitor(int id)
     {
         DiscoveryModel model = DiscoveryDao.getDiscoveryRow(id);
+
         return MonitorDao.addDeviceToMonitor(model);
     }
 
