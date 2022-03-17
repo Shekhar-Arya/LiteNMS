@@ -6,7 +6,9 @@ let login = {
 
         let reqList = req.url.split("/");
 
-        if(reqList[reqList.length-1]!="" && reqList[reqList.length-1]!="logout")
+        let reqUrl = reqList[reqList.length-1];
+
+        if(reqUrl!=="" && reqUrl!=="logout")
         {
             $("#loginFailMessage").show();
         }
@@ -19,23 +21,29 @@ let login = {
 
         $("#watchPassword").click(function ()
         {
-            let typeOfInput = $("#password").attr("type");
+            let passwordSelector = $("#password");
+
+            let passwordShowIconSelector = $(".bi-eye-fill");
+
+            let passwordHideIconSelector = $(".bi-eye-slash-fill");
+
+            let typeOfInput = passwordSelector.attr("type");
 
             if(typeOfInput==="password")
             {
-                $("#password").attr("type","text");
+                passwordSelector.attr("type","text");
 
-                $(".bi-eye-fill").hide();
+                passwordShowIconSelector.hide();
 
-                $(".bi-eye-slash-fill").show();
+                passwordHideIconSelector.show();
             }
             else
             {
-                $("#password").attr("type","password");
+                passwordSelector.attr("type","password");
 
-                $(".bi-eye-fill").show();
+                passwordShowIconSelector.show();
 
-                $(".bi-eye-slash-fill").hide();
+                passwordHideIconSelector.hide();
             }
         });
     },

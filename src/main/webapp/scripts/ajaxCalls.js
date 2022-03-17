@@ -16,9 +16,9 @@ let ajaxCalls = {
 
             success: function (data){
 
-                var callbacks;
+                let callbacks;
 
-                if(request.callback!=undefined)
+                if(request.callback!==undefined)
                 {
                     callbacks = $.Callbacks();
 
@@ -51,9 +51,9 @@ let ajaxCalls = {
 
             success: function (data)
             {
-                var callbacks;
+                let callbacks;
 
-                if(request.callback!=undefined)
+                if(request.callback!==undefined)
                 {
                     callbacks = $.Callbacks();
 
