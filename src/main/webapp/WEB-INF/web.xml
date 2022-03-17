@@ -29,4 +29,9 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>schedular</servlet-name>
+    <url-pattern>/xyz</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

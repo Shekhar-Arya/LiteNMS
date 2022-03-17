@@ -310,8 +310,6 @@
 
         monitor.loadMonitorData();
 
-        console.log(sessionStorage.getItem("page"));
-
         if(sessionStorage.getItem("page")==undefined)
         {
             $("#discovery").click();

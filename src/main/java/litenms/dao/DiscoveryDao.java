@@ -285,8 +285,6 @@ public class DiscoveryDao {
 
             statement.executeUpdate();
 
-//            CacheStore.setCacheList("sshCredList", getAllSSHCred());
-
             return true;
         }
         catch (Exception e)
@@ -320,8 +318,6 @@ public class DiscoveryDao {
 
             statement.executeUpdate();
 
-//            CacheStore.setCacheList("sshCredList", getAllSSHCred());
-
             return true;
         }
         catch (Exception e)
@@ -342,10 +338,12 @@ public class DiscoveryDao {
 
         PreparedStatement statement = null;
 
-        HashMap<Integer,SSHCredentialModel> sshCredentialModels = new HashMap<>();
+        HashMap<Integer,SSHCredentialModel> sshCredentialModels = null;
 
         try
         {
+            sshCredentialModels = new HashMap<>();
+
             connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from sshCredential");

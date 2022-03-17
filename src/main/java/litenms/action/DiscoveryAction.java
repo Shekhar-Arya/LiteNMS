@@ -2,7 +2,6 @@ package litenms.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import litenms.commonutils.CacheStore;
 import litenms.models.DiscoveryModel;
 import litenms.service.DiscoveryService;
 import litenms.service.MonitorService;
@@ -40,8 +39,6 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
             HashMap<String,Object> result = new HashMap<>();
 
             List<DiscoveryModel> models = DiscoveryService.getDiscoveryDevices();
-
-            CacheStore.setCacheList("discoveryList",models);
 
             result.put("result",models);
 

@@ -2,8 +2,6 @@ package litenms.service;
 
 import litenms.dao.PollingDao;
 import litenms.models.PollingModel;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,7 +78,7 @@ public class PollingService {
         return result;
     }
 
-    public static List<PollingModel> getListForAvailabaility(int id)
+    public static int getListForAvailabaility(int id)
     {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
@@ -88,6 +86,15 @@ public class PollingService {
 
         String startTime = format.format(new Date(new Date().getTime()-TimeUnit.HOURS.toMillis(24)));
 
-        return PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+        int availability = 0;
+
+        List<PollingModel> dataForAvailability = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+
+        for (PollingModel model:dataForAvailability)
+        {
+            availability+=model.getAvailability();
+        }
+
+        return (availability*100)/dataForAvailability.size();
     }
 }

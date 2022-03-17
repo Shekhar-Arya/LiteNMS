@@ -10,6 +10,7 @@ import org.quartz.JobExecutionException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SchedulePollingJob implements Job {
 
@@ -19,27 +20,27 @@ public class SchedulePollingJob implements Job {
         List<MonitorModel> monitorModels = null;
 
         HashMap<Integer,SSHCredentialModel> sshCredList = null;
+
+
         try
         {
-            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
+            ConcurrentHashMap<String,Object> temp = CacheStore.getCacheList();
+
+            if(temp!=null && temp.get("sshCredList")!=null && temp.get("monitorList")!=null)
             {
-                monitorModels = MonitorDao.getMonitorDevices();
+                monitorModels = (List<MonitorModel>) temp.get("monitorList");
 
-                CacheStore.setCacheList("monitorList",monitorModels);
+                sshCredList = (HashMap<Integer, SSHCredentialModel>) temp.get("sshCredList");
             }
-
-            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("sshCredList")==null)
+            else
             {
                 sshCredList = DiscoveryDao.getAllSSHCred();
 
                 CacheStore.setCacheList("sshCredList",sshCredList);
-            }
 
-            if(CacheStore.getCacheList()!=null && CacheStore.getCacheList().get("sshCredList")!=null && CacheStore.getCacheList().get("monitorList")!=null)
-            {
-                monitorModels = (List<MonitorModel>) CacheStore.getCacheList().get("monitorList");
+                monitorModels = MonitorDao.getMonitorDevices();
 
-                sshCredList = (HashMap<Integer, SSHCredentialModel>) CacheStore.getCacheList().get("sshCredList");
+                CacheStore.setCacheList("monitorList",monitorModels);
             }
 
             for (MonitorModel model:monitorModels)

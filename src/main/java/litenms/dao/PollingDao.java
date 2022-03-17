@@ -70,7 +70,7 @@ public class PollingDao {
 
             connection = DatabaseConnection.getConnection();
 
-            statement = connection.prepareStatement("select * from polling where monitor_id = ? order by id desc limit 1");
+            statement = connection.prepareStatement("select * from polling where monitor_id = ? order by date desc limit 1");
 
             statement.setInt(1,id);
 

@@ -31,6 +31,7 @@ public class PollingRunnable implements Runnable{
             double avgRtt = 0.0;
 
             double totalMemory = 0.0, usedMemory=0.0, freeMemory=0.0,cpuUsage=0.0,diskDetail = 0.0;
+
             if(packetLoss!=100)
             {
                 avgRtt = Double.parseDouble(pingData.substring(pingData.lastIndexOf("=")).split("/")[1]);

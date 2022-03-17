@@ -7,6 +7,7 @@ import litenms.models.MonitorModel;
 import litenms.service.MonitorService;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MonitorAction extends ActionSupport implements ModelDriven<MonitorModel> {
 
@@ -18,7 +19,9 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
         {
             HashMap<String,Object> result = new HashMap<>();
 
-            if(CacheStore.getCacheList()==null || CacheStore.getCacheList().get("monitorList")==null)
+            ConcurrentHashMap<String,Object> temp = CacheStore.getCacheList();
+
+            if(temp==null || temp.get("monitorList")==null)
             {
                 List<MonitorModel> monitorModels =  MonitorService.getMonitorDevices();
 
@@ -29,7 +32,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 
             else {
 
-                result.put("result",CacheStore.getCacheList().get("monitorList"));
+                result.put("result",temp.get("monitorList"));
             }
 
             monitorModel.setResult(result);
