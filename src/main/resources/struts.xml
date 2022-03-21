@@ -89,6 +89,10 @@
             <result name="success" type="json"/>
         </action>
 
+        <action name="deleteMonitorData" class="litenms.action.MonitorAction" method="deleteMonitorData">
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
+        </action>
 
     </package>
 

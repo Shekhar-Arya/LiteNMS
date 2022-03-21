@@ -178,4 +178,42 @@ public class MonitorDao {
         }
     }
 
+    public static boolean deleteMonitorData(int id)
+    {
+        Connection connection = null;
+
+        PreparedStatement statement = null;
+
+        try
+        {
+            connection = DatabaseConnection.getConnection();
+
+            statement = connection.prepareStatement("delete from monitor where id = ?");
+
+            statement.setInt(1,id);
+
+            statement.executeUpdate();
+
+            statement = connection.prepareStatement("delete from polling where monitor_id = ?");
+
+            statement.setInt(1,id);
+
+            statement.executeUpdate();
+
+            CacheStore.setCacheList("monitorList",getMonitorDevices());
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+            return false;
+        }
+        finally
+        {
+            DatabaseConnection.closeConnection(connection,statement);
+        }
+    }
+
 }

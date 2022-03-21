@@ -1,4 +1,4 @@
-let moniterInterval;
+var moniterInterval;
 
 let addRow ;
 

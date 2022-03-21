@@ -2,6 +2,7 @@ package litenms.service;
 
 import litenms.dao.DiscoveryDao;
 import litenms.dao.MonitorDao;
+import litenms.dao.PollingDao;
 import litenms.models.DiscoveryModel;
 import litenms.models.MonitorModel;
 
@@ -27,5 +28,11 @@ public class MonitorService {
     public static List<MonitorModel> getMonitorDevices()
     {
         return MonitorDao.getMonitorDevices();
+    }
+
+
+    public static boolean deleteMonitorData(int id)
+    {
+        return MonitorDao.deleteMonitorData(id);
     }
 }

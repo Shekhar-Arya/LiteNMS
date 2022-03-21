@@ -97,4 +97,5 @@ public class PollingService {
 
         return (availability*100)/dataForAvailability.size();
     }
+
 }

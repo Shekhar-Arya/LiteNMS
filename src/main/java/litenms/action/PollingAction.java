@@ -48,6 +48,7 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
         return "success";
     }
 
+
     @Override
     public PollingModel getModel() {
         return model;

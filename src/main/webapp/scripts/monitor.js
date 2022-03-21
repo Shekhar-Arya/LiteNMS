@@ -11,7 +11,7 @@ let monitor =
             $("#discovery").children("a").addClass("collapsed");
 
 
-            $("#main").html('<div class="pagetitle row mb-5 mt-3"> <h1 class="col-lg-10 col-sm-8">Monitor Table</h1></div><!-- End Page Title --> <section class="section"> <div class="row"> <div class="col-lg-12"> <div class="card"> <div class="card-body"> <!-- Table with stripped rows --> <table class="display cell-border" id="monitorTable"> <thead> <tr> <th scope="col">Ip</th> <th scope="col">Type</th> <th scope="col">Status</th> <th scope="col">Action</th> </tr></thead> <tbody id="monitorTableBody"> </tbody>  </table> <!-- End Table with stripped rows --> </div> </div> </div> </div> </section> <button type="button" class="btn btn-primary" id="dataDiagramButton" data-bs-toggle="modal" data-bs-target="#dataDiagram" style="display: none;"> </button> <div class="modal fade" id="dataDiagram" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h3 class="modal-title">Device Status</h3> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body" id="dataDiagramBody">  </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div> </div><!-- End Basic Modal--> </div> </div>');
+            $("#main").html('<div class="pagetitle row mb-5 mt-3"> <h1 class="col-lg-10 col-sm-8">Monitor Table</h1></div><!-- End Page Title --> <section class="section"> <div class="row"> <div class="col-lg-12"> <div class="card"> <div class="card-body"> <!-- Table with stripped rows --> <table class="display cell-border" id="monitorTable"> <thead> <tr> <th scope="col">Ip</th> <th scope="col">Type</th> <th scope="col">Status</th> <th scope="col">Action</th> </tr></thead> <tbody id="monitorTableBody"> </tbody>  </table> <!-- End Table with stripped rows --> </div> </div> </div> </div> </section> <button type="button" class="btn btn-primary" id="dataDiagramButton" data-bs-toggle="modal" data-bs-target="#dataDiagram" style="display: none;"> </button> <div class="modal fade" id="dataDiagram" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h3 class="modal-title">Device Status</h3> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body" id="dataDiagramBody">  </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div> </div><!-- End Basic Modal--> </div> </div> <button id="displayMessageButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#displayMessageModal" style="display: none;"></button><div class="modal fade" id="displayMessageModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Action Message</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body displayMessageBody"> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div></div>');
 
             addRow = $("table#monitorTable").DataTable({
 
@@ -23,6 +23,8 @@ let monitor =
             monitor.getMonitorDevices();
 
             monitor.getMonitorData();
+
+            monitor.deleteMonitorData();
 
             monitor.setMonitorInterval();
         });
@@ -46,7 +48,7 @@ let monitor =
 
         $.each(request.data.result.result,function (i,v)
         {
-            addRow.row.add([v.ip,v.type,v.status,'<button class="btn btn-outline-primary btn-sm showMonitorData" data-id="'+v.id+'" data-ip="'+v.ip+'"><i class="bi bi-display"></i></button>']).draw();
+            addRow.row.add([v.ip,v.type,v.status,'<button class="btn btn-outline-primary btn-sm showMonitorData" data-id="'+v.id+'" data-ip="'+v.ip+'"><i class="bi bi-display"></i></button> <button class="btn btn-outline-primary btn-sm deleteMonitorData" data-id="'+v.id+'"><i class="bi bi-trash2"></i></button>']).draw();
         });
     },
 
@@ -76,30 +78,31 @@ let monitor =
     {
         let dataMessage = request.data.message;
 
-        let sshErrorSelector = $('#sshError');
-
         if(dataMessage === "Unknown")
         {
 
+            $('.modal-dialog').removeClass("modal-fullscreen");
             $("#dataDiagramBody").html('Device is Unknown (No Data Polled Yet).');
 
             $("#dataDiagramButton").click();
+
         }
         else
         {
-
             let dataModel = request.data.result.dataModel;
-            let dataModelList = request.data.result.dataModelList;
 
+            let dataModelList = request.data.result.dataModelList;
             let packetLossColor= dataModel.packetLoss===100?"bad":"good";
 
-            $("#dataDiagramBody").html('<div class="container"> <div class="row"> <div class="col-sm"><h1 class="d-flex justify-content-center">Ip: '+request.param.ip+'</h1></div> <div class="col-sm">   <h1 class="d-flex justify-content-center">Type: '+dataModel.type+'</h1>  </div></div></div> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="doughnutChart" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3"> Availability Chart </h5> </div> <div class="col-sm d-flex align-items-center '+packetLossColor+' justify-content-center"  style="margin: 30px;"> Packet Loss : '+dataModel.packetLoss+'% </div> <div class="col-sm d-flex justify-content-center align-items-center '+packetLossColor+'"  style="margin: 30px;">   Average RTT Time : '+dataModel.avgRtt+'ms  </div> </div></div> <br> <div class="container"> <div id="columnChart" style="height: 400px; font-size: large"><canvas id="myChart"></canvas><h5 class="d-flex justify-content-center mt-3" style="font-weight: bold"> Last 24 Hours Polled Data </h5></div></div> <br><br> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHMemory" style="max-height: 300px;"></canvas><h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Memory Chart (Total : '+dataModel.totalMemory+') </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHCpu" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> CPU Usage </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHDisk" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Disk Memory Usage </h5> </div> </div></div> <h3 id="sshError" class="d-flex justify-content-center fade"> Due to device down no latest data has been Polled </h3>');
+            $("#dataDiagramBody").html('<div class="container"> <div class="row"> <div class="col-sm"><h1 class="d-flex justify-content-center">Ip: '+request.param.ip+'</h1></div> <div class="col-sm">   <h1 class="d-flex justify-content-center">Type: '+dataModel.type+'</h1>  </div></div></div> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="doughnutChart" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3"> Availability Chart </h5> </div> <div class="col-sm d-flex align-items-center '+packetLossColor+' justify-content-center"  style="margin: 30px;"> Packet Loss : '+dataModel.packetLoss+'% </div> <div class="col-sm d-flex justify-content-center align-items-center '+packetLossColor+'"  style="margin: 30px;">   Average RTT Time : '+dataModel.avgRtt+'ms  </div> </div></div> <br> <div class="container"> <div id="columnChart" style="height: 400px; font-size: large"><canvas id="myChart"></canvas><h5 class="d-flex justify-content-center mt-3" style="font-weight: bold"> Last 24 Hours Polled Data </h5></div></div> <br><br> <div class="container"> <div class="row"> <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHMemory" style="max-height: 300px;"></canvas><h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Memory Chart (Total : '+dataModel.totalMemory+') </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHCpu" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> CPU Usage </h5></div>  <div class="col-sm" style="margin: 30px;"> <canvas id="donustChartSSHDisk" style="max-height: 300px;"></canvas> <h5 class="d-flex justify-content-center mt-3 fade chartLabel"> Disk Usage </h5> </div> </div></div> <h3 id="sshError" class="d-flex justify-content-center fade"> Due to device down no latest data has been Polled </h3>');
 
             let packetReceive = [];
 
             let date = [];
 
             let chartLabelSelector = $('.chartLabel');
+
+            let sshErrorSelector = $('#sshError');
 
             $.each(dataModelList,function (i,v)
             {
@@ -329,6 +332,37 @@ let monitor =
 
             $('#dataDiagramButton').click();
         }
+    },
+
+    deleteMonitorData: function ()
+    {
+        $("#monitorTable").on("click",".deleteMonitorData",function (e)
+        {
+            let param =
+                {
+                    id:$(e.currentTarget).data("id"),
+                }
+            let request =
+                {
+                    url:"deleteMonitorData",
+
+                    param:param,
+
+                    callback: monitor.onDeleteMonitorDataSuccess
+                }
+            ajaxCalls.ajaxPostCall(request);
+        });
+    },
+
+    onDeleteMonitorDataSuccess: function (request)
+    {
+        $('.modal-dialog').removeClass("modal-fullscreen");
+
+        $('.displayMessageBody').html(request.data.message);
+
+        $('#displayMessageButton').click();
+
+        monitor.getMonitorDevices();
     },
 
     setMonitorInterval: function ()
