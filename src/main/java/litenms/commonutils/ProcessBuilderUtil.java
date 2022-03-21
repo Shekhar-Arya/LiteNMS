@@ -1,7 +1,6 @@
 package litenms.commonutils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -17,23 +16,16 @@ public class ProcessBuilderUtil {
 
         BufferedReader input = null;
 
-        BufferedReader error = null;
+        Process process = null;
 
         try {
             builder = new ProcessBuilder(commandList);
 
-            Process process = builder.start();
+            process = builder.start();
 
             input = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-            error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
             while ((data = input.readLine()) != null)
-            {
-                result+=data;
-            }
-
-            while ((data = error.readLine()) != null)
             {
                 result+=data;
             }
@@ -48,11 +40,17 @@ public class ProcessBuilderUtil {
         {
             try
             {
-                input.close();
+                if (input!=null)
+                {
+                    input.close();
+                }
 
-                error.close();
+                if (process!=null)
+                {
+                    process.destroy();
+                }
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }

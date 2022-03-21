@@ -20,7 +20,7 @@ public class SSHConnection {
 
             session.setConfig("StrictHostKeyChecking", "no");
 
-            session.connect();
+            session.connect(5000);
         }
         catch (Exception e)
         {
@@ -34,7 +34,7 @@ public class SSHConnection {
     {
         try
         {
-            if (session != null)
+            if (session != null && session.isConnected())
             {
                 session.disconnect();
             }
@@ -61,7 +61,7 @@ public class SSHConnection {
 
             channel.setOutputStream(responseStream);
 
-            channel.connect();
+            channel.connect(5000);
 
             if(channel.isConnected())
             {
@@ -78,9 +78,16 @@ public class SSHConnection {
         }
         finally
         {
-            if (channel != null)
+            try
             {
-                channel.disconnect();
+                if (channel != null && !channel.isClosed())
+                {
+                    channel.disconnect();
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
         }
         return responseString;

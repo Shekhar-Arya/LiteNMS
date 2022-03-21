@@ -299,9 +299,9 @@ let monitor =
 
                         labels: [
 
-                            'Used Disk Space Usage (%)',
+                            'Used Disk Usage (%)',
 
-                            'Free Disk Space Usage (%)'
+                            'Free Disk Usage (%)'
 
                                 ],
 
