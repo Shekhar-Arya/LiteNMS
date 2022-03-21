@@ -61,7 +61,8 @@ public class PollingRunnable implements Runnable{
                                 diskDetail = Double.parseDouble(SSHConnection.getSSHConnection(session,"df -ht ext4 | grep / | awk '{print $5}'").replace("%"," ").trim());
                             }
                         }
-                        finally {
+                        finally
+                        {
                             SSHConnection.closeSSHSession(session);
                         }
 

@@ -44,7 +44,14 @@ public class ProcessBuilderUtil {
                 {
                     input.close();
                 }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
+            try
+            {
                 if (process!=null)
                 {
                     process.destroy();

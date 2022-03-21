@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommonUtil {
 
-    private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>(20);
+    private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>();
 
     public static void addModel(MonitorModel model)
     {

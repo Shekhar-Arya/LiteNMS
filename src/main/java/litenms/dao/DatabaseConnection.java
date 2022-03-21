@@ -42,12 +42,21 @@ public class DatabaseConnection {
             {
                 preparedStatement.close();
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        try
+        {
             if(connection!=null && !connection.isClosed())
             {
                 connection.close();
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
