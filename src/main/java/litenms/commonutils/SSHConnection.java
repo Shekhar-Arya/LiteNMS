@@ -5,10 +5,12 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
 
-public class SSHConnection {
-
+public class SSHConnection
+{
     public static Session getSSHSession(String username, String password, String host)
     {
         Session session = null;
@@ -49,7 +51,9 @@ public class SSHConnection {
     {
         ChannelExec channel = null;
 
-        String responseString = null;
+        String responseString = "";
+
+        BufferedReader reader = null;
 
         try
         {
@@ -59,7 +63,9 @@ public class SSHConnection {
 
             ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
 
-            channel.setOutputStream(responseStream);
+//            channel.setOutputStream(responseStream);
+
+            reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
 
             channel.connect(5000);
 
@@ -68,7 +74,16 @@ public class SSHConnection {
                 Thread.sleep(100);
             }
 
-            responseString = responseStream.toString();
+            String result = "";
+
+            while ((result = reader.readLine()) != null)
+            {
+                responseString+=result;
+            }
+
+            System.out.println(responseString);
+
+//            responseString = responseStream.toString();
         }
         catch (Exception e)
         {
@@ -88,6 +103,18 @@ public class SSHConnection {
             catch (Exception e)
             {
                 e.printStackTrace();
+            }
+
+            try
+            {
+                if (reader!=null)
+                {
+                    reader.close();
+                }
+            }
+            catch (Exception e)
+            {
+
             }
         }
         return responseString;

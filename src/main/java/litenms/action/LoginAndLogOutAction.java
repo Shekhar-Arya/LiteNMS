@@ -26,8 +26,10 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
                     return "login";
                 }
             }
-            else {
-                if(sessionMap.get("username")!=null){
+            else
+            {
+                if(sessionMap.get("username")!=null)
+                {
 
                     return "login";
                 }
@@ -55,14 +57,14 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
     }
 
     @Override
-    public LoginModel getModel() {
-
+    public LoginModel getModel()
+    {
         return loginModel;
     }
 
     @Override
-    public void setSession(Map<String, Object> map) {
-
+    public void setSession(Map<String, Object> map)
+    {
         sessionMap = map;
     }
 }

@@ -90,15 +90,15 @@ public class DiscoveryService {
         return false;
     }
 
-    public static boolean sshDiscoveryDevice(DiscoveryModel model) {
-
+    public static boolean sshDiscoveryDevice(DiscoveryModel model)
+    {
         Session session = null;
 
         try
         {
             session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
-            if(session!=null)
+            if(session!=null && session.isConnected())
             {
                 String sshResult = SSHConnection.getSSHConnection(session, "uname");
 

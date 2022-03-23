@@ -51,7 +51,10 @@ public class MonitorDao {
         {
             e.printStackTrace();
         }
-
+        finally
+        {
+            DatabaseConnection.closeConnection(connection,statement);
+        }
         return monitorModels;
     }
 

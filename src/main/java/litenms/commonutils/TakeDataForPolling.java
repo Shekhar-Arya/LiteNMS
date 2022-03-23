@@ -8,11 +8,13 @@ import java.util.concurrent.Executors;
 public class TakeDataForPolling implements Runnable{
 
     @Override
-    public void run() {
-
-        ExecutorService service = Executors.newFixedThreadPool(5);
+    public void run()
+    {
+        ExecutorService service = null;
         try
         {
+            service = Executors.newFixedThreadPool(5);
+
             while (true)
             {
                 MonitorModel model = CommonUtil.takeModel();

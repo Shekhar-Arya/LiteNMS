@@ -15,12 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SchedulePollingJob implements Job {
 
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
+    public void execute(JobExecutionContext jobExecutionContext)
+    {
         List<MonitorModel> monitorModels = null;
 
         HashMap<Integer,SSHCredentialModel> sshCredList = null;
-
 
         try
         {

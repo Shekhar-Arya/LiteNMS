@@ -6,7 +6,8 @@ import org.apache.struts2.StrutsStatics;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-public class LoginSessionInterceptor implements Interceptor {
+public class LoginSessionInterceptor implements Interceptor
+{
     @Override
     public void destroy() {
 

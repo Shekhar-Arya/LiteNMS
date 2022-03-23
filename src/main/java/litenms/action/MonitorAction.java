@@ -1,13 +1,10 @@
 package litenms.action;
 
-import com.mysql.cj.xdevapi.DeleteStatement;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.sun.deploy.security.SelectableSecurityManager;
 import litenms.commonutils.CacheStore;
 import litenms.models.MonitorModel;
 import litenms.service.MonitorService;
-import litenms.service.PollingService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,13 +48,20 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 
     public String deleteMonitorData()
     {
-        if (MonitorService.deleteMonitorData(monitorModel.getId()))
+        try
         {
-            monitorModel.setMessage("Successfully Deleted");
+            if (MonitorService.deleteMonitorData(monitorModel.getId()))
+            {
+                monitorModel.setMessage("Successfully Deleted");
+            }
+            else
+            {
+                monitorModel.setMessage("Delete Unsuccessful");
+            }
         }
-        else
+        catch (Exception e)
         {
-            monitorModel.setMessage("Delete Unsuccessful");
+            e.printStackTrace();
         }
         return "success";
     }

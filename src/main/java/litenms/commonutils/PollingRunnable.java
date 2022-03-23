@@ -46,7 +46,7 @@ public class PollingRunnable implements Runnable{
                         {
                             session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
-                            if(session!=null)
+                            if(session!=null && session.isConnected())
                             {
                                 totalMemory = Double.parseDouble(SSHConnection.getSSHConnection(session,"free -t | grep Total | awk '{print $2}'").trim())/1000000;
 

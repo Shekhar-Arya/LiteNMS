@@ -24,7 +24,6 @@ public class PollingService {
     {
         List<PollingModel> result = null;
 
-
         try
         {
             result = new ArrayList<>();
@@ -80,22 +79,32 @@ public class PollingService {
 
     public static int getListForAvailabaility(int id)
     {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        int avgAvailability = 0;
 
-        String endTime = format.format(new Date());
-
-        String startTime = format.format(new Date(new Date().getTime()-TimeUnit.HOURS.toMillis(24)));
-
-        int availability = 0;
-
-        List<PollingModel> dataForAvailability = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
-
-        for (PollingModel model:dataForAvailability)
+        try
         {
-            availability+=model.getAvailability();
-        }
+            int availability = 0;
 
-        return (availability*100)/dataForAvailability.size();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            String endTime = format.format(new Date());
+
+            String startTime = format.format(new Date(new Date().getTime()-TimeUnit.HOURS.toMillis(24)));
+
+            List<PollingModel> dataForAvailability = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+
+            for (PollingModel model:dataForAvailability)
+            {
+                availability+=model.getAvailability();
+            }
+
+            avgAvailability = (availability*100)/dataForAvailability.size();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return avgAvailability;
     }
 
 }

@@ -6,13 +6,11 @@ import org.quartz.impl.StdSchedulerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-public class Scheduler extends HttpServlet {
-
+public class Scheduler extends HttpServlet
+{
     @Override
-    public void init() throws ServletException
+    public void init()
     {
-        super.init();
-
         SchedulerFactory schedulerFactory = null;
 
         try
