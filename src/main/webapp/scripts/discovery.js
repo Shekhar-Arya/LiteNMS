@@ -165,12 +165,11 @@ let addRow ;
 
         $.each(request.data.result.result,function (i,v)
         {
-            addRow.row.add([v.id,v.name,v.ip,v.type,'<button class="btn btn-outline-primary btn-sm pingDiscoveryDevice" data-id="'+v.id+'"><i class="bi bi-play-btn"></i></button> <button class="btn btn-outline-primary btn-sm editDiscoveryRow" data-id="'+v.id+'"><i class="bi bi-pencil-square"></i></button> <button class="btn btn-outline-primary btn-sm deleteDiscoveryRow" data-id="'+v.id+'"><i class="bi bi-trash2"></i></button> <button class="btn btn-outline-primary btn-sm addDeviceToMonitor addDeviceToMonitor'+v.id+'" data-id="'+v.id+'"><i class="bi bi-eye-fill"></i></button>']).draw();
 
-            if (v.status===0)
-            {
-                $(".addDeviceToMonitor"+v.id).css("display","none");
-            }
+            let provionButton = v.status===0?"none":"";
+
+            addRow.row.add([v.id,v.name,v.ip,v.type,'<button class="btn btn-outline-primary btn-sm pingDiscoveryDevice" data-id="'+v.id+'"><i class="bi bi-play-btn"></i></button> <button class="btn btn-outline-primary btn-sm editDiscoveryRow" data-id="'+v.id+'"><i class="bi bi-pencil-square"></i></button> <button class="btn btn-outline-primary btn-sm deleteDiscoveryRow" data-id="'+v.id+'" style=""><i class="bi bi-trash2"></i></button> <button class="btn btn-outline-primary btn-sm addDeviceToMonitor addDeviceToMonitor'+v.id+'" style="display: '+provionButton+';" data-id="'+v.id+'"><i class="bi bi-eye-fill"></i></button>']).draw();
+
         });
     },
 

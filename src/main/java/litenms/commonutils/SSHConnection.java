@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 
 public class SSHConnection
 {
-    public static Session getSSHSession(String username, String password, String host)
+    public synchronized static Session getSSHSession(String username, String password, String host)
     {
         Session session = null;
         try
@@ -61,7 +61,7 @@ public class SSHConnection
 
             channel.setCommand(command);
 
-            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+//            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
 
 //            channel.setOutputStream(responseStream);
 

@@ -19,7 +19,7 @@ public class DatabaseConnection {
         }
     }
 
-    public static Connection getConnection()
+    public synchronized static Connection getConnection()
     {
         Connection connection = null;
         try
