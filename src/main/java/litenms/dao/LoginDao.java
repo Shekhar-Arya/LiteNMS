@@ -4,14 +4,13 @@ import litenms.models.LoginModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Base64;
 
 public class LoginDao {
 
 
-    public static boolean checkUserExist(LoginModel loginModel){
-
+    public static boolean checkUserExist(LoginModel loginModel)
+    {
         Connection connection = null;
 
         PreparedStatement statement = null;

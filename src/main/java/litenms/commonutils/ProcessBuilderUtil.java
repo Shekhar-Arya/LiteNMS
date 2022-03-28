@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ProcessBuilderUtil {
-
-    public static String runCommand(ArrayList<String> commandList) {
-
+public class ProcessBuilderUtil
+{
+    public static String runCommand(ArrayList<String> commandList)
+    {
         ProcessBuilder builder = null;
 
         String data = null;
@@ -18,7 +18,8 @@ public class ProcessBuilderUtil {
 
         Process process = null;
 
-        try {
+        try
+        {
             builder = new ProcessBuilder(commandList);
 
             process = builder.start();

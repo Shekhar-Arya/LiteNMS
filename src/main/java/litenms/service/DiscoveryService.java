@@ -148,6 +148,15 @@ public class DiscoveryService {
         }
         catch (Exception e)
         {
+            try
+            {
+                DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+            }
+            catch (Exception e1)
+            {
+                e1.printStackTrace();
+            }
+
             e.printStackTrace();
         }
         finally

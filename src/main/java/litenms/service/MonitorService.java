@@ -13,6 +13,7 @@ public class MonitorService {
     public static boolean addDeviceToMonitor(int id)
     {
         DiscoveryModel model = null;
+
         try
         {
             model = DiscoveryDao.getDiscoveryRow(id);
@@ -21,7 +22,6 @@ public class MonitorService {
         {
             e.printStackTrace();
         }
-
         return MonitorDao.addDeviceToMonitor(model);
     }
 

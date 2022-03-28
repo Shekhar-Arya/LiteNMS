@@ -3,8 +3,8 @@ package litenms.commonutils;
 import litenms.models.MonitorModel;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class CommonUtil {
-
+public class CommonUtil
+{
     private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>();
 
     public static void addModel(MonitorModel model)

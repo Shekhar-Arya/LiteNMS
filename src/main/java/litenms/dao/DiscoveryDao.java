@@ -240,13 +240,13 @@ public class DiscoveryDao {
             {
                 statement = connection.prepareStatement("update sshCredential set ip=?, username = ?, password=? where discovery_id = ?");
 
-                statement.setString(1,discoveryModel.getIp());
+                statement.setString(1, discoveryModel.getIp());
 
-                statement.setString(2,discoveryModel.getUsername());
+                statement.setString(2, discoveryModel.getUsername());
 
-                statement.setString(3,Base64.getEncoder().encodeToString(discoveryModel.getPassword().getBytes()));
+                statement.setString(3, Base64.getEncoder().encodeToString(discoveryModel.getPassword().getBytes()));
 
-                statement.setInt(4,discoveryModel.getId());
+                statement.setInt(4, discoveryModel.getId());
 
                 statement.executeUpdate();
 

@@ -7,14 +7,14 @@ import litenms.service.LoginService;
 import org.apache.struts2.interceptor.SessionAware;
 import java.util.Map;
 
-public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<LoginModel>, SessionAware {
-
+public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<LoginModel>, SessionAware
+{
     private LoginModel loginModel = new LoginModel();
 
     private Map<String,Object> sessionMap;
 
-    public String login(){
-
+    public String login()
+    {
         try
         {
             if(loginModel.getUsername()!=null){
@@ -30,7 +30,6 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
             {
                 if(sessionMap.get("username")!=null)
                 {
-
                     return "login";
                 }
             }

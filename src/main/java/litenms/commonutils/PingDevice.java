@@ -10,6 +10,7 @@ public class PingDevice {
    {
 
        String result = "";
+
        try
        {
            commandList.clear();

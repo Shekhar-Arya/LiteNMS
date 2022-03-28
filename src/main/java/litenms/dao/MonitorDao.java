@@ -105,6 +105,8 @@ public class MonitorDao {
         }
     }
 
+
+
     public static MonitorModel getDeviceFromMonitor(String ip, String type)
     {
         Connection connection = null;

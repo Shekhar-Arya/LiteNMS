@@ -36,14 +36,6 @@ public class PollingRunnable implements Runnable{
 
                 double totalMemory = 0.0, usedMemory=0.0, freeMemory=0.0,cpuUsage=0.0,diskDetail = 0.0;
 
-                ArrayList<String> commands = new ArrayList<>();
-
-                commands.add("free -t | grep Total | awk '{print $2}'\n");
-                commands.add("free -t | grep Total | awk '{print $3}'\n");
-                commands.add("free -t | grep Total | awk '{print $4}'\n");
-                commands.add("mpstat | grep all\n");
-                commands.add("df -ht ext4 | grep / | awk '{print $5}'\n");
-
                 if(packetLoss!=100)
                 {
                     avgRtt = Double.parseDouble(pingData.substring(pingData.lastIndexOf("=")).split("/")[1]);
@@ -58,6 +50,18 @@ public class PollingRunnable implements Runnable{
 
                         String responseString = "";
 
+                        ArrayList<String> commands = new ArrayList<>();
+
+                        commands.add("free -t | grep Total | awk '{print $2}'\n");
+
+                        commands.add("free -t | grep Total | awk '{print $3}'\n");
+
+                        commands.add("free -t | grep Total | awk '{print $4}'\n");
+
+                        commands.add("mpstat | grep all\n");
+
+                        commands.add("df -ht ext4 | grep / | awk '{print $5}'\n");
+
                         try
                         {
                             session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
@@ -65,7 +69,6 @@ public class PollingRunnable implements Runnable{
                             if(session!=null && session.isConnected())
                             {
                                 channel = SSHConnection.getSSHChannel(session);
-
 
                                 if (channel != null && channel.isConnected())
                                 {
@@ -78,77 +81,79 @@ public class PollingRunnable implements Runnable{
                             SSHConnection.closeSSHSession(session);
                         }
 
-                        responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
-
-                        output = new ArrayList<>();
-
-                        for (String command:commands)
+                        if (responseString!=null && !responseString.isEmpty())
                         {
-                            output.add(responseString.substring(responseString.indexOf(command.trim()),responseString.indexOf(model.getUsername()+"@")).replace(command.trim(),""));
-
                             responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
+
+                            output = new ArrayList<>();
+
+                            for (String command:commands)
+                            {
+                                output.add(responseString.substring(responseString.indexOf(command.trim()),responseString.indexOf(model.getUsername()+"@")).replace(command.trim(),""));
+
+                                responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
+                            }
+
+                            try
+                            {
+                                totalMemory = Double.parseDouble(output.get(0).trim())/1000000;
+                            }
+                            catch (Exception e)
+                            {
+                                totalMemory = -1;
+
+                                e.printStackTrace();
+                            }
+
+                            try
+                            {
+                                usedMemory = Double.parseDouble(output.get(1).trim())/1000000;
+                            }
+                            catch (Exception e)
+                            {
+                                usedMemory = -1;
+
+                                e.printStackTrace();
+                            }
+
+                            try
+                            {
+                                freeMemory = Double.parseDouble(output.get(2).trim())/1000000;
+                            }
+                            catch (Exception e)
+                            {
+                                freeMemory = -1;
+
+                                e.printStackTrace();
+                            }
+
+                            try
+                            {
+                                String[] cpuUsageOutput = output.get(3).trim().split(" ");
+
+                                cpuUsage = Double.parseDouble(cpuUsageOutput[cpuUsageOutput.length-1]);
+                            }
+                            catch (Exception e)
+                            {
+                                cpuUsage = -1;
+
+                                e.printStackTrace();
+                            }
+
+                            try
+                            {
+                                diskDetail = Double.parseDouble(output.get(4).replace("%"," ").trim());
+                            }
+                            catch (Exception e)
+                            {
+                                diskDetail = -1;
+
+                                e.printStackTrace();
+                            }
                         }
-
-                        try
-                        {
-                            totalMemory = Double.parseDouble(output.get(0).trim())/1000000;
-                        }
-                        catch (Exception e)
-                        {
-                            totalMemory = -1;
-
-                            e.printStackTrace();
-                        }
-
-                        try
-                        {
-                            usedMemory = Double.parseDouble(output.get(1).trim())/1000000;
-                        }
-                        catch (Exception e)
-                        {
-                            usedMemory = -1;
-
-                            e.printStackTrace();
-                        }
-
-                        try
-                        {
-                            freeMemory = Double.parseDouble(output.get(2).trim())/1000000;
-                        }
-                        catch (Exception e)
-                        {
-                            freeMemory = -1;
-
-                            e.printStackTrace();
-                        }
-
-                        try
-                        {
-                            String[] cpuUsageOutput = output.get(3).trim().split(" ");
-
-                            cpuUsage = Double.parseDouble(cpuUsageOutput[cpuUsageOutput.length-1]);
-                        }
-                        catch (Exception e)
-                        {
-                            cpuUsage = -1;
-
-                            e.printStackTrace();
-                        }
-
-                        try
-                        {
-                            diskDetail = Double.parseDouble(output.get(4).replace("%"," ").trim());
-                        }
-                        catch (Exception e)
-                        {
-                            diskDetail = -1;
-
-                            e.printStackTrace();
-                        }
-
                     }
-
                 }
+
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
                 pollingModel.setMonitor_id(model.getId());

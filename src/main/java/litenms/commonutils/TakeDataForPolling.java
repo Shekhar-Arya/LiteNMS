@@ -5,8 +5,8 @@ import litenms.models.MonitorModel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TakeDataForPolling implements Runnable{
-
+public class TakeDataForPolling implements Runnable
+{
     @Override
     public void run()
     {

@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MonitorAction extends ActionSupport implements ModelDriven<MonitorModel> {
-
+public class MonitorAction extends ActionSupport implements ModelDriven<MonitorModel>
+{
     private MonitorModel monitorModel = new MonitorModel();
 
     public String getMonitorDevices()

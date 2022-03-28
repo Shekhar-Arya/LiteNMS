@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SchedulePollingJob implements Job {
-
+public class SchedulePollingJob implements Job
+{
     @Override
     public void execute(JobExecutionContext jobExecutionContext)
     {

@@ -16,7 +16,6 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
     {
         try
         {
-
             PollingModel dataModel = PollingService.getPollingLatestData(model.getMonitor_id());
 
             List<PollingModel> dataModelList = PollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());

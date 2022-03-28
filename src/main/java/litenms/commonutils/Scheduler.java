@@ -2,8 +2,6 @@ package litenms.commonutils;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 public class Scheduler extends HttpServlet
