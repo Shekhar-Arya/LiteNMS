@@ -1,10 +1,13 @@
 package litenms.service;
 
+import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.Session;
 import litenms.commonutils.PingDevice;
 import litenms.commonutils.SSHConnection;
 import litenms.dao.DiscoveryDao;
 import litenms.models.DiscoveryModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscoveryService {
@@ -94,13 +97,42 @@ public class DiscoveryService {
     {
         Session session = null;
 
+        ChannelShell channel = null;
+
+        ArrayList<String> output = null;
+
         try
         {
+            ArrayList<String> commands = new ArrayList<>();
+
+            commands.add("uname\n");
+
             session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
             if(session!=null && session.isConnected())
             {
-                String sshResult = SSHConnection.getSSHConnection(session, "uname");
+
+                channel = SSHConnection.getSSHChannel(session);
+
+                String responseString = "";
+
+                if (channel!=null && channel.isConnected())
+                {
+                    responseString = SSHConnection.runSSHCommands(channel, commands);
+                }
+
+                output = new ArrayList<>();
+
+                responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
+
+                for (String command:commands)
+                {
+                    output.add(responseString.substring(responseString.indexOf(command.trim()),responseString.indexOf(model.getUsername()+"@")).replace(command.trim(),""));
+
+                    responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
+                }
+
+                String sshResult = output.get(0);
 
                 if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
                 {

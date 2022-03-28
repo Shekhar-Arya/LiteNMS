@@ -1,13 +1,12 @@
 package litenms.commonutils;
 
 
-import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
 
 public class SSHConnection
 {
@@ -47,32 +46,46 @@ public class SSHConnection
         }
     }
 
-    public static String getSSHConnection(Session session,String command)
+    public static ChannelShell getSSHChannel(Session session)
     {
-        ChannelExec channel = null;
+        ChannelShell channelShell = null;
 
+        try
+        {
+            channelShell = (ChannelShell) session.openChannel("shell");
+
+            channelShell.connect();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return channelShell;
+    }
+
+    public static String runSSHCommands(ChannelShell channel, ArrayList<String> commands)
+    {
         String responseString = "";
 
         BufferedReader reader = null;
 
+        BufferedWriter writer = null;
+
         try
         {
-            channel = (ChannelExec) session.openChannel("exec");
-
-            channel.setCommand(command);
-
-//            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-
-//            channel.setOutputStream(responseStream);
 
             reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
 
-            channel.connect(5000);
+            writer = new BufferedWriter(new OutputStreamWriter(channel.getOutputStream()));
 
-            if(channel.isConnected())
+            for (String command:commands)
             {
-                Thread.sleep(100);
+                writer.write(command);
             }
+
+            writer.write("exit\n");
+
+            writer.flush();
 
             String result = "";
 
@@ -81,15 +94,10 @@ public class SSHConnection
                 responseString+=result;
             }
 
-            System.out.println(responseString);
-
-//            responseString = responseStream.toString();
         }
         catch (Exception e)
         {
             e.printStackTrace();
-
-            return null;
         }
         finally
         {
@@ -114,7 +122,19 @@ public class SSHConnection
             }
             catch (Exception e)
             {
+                e.printStackTrace();
+            }
 
+            try
+            {
+                if (writer!=null)
+                {
+                    writer.close();
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
         }
         return responseString;

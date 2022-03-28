@@ -6,7 +6,6 @@ import litenms.models.MonitorModel;
 import litenms.models.SSHCredentialModel;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 import java.util.HashMap;
 import java.util.List;

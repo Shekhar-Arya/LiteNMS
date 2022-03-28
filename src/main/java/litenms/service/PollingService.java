@@ -93,12 +93,16 @@ public class PollingService {
 
             List<PollingModel> dataForAvailability = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
 
-            for (PollingModel model:dataForAvailability)
+            if(dataForAvailability.size()!=0)
             {
-                availability+=model.getAvailability();
+                for (PollingModel model:dataForAvailability)
+                {
+                    availability+=model.getAvailability();
+                }
+
+                avgAvailability = (availability*100)/dataForAvailability.size();
             }
 
-            avgAvailability = (availability*100)/dataForAvailability.size();
         }
         catch (Exception e)
         {

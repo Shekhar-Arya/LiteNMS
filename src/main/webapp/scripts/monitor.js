@@ -221,106 +221,121 @@ let monitor =
             {
                 chartLabelSelector.addClass("show");
 
-                const donustChartSSHMemory = new Chart($('#donustChartSSHMemory'), {
+                if (dataModel.freeMemory!==-1 && dataModel.usedMemory!==-1 && dataModel.totalMemory!==-1)
+                {
+                    console.log(dataModel.freeMemory);
 
-                    type: 'doughnut',
+                    const donustChartSSHMemory = new Chart($('#donustChartSSHMemory'), {
 
-                    data: {
+                        type: 'doughnut',
 
-                        labels: [
+                        data: {
 
-                            'Free Memory (GB)',
+                            labels: [
 
-                            'Used Memory (GB)',
+                                'Free Memory (GB)',
 
-                            'Buff/Cache (GB)'
+                                'Used Memory (GB)',
 
-                        ],
-
-                        datasets: [{
-
-                            label: 'My First Dataset',
-
-                            data: [dataModel.freeMemory, dataModel.usedMemory, dataModel.totalMemory-dataModel.freeMemory-dataModel.usedMemory],
-
-                            backgroundColor: [
-
-                                'rgb(255, 99, 132)',
-
-                                'rgb(255, 205, 86)',
-
-                                'rgb(54, 162, 235)',
+                                'Buff/Cache (GB)'
 
                             ],
 
-                            hoverOffset: 4
+                            datasets: [{
 
-                        }]
-                    }
-                });
+                                label: 'My First Dataset',
 
-                const donustChartSSHCpu = new Chart($('#donustChartSSHCpu'), {
+                                data: [dataModel.freeMemory, dataModel.usedMemory, dataModel.totalMemory-dataModel.freeMemory-dataModel.usedMemory],
 
-                    type: 'doughnut',
+                                backgroundColor: [
 
-                    data: {
+                                    'rgb(255, 99, 132)',
 
-                        labels: [
+                                    'rgb(255, 205, 86)',
 
-                            'Used CPU (%)',
-
-                            'Idle CPU (%)'
-
-                        ],
-
-                        datasets: [{
-
-                            label: 'My First Dataset',
-
-                            data: [100-dataModel.cpuUsage, dataModel.cpuUsage],
-
-                            backgroundColor: [
-
-                                'rgb(255, 99, 132)',
-
-                                'rgb(255, 205, 86)'
-                            ],
-
-                            hoverOffset: 4
-                        }]
-                    }
-                });
-
-                const donustChartSSHDisk = new Chart($('#donustChartSSHDisk'), {
-
-                    type: 'doughnut',
-
-                    data: {
-
-                        labels: [
-
-                            'Used Disk Usage (%)',
-
-                            'Free Disk Usage (%)'
+                                    'rgb(54, 162, 235)',
 
                                 ],
 
-                    datasets: [{
+                                hoverOffset: 4
 
-                        label: 'My First Dataset',
+                            }]
+                        }
+                    });
+                }
 
-                        data: [dataModel.diskSpaceUsage, 100-dataModel.diskSpaceUsage],
+                if(dataModel.cpuUsage!==-1)
+                {
+                    console.log(dataModel.cpuUsage);
 
-                            backgroundColor: [
+                    const donustChartSSHCpu = new Chart($('#donustChartSSHCpu'), {
 
-                                'rgb(255, 99, 132)',
+                        type: 'doughnut',
 
-                                'rgb(75, 192, 192)'
-                        ],
-                    hoverOffset: 4
-                                }]
-                    }
-                });
+                        data: {
+
+                            labels: [
+
+                                'Used CPU (%)',
+
+                                'Idle CPU (%)'
+
+                            ],
+
+                            datasets: [{
+
+                                label: 'My First Dataset',
+
+                                data: [100-dataModel.cpuUsage, dataModel.cpuUsage],
+
+                                backgroundColor: [
+
+                                    'rgb(255, 99, 132)',
+
+                                    'rgb(255, 205, 86)'
+                                ],
+
+                                hoverOffset: 4
+                            }]
+                        }
+                    });
+                }
+
+                if(dataModel.diskSpaceUsage!==-1)
+                {
+                    console.log(dataModel.diskSpaceUsage);
+
+                    const donustChartSSHDisk = new Chart($('#donustChartSSHDisk'), {
+
+                        type: 'doughnut',
+
+                        data: {
+
+                            labels: [
+
+                                'Used Disk Usage (%)',
+
+                                'Free Disk Usage (%)'
+
+                            ],
+
+                            datasets: [{
+
+                                label: 'My First Dataset',
+
+                                data: [dataModel.diskSpaceUsage, 100-dataModel.diskSpaceUsage],
+
+                                backgroundColor: [
+
+                                    'rgb(255, 99, 132)',
+
+                                    'rgb(75, 192, 192)'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        }
+                    });
+                }
 
             }
             else if(dataModel.type==="SSH")
