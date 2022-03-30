@@ -14,26 +14,28 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 {
     private MonitorModel monitorModel = new MonitorModel();
 
+    MonitorService monitorService = new MonitorService();
+
     public String getMonitorDevices()
     {
         try
         {
             HashMap<String,Object> result = new HashMap<>();
 
+
+
             ConcurrentHashMap<String,Object> temp = CacheStore.getCacheList();
 
             if(temp==null || temp.get("monitorList")==null)
             {
-                List<MonitorModel> monitorModels =  MonitorService.getMonitorDevices();
+                List<MonitorModel> monitorModels =  monitorService.getMonitorDevices();
 
                 result.put("result",monitorModels);
 
                 CacheStore.setCacheList("monitorList",monitorModels);
             }
-
             else
             {
-
                 result.put("result",temp.get("monitorList"));
             }
 
@@ -50,7 +52,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
     {
         try
         {
-            if (MonitorService.deleteMonitorData(monitorModel.getId()))
+            if (monitorService.deleteMonitorData(monitorModel.getId()))
             {
                 monitorModel.setMessage("Successfully Deleted");
             }

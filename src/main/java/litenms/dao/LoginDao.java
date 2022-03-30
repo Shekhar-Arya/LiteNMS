@@ -6,10 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Base64;
 
-public class LoginDao {
+public class LoginDao
+{
+    DatabaseConnection databaseConnection = new DatabaseConnection();
 
-
-    public static boolean checkUserExist(LoginModel loginModel)
+    public boolean checkUserExist(LoginModel loginModel)
     {
         Connection connection = null;
 
@@ -17,7 +18,7 @@ public class LoginDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("select password from user where user_name=? and password=?");
 
@@ -38,7 +39,7 @@ public class LoginDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return false;
     }

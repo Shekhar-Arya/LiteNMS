@@ -9,10 +9,11 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
-public class DiscoveryDao {
+public class DiscoveryDao
+{
+    DatabaseConnection databaseConnection = new DatabaseConnection();
 
-
-    public static boolean addDeviceForDiscovery(DiscoveryModel discoveryModel)
+    public boolean addDeviceForDiscovery(DiscoveryModel discoveryModel)
     {
         Connection connection = null;
 
@@ -20,7 +21,7 @@ public class DiscoveryDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             preparedStatement = connection.prepareStatement("insert into discovery (name,ip,type,status) values (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 
@@ -66,12 +67,12 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,preparedStatement);
+            databaseConnection.closeConnection(connection,preparedStatement);
         }
     }
 
 
-    public static List<DiscoveryModel> getDiscoveryDevices()
+    public List<DiscoveryModel> getDiscoveryDevices()
     {
         Connection connection = null;
 
@@ -85,7 +86,7 @@ public class DiscoveryDao {
         {
             discoveryModelList = new ArrayList<>();
 
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from discovery");
 
@@ -118,13 +119,13 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
 
         return discoveryModelList;
     }
 
-    public static boolean deleteDiscoveryRow(int id)
+    public boolean deleteDiscoveryRow(int id)
     {
         Connection connection = null;
 
@@ -132,7 +133,7 @@ public class DiscoveryDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("delete from discovery where id = ?");
 
@@ -150,11 +151,11 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public static DiscoveryModel getDiscoveryRow(int id)
+    public DiscoveryModel getDiscoveryRow(int id)
     {
         DiscoveryModel discoveryModel = null;
 
@@ -166,7 +167,7 @@ public class DiscoveryDao {
         {
             discoveryModel =  new DiscoveryModel();
 
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from discovery where id = ?");
 
@@ -211,12 +212,12 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return discoveryModel;
     }
 
-    public static boolean updateDiscoveryRow(DiscoveryModel discoveryModel)
+    public boolean updateDiscoveryRow(DiscoveryModel discoveryModel)
     {
         Connection connection = null;
 
@@ -224,7 +225,7 @@ public class DiscoveryDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("update discovery set name = ?, ip = ? where id = ?");
 
@@ -263,11 +264,11 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public static boolean runDiscoverySuccessfull(int id)
+    public boolean runDiscoverySuccessfull(int id)
     {
         Connection connection = null;
 
@@ -275,7 +276,7 @@ public class DiscoveryDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("update discovery set status=? where id = ?");
 
@@ -295,12 +296,12 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
 
-    public static boolean runDiscoveryUnsuccessfull(int id)
+    public boolean runDiscoveryUnsuccessfull(int id)
     {
         Connection connection = null;
 
@@ -308,7 +309,7 @@ public class DiscoveryDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("update discovery set status=? where id = ?");
 
@@ -328,11 +329,11 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public static HashMap<Integer,SSHCredentialModel> getAllSSHCred()
+    public HashMap<Integer,SSHCredentialModel> getAllSSHCred()
     {
         Connection connection = null;
 
@@ -344,7 +345,7 @@ public class DiscoveryDao {
         {
             sshCredentialModels = new HashMap<>();
 
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from sshCredential");
 
@@ -369,7 +370,7 @@ public class DiscoveryDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return sshCredentialModels;
     }

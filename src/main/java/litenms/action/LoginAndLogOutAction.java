@@ -13,13 +13,15 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
 
     private Map<String,Object> sessionMap;
 
+    LoginService loginService = new LoginService();
+
     public String login()
     {
         try
         {
             if(loginModel.getUsername()!=null){
 
-                if(LoginService.checkUserExists(loginModel))
+                if(loginService.checkUserExists(loginModel))
                 {
                     sessionMap.put("username",loginModel.getUsername());
 

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
+//    select max(avg_rtt), monitor_id from polling where type = 'Ping' and date between '28/03/2022 15:56:42' and '29/03/2022 15:56:42' group by monitor_id order by max(avg_rtt) desc limit 5;
+
     static
     {
         try
@@ -19,7 +21,7 @@ public class DatabaseConnection {
         }
     }
 
-    public synchronized static Connection getConnection()
+    public Connection getConnection()
     {
         Connection connection = null;
         try
@@ -34,7 +36,7 @@ public class DatabaseConnection {
         return connection;
     }
 
-    public static void closeConnection(Connection connection, PreparedStatement preparedStatement)
+    public void closeConnection(Connection connection, PreparedStatement preparedStatement)
     {
         try
         {

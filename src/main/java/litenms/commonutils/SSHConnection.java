@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class SSHConnection
 {
-    public synchronized static Session getSSHSession(String username, String password, String host)
+    public Session getSSHSession(String username, String password, String host)
     {
         Session session = null;
         try
@@ -31,7 +31,7 @@ public class SSHConnection
         return session;
     }
 
-    public static void closeSSHSession(Session session)
+    public void closeSSHSession(Session session)
     {
         try
         {
@@ -46,7 +46,7 @@ public class SSHConnection
         }
     }
 
-    public static ChannelShell getSSHChannel(Session session)
+    public ChannelShell getSSHChannel(Session session)
     {
         ChannelShell channelShell = null;
 
@@ -63,7 +63,7 @@ public class SSHConnection
         return channelShell;
     }
 
-    public static String runSSHCommands(ChannelShell channel, ArrayList<String> commands)
+    public String runSSHCommands(ChannelShell channel, ArrayList<String> commands)
     {
         String responseString = "";
 
@@ -87,6 +87,11 @@ public class SSHConnection
 
             writer.flush();
 
+            if (channel.isConnected())
+            {
+                Thread.sleep(100);
+            }
+
             String result = "";
 
             while ((result = reader.readLine()) != null)
@@ -103,7 +108,7 @@ public class SSHConnection
         {
             try
             {
-                if (channel != null && !channel.isClosed())
+                if (channel != null && !channel.isConnected())
                 {
                     channel.disconnect();
                 }

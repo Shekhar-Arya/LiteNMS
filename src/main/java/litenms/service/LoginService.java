@@ -5,7 +5,10 @@ import litenms.models.LoginModel;
 
 public class LoginService
 {
-    public static boolean checkUserExists(LoginModel loginModel){
-        return LoginDao.checkUserExist(loginModel);
+    LoginDao loginDao = new LoginDao();
+
+    public boolean checkUserExists(LoginModel loginModel)
+    {
+        return loginDao.checkUserExist(loginModel);
     }
 }

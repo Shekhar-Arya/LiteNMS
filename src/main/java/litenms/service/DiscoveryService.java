@@ -10,40 +10,47 @@ import litenms.models.DiscoveryModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscoveryService {
+public class DiscoveryService
+{
 
-    public static boolean addDeviceToDiscovery(DiscoveryModel discoveryModel)
+    PingDevice pingDevice = new PingDevice();
+
+    SSHConnection sshConnection = new SSHConnection();
+
+    DiscoveryDao discoveryDao = new DiscoveryDao();
+
+    public boolean addDeviceToDiscovery(DiscoveryModel discoveryModel)
     {
-        return DiscoveryDao.addDeviceForDiscovery(discoveryModel);
+        return discoveryDao.addDeviceForDiscovery(discoveryModel);
     }
 
-    public static List<DiscoveryModel> getDiscoveryDevices()
+    public List<DiscoveryModel> getDiscoveryDevices()
     {
-        return DiscoveryDao.getDiscoveryDevices();
+        return discoveryDao.getDiscoveryDevices();
     }
 
-    public static boolean deleteDiscoveryRow(int id)
+    public boolean deleteDiscoveryRow(int id)
     {
-        return DiscoveryDao.deleteDiscoveryRow(id);
+        return discoveryDao.deleteDiscoveryRow(id);
     }
 
-    public static DiscoveryModel getDiscoveryRow(int id)
+    public DiscoveryModel getDiscoveryRow(int id)
     {
-        return DiscoveryDao.getDiscoveryRow(id);
+        return discoveryDao.getDiscoveryRow(id);
     }
 
-    public static boolean updateDiscoveryRow(DiscoveryModel discoveryModel)
+    public boolean updateDiscoveryRow(DiscoveryModel discoveryModel)
     {
-        return DiscoveryDao.updateDiscoveryRow(discoveryModel);
+        return discoveryDao.updateDiscoveryRow(discoveryModel);
     }
 
-    public static boolean runDiscovery(int id)
+    public boolean runDiscovery(int id)
     {
         DiscoveryModel model = null;
 
         try
         {
-            model = DiscoveryDao.getDiscoveryRow(id);
+            model = discoveryDao.getDiscoveryRow(id);
 
             if(pingDiscoveryDevice(model))
             {
@@ -62,26 +69,26 @@ public class DiscoveryService {
         return false;
     }
 
-    public static boolean pingDiscoveryDevice(DiscoveryModel model)
+    public boolean pingDiscoveryDevice(DiscoveryModel model)
     {
         String pingData = null;
 
         try
         {
-            pingData = PingDevice.pingDevice(model.getIp());
+            pingData = pingDevice.pingDevice(model.getIp());
 
             if(pingData !=null && !pingData.isEmpty() )
             {
 
                 if(Integer.parseInt(pingData.substring(pingData.indexOf("%")-3,pingData.indexOf("%")).replace(","," ").trim())<=50)
                 {
-                    DiscoveryDao.runDiscoverySuccessfull(model.getId());
+                    discoveryDao.runDiscoverySuccessfull(model.getId());
 
                     return true;
                 }
                 else
                 {
-                    DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+                    discoveryDao.runDiscoveryUnsuccessfull(model.getId());
 
                 }
             }
@@ -93,7 +100,7 @@ public class DiscoveryService {
         return false;
     }
 
-    public static boolean sshDiscoveryDevice(DiscoveryModel model)
+    public boolean sshDiscoveryDevice(DiscoveryModel model)
     {
         Session session = null;
 
@@ -107,18 +114,18 @@ public class DiscoveryService {
 
             commands.add("uname\n");
 
-            session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
+            session = sshConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
             if(session!=null && session.isConnected())
             {
 
-                channel = SSHConnection.getSSHChannel(session);
+                channel = sshConnection.getSSHChannel(session);
 
                 String responseString = "";
 
                 if (channel!=null && channel.isConnected())
                 {
-                    responseString = SSHConnection.runSSHCommands(channel, commands);
+                    responseString = sshConnection.runSSHCommands(channel, commands);
                 }
 
                 output = new ArrayList<>();
@@ -136,13 +143,13 @@ public class DiscoveryService {
 
                 if (sshResult != null && !sshResult.isEmpty() && sshResult.trim().equals("Linux"))
                 {
-                    DiscoveryDao.runDiscoverySuccessfull(model.getId());
+                    discoveryDao.runDiscoverySuccessfull(model.getId());
 
                     return true;
                 }
                 else
                 {
-                    DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+                    discoveryDao.runDiscoveryUnsuccessfull(model.getId());
                 }
             }
         }
@@ -150,7 +157,7 @@ public class DiscoveryService {
         {
             try
             {
-                DiscoveryDao.runDiscoveryUnsuccessfull(model.getId());
+                discoveryDao.runDiscoveryUnsuccessfull(model.getId());
             }
             catch (Exception e1)
             {
@@ -161,7 +168,7 @@ public class DiscoveryService {
         }
         finally
         {
-            SSHConnection.closeSSHSession(session);
+            sshConnection.closeSSHSession(session);
         }
 
         return false;

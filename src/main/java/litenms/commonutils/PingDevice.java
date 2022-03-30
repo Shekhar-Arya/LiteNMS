@@ -2,11 +2,13 @@ package litenms.commonutils;
 
 import java.util.ArrayList;
 
-public class PingDevice {
+public class PingDevice
+{
+    private ArrayList<String> commandList = new ArrayList<String>();
 
-    static ArrayList<String> commandList = new ArrayList<String>();
+    ProcessBuilderUtil processBuilderUtil = new ProcessBuilderUtil();
 
-   public static synchronized String pingDevice(String ip)
+   public String pingDevice(String ip)
    {
 
        String result = "";
@@ -23,7 +25,7 @@ public class PingDevice {
 
            commandList.add(ip);
 
-           result = ProcessBuilderUtil.runCommand(commandList);
+           result = processBuilderUtil.runCommand(commandList);
        }
        catch (Exception e)
        {

@@ -249,14 +249,12 @@
 
         </li><!-- End Monitor Nav -->
 
-<%--
         <li class="nav-item" id="dashboard" style="cursor: pointer">
             <a class="nav-link collapsed">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
---%>
 
     </ul>
 
@@ -298,6 +296,8 @@
 
 <script src="scripts/monitor.js"></script>
 
+<script src="scripts/dashboard.js"></script>
+
 <script src="scripts/ajaxCalls.js"></script>
 
 <script>
@@ -309,6 +309,8 @@
         discovery.loadDiscoveryPage();
 
         monitor.loadMonitorData();
+
+        dashboard.loadDashboardPage();
 
         if(sessionStorage.getItem("page")==undefined)
         {

@@ -10,9 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PollingRunnable implements Runnable{
-
+public class PollingRunnable implements Runnable
+{
     private MonitorModel model;
+
+    PingDevice pingDevice = new PingDevice();
+
+    SSHConnection sshConnection = new SSHConnection();
+
+    PollingService pollingService = new PollingService();
+
+    MonitorDao monitorDao = new MonitorDao();
 
     PollingRunnable(MonitorModel model)
     {
@@ -26,7 +34,7 @@ public class PollingRunnable implements Runnable{
         {
             PollingModel pollingModel = new PollingModel();
 
-            String pingData = PingDevice.pingDevice(model.getIp());
+            String pingData = pingDevice.pingDevice(model.getIp());
 
             if(pingData!=null && !pingData.isEmpty())
             {
@@ -64,21 +72,21 @@ public class PollingRunnable implements Runnable{
 
                         try
                         {
-                            session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
+                            session = sshConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
                             if(session!=null && session.isConnected())
                             {
-                                channel = SSHConnection.getSSHChannel(session);
+                                channel = sshConnection.getSSHChannel(session);
 
                                 if (channel != null && channel.isConnected())
                                 {
-                                    responseString = SSHConnection.runSSHCommands(channel, commands);
+                                    responseString = sshConnection.runSSHCommands(channel, commands);
                                 }
                             }
                         }
                         finally
                         {
-                            SSHConnection.closeSSHSession(session);
+                            sshConnection.closeSSHSession(session);
                         }
 
                         if (responseString!=null && !responseString.isEmpty())
@@ -178,16 +186,21 @@ public class PollingRunnable implements Runnable{
 
                 pollingModel.setDate(formatter.format(new Date()));
 
+                int rowsAffected = 0;
+
                 if (packetLoss > 50)
                 {
-                    MonitorDao.updateMonitorStatus("Down", model.getId());
+                    rowsAffected = monitorDao.updateMonitorStatus("Down", model.getId());
                 }
                 else
                 {
-                    MonitorDao.updateMonitorStatus("Up", model.getId());
+                    rowsAffected = monitorDao.updateMonitorStatus("Up", model.getId());
                 }
 
-                PollingService.addPollingData(pollingModel);
+                if (rowsAffected!=0)
+                {
+                    pollingService.addPollingData(pollingModel);
+                }
             }
         }
         catch (Exception e)

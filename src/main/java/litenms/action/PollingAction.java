@@ -12,13 +12,15 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
 
     private PollingModel model = new PollingModel();
 
+    PollingService pollingService = new PollingService();
+
     public String getMonitorData()
     {
         try
         {
-            PollingModel dataModel = PollingService.getPollingLatestData(model.getMonitor_id());
+            PollingModel dataModel = pollingService.getPollingLatestData(model.getMonitor_id());
 
-            List<PollingModel> dataModelList = PollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());
+            List<PollingModel> dataModelList = pollingService.getPollingLastTwentyFourHourData(model.getMonitor_id());
 
             if(dataModel.getType()==null)
             {
@@ -26,7 +28,7 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
             }
             else
             {
-                dataModel.setAvailability(PollingService.getListForAvailabaility(model.getMonitor_id()));
+                dataModel.setAvailability(pollingService.getListForAvailabaility(model.getMonitor_id()));
 
                 HashMap<String,Object> result = new HashMap<>();
 

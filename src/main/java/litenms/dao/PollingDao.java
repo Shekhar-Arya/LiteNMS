@@ -7,9 +7,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PollingDao {
+public class PollingDao
+{
 
-    public static void addDataOfPolling(PollingModel pollingModel)
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+
+    public void addDataOfPolling(PollingModel pollingModel)
     {
         Connection connection = null;
 
@@ -17,7 +20,7 @@ public class PollingDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("insert into polling (monitor_id,type,avg_rtt,packet_loss,total_memory,used_memory,free_memory,cpu_usage,disk_usage,date,availability) values (?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -51,11 +54,11 @@ public class PollingDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public static PollingModel getPollingLatestData(int id)
+    public PollingModel getPollingLatestData(int id)
     {
         Connection connection = null;
 
@@ -67,7 +70,7 @@ public class PollingDao {
         {
             model =  new PollingModel();
 
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from polling where monitor_id = ? order by date desc limit 1");
 
@@ -104,12 +107,12 @@ public class PollingDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return model;
     }
 
-    public static List<PollingModel> getPollingLastTwentyFourHourData(int id, String startTime,String endTime)
+    public List<PollingModel> getPollingLastTwentyFourHourData(int id, String startTime,String endTime)
     {
         Connection connection = null;
 
@@ -119,7 +122,7 @@ public class PollingDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             pollingModelList = new ArrayList<>();
 
@@ -166,7 +169,7 @@ public class PollingDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return pollingModelList;
     }

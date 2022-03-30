@@ -94,6 +94,12 @@
             <result name="success" type="json"/>
         </action>
 
+        <action name="getDashboardData" class="litenms.action.DashboardAction" method="getDashboardData">
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json"/>
+        </action>
+
+
     </package>
 
 </struts>

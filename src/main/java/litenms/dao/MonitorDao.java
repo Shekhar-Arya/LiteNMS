@@ -10,9 +10,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonitorDao {
+public class MonitorDao
+{
+    DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    public static List<MonitorModel> getMonitorDevices()
+    public List<MonitorModel> getMonitorDevices()
     {
         Connection connection = null;
 
@@ -22,7 +24,7 @@ public class MonitorDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             monitorModels = new ArrayList<>();
 
@@ -53,14 +55,14 @@ public class MonitorDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return monitorModels;
     }
 
 
 
-    public static boolean addDeviceToMonitor(DiscoveryModel discoveryModel)
+    public boolean addDeviceToMonitor(DiscoveryModel discoveryModel)
     {
         Connection connection = null;
 
@@ -68,7 +70,7 @@ public class MonitorDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             if(getDeviceFromMonitor(discoveryModel.getIp(),discoveryModel.getType()).getIp() == null)
             {
@@ -101,13 +103,13 @@ public class MonitorDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
     }
 
 
 
-    public static MonitorModel getDeviceFromMonitor(String ip, String type)
+    public MonitorModel getDeviceFromMonitor(String ip, String type)
     {
         Connection connection = null;
 
@@ -117,7 +119,7 @@ public class MonitorDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             model = new MonitorModel();
 
@@ -148,20 +150,22 @@ public class MonitorDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
         return model;
     }
 
-    public static void updateMonitorStatus(String status, int id)
+    public int updateMonitorStatus(String status, int id)
     {
         Connection connection = null;
 
         PreparedStatement statement = null;
 
+        int rowsAffected = 0;
+
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("update monitor set status = ? where id = ?");
 
@@ -169,7 +173,7 @@ public class MonitorDao {
 
             statement.setInt(2,id);
 
-            statement.executeUpdate();
+            rowsAffected = statement.executeUpdate();
 
             CacheStore.setCacheList("monitorList",getMonitorDevices());
         }
@@ -179,11 +183,12 @@ public class MonitorDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
+        return rowsAffected;
     }
 
-    public static boolean deleteMonitorData(int id)
+    public boolean deleteMonitorData(int id)
     {
         Connection connection = null;
 
@@ -191,7 +196,7 @@ public class MonitorDao {
 
         try
         {
-            connection = DatabaseConnection.getConnection();
+            connection = databaseConnection.getConnection();
 
             statement = connection.prepareStatement("delete from monitor where id = ?");
 
@@ -217,8 +222,42 @@ public class MonitorDao {
         }
         finally
         {
-            DatabaseConnection.closeConnection(connection,statement);
+            databaseConnection.closeConnection(connection,statement);
         }
+    }
+
+    public String getMonitorIpById(int id)
+    {
+        Connection connection = null;
+
+        PreparedStatement statement = null;
+
+        String ip = "";
+
+        try
+        {
+            connection = databaseConnection.getConnection();
+
+            statement = connection.prepareStatement("select ip from monitor where id = ?");
+
+            statement.setInt(1,id);
+
+            ResultSet set = statement.executeQuery();
+
+            while (set.next())
+            {
+                ip = set.getString(1);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            databaseConnection.closeConnection(connection,statement);
+        }
+    return ip;
     }
 
 }
