@@ -1,5 +1,7 @@
 var moniterInterval;
 
+var dashboardInterval;
+
 let datatable ;
 
     let discovery = {
@@ -12,6 +14,8 @@ let datatable ;
         {
 
             clearInterval(moniterInterval);
+
+            clearInterval(dashboardInterval);
 
             discoverySelector.children("a").removeClass("collapsed");
 

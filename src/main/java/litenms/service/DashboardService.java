@@ -1,24 +1,18 @@
 package litenms.service;
 
-import litenms.commonutils.CacheStore;
 import litenms.dao.DashboardDao;
 import litenms.dao.MonitorDao;
-import litenms.models.MonitorModel;
-
+import litenms.models.DashboardModel;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class DashboardService
 {
 
     DashboardDao dashboardDao = new DashboardDao();
-
-    MonitorDao monitorDao = new MonitorDao();
 
     public HashMap<String,Integer> getTotalDevicesByStatus()
     {
@@ -58,43 +52,25 @@ public class DashboardService
 
         try
         {
-            List<String> columns = new ArrayList<>();
-
-            columns.add("used_memory");
-
-            columns.add("disk_usage");
-
-            columns.add("cpu_usage");
-
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
             String endTime = format.format(new Date());
 
-            String startTime = format.format(new Date(new Date().getTime()- TimeUnit.HOURS.toMillis(24)));
+            String startTime = format.format(new Date(new Date().getTime()- TimeUnit.HOURS.toMillis(1)));
 
             result = new HashMap<>();
 
-            for (String column: columns)
-            {
-                HashMap<Integer,Double> temp = dashboardDao.getTopDataForDashboard(column,startTime,endTime);
+            List<DashboardModel> dashboardModelsOfUsedMemory = dashboardDao.getTopDataOfUsedMemory(startTime,endTime);
 
-                HashMap<String,Double> output = new HashMap<>();
+            List<DashboardModel> dashboardModelsOfCpuUsage = dashboardDao.getTopDataOfCpuUsage(startTime,endTime);
 
-                String ip = "";
+            List<DashboardModel> dashboardModelsOfDiskUsage = dashboardDao.getTopDataOfDiskUsage(startTime,endTime);
 
-                for (int id : temp.keySet())
-                {
-                    ip = monitorDao.getMonitorIpById(id);
+            result.put("cpu_usage",dashboardModelsOfCpuUsage);
 
-                    if (ip!=null && !ip.isEmpty())
-                    {
-                        output.put(ip,temp.get(id));
-                    }
-                }
+            result.put("disk_usage",dashboardModelsOfDiskUsage);
 
-                result.put(column,output);
-
-            }
+            result.put("used_memory",dashboardModelsOfUsedMemory);
 
         }
         catch (Exception e)

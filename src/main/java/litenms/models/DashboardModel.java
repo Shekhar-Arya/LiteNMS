@@ -8,11 +8,7 @@ public class DashboardModel
 
     private int monitorId;
 
-    private double diskUsage;
-
-    private double cpuUsage;
-
-    private double usedMemory;
+    private double value;
 
     private String ip;
 
@@ -24,28 +20,12 @@ public class DashboardModel
         this.monitorId = monitorId;
     }
 
-    public double getDiskUsage() {
-        return diskUsage;
+    public double getValue() {
+        return value;
     }
 
-    public void setDiskUsage(double diskUsage) {
-        this.diskUsage = diskUsage;
-    }
-
-    public double getCpuUsage() {
-        return cpuUsage;
-    }
-
-    public void setCpuUsage(double cpuUsage) {
-        this.cpuUsage = cpuUsage;
-    }
-
-    public double getUsedMemory() {
-        return usedMemory;
-    }
-
-    public void setUsedMemory(double usedMemory) {
-        this.usedMemory = usedMemory;
+    public void setValue(double value) {
+        this.value = value;
     }
 
     public String getIp() {

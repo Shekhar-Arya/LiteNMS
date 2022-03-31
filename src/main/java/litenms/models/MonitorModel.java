@@ -2,8 +2,8 @@ package litenms.models;
 
 import java.util.HashMap;
 
-public class MonitorModel {
-
+public class MonitorModel
+{
     private int id;
 
     private String ip;

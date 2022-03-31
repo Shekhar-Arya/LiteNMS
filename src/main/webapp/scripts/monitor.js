@@ -6,6 +6,9 @@ let monitor =
 
         monitorSelector.click(function ()
         {
+
+            clearInterval(dashboardInterval);
+
             monitorSelector.children("a").removeClass("collapsed");
 
             $("#discovery").children("a").addClass("collapsed");
