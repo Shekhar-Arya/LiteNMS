@@ -5,10 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
-
-//    select max(avg_rtt), monitor_id from polling where type = 'Ping' and date between '28/03/2022 15:56:42' and '29/03/2022 15:56:42' group by monitor_id order by max(avg_rtt) desc limit 5;
-
+public class DatabaseConnection
+{
     static
     {
         try

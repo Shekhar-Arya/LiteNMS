@@ -40,19 +40,11 @@ let dashboard = {
     {
         let data = request.data.result;
 
-/*
-        console.log(JSON.stringify(data));
-*/
-
         $("#totalDown").text(data.totalStatusData.Down);
 
         $("#totalUp").text(data.totalStatusData.Up);
 
         $("#totalUnknown").text(data.totalStatusData.Unknown);
-
-/*
-        console.log(JSON.stringify(Object.keys(data.topFiveData.used_memory)));
-*/
 
         let cpuHtmlData = '';
 
@@ -60,7 +52,6 @@ let dashboard = {
         {
             let usedCpuUsage = Math.round(100-v.value);
             cpuHtmlData += '<li class="list-group-item p-0 m-0 pb-3 pt-3"> <div class="container-fluid p-0 m-0"> <div class="row"> <div class="col">'+v.ip+'</div> <div class="col"> <div class="d-flex flex-row-reverse">'+usedCpuUsage+'%</div>  <div class="progress mt-3"> <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: '+usedCpuUsage+'%" aria-valuenow="'+usedCpuUsage+'" aria-valuemin="0" aria-valuemax="100"></div></div>  </div> </div>    </div> </li>'
-            console.log(JSON.stringify(v));
         });
 
         $("#cpuUsage").html(cpuHtmlData);
@@ -71,7 +62,6 @@ let dashboard = {
         {
             let usedDiskUsage = Math.round(v.value);
             diskHtmlData += '<li class="list-group-item p-0 m-0 pb-3 pt-3"> <div class="container-fluid p-0 m-0"> <div class="row"> <div class="col">'+v.ip+'</div> <div class="col"> <div class="d-flex flex-row-reverse">'+usedDiskUsage+'%</div>  <div class="progress mt-3"> <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: '+usedDiskUsage+'%" aria-valuenow="'+usedDiskUsage+'" aria-valuemin="0" aria-valuemax="100"></div></div>  </div> </div>    </div> </li>'
-            console.log(JSON.stringify(v));
         });
 
         $("#diskUsage").html(diskHtmlData);
@@ -82,7 +72,6 @@ let dashboard = {
         {
             let usedMemory = v.value;
             usedMemoryHtmlData += '<li class="list-group-item p-0 m-0 pb-3 pt-3"> <div class="container-fluid p-0 m-0"> <div class="row"> <div class="col">'+v.ip+'</div> <div class="col"> <div class="d-flex flex-row-reverse">'+usedMemory+' GB</div>  </div> </div>    </div> </li>'
-            console.log(JSON.stringify(v));
         });
 
         $("#usedMemory").html(usedMemoryHtmlData);

@@ -13,7 +13,7 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
 
     private Map<String,Object> sessionMap;
 
-    LoginService loginService = new LoginService();
+    private LoginService loginService = new LoginService();
 
     public String login()
     {

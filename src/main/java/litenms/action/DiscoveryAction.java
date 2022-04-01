@@ -8,13 +8,13 @@ import litenms.service.MonitorService;
 import java.util.HashMap;
 import java.util.List;
 
-public class DiscoveryAction extends ActionSupport implements ModelDriven<DiscoveryModel> {
-
+public class DiscoveryAction extends ActionSupport implements ModelDriven<DiscoveryModel>
+{
     private DiscoveryModel discoveryModel = new DiscoveryModel();
 
-    DiscoveryService discoveryService = new DiscoveryService();
+    private DiscoveryService discoveryService = new DiscoveryService();
 
-    MonitorService monitorService = new MonitorService();
+    private MonitorService monitorService = new MonitorService();
 
     public String addDeviceForDiscovery()
     {

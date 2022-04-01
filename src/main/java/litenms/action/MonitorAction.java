@@ -14,15 +14,13 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 {
     private MonitorModel monitorModel = new MonitorModel();
 
-    MonitorService monitorService = new MonitorService();
+    private MonitorService monitorService = new MonitorService();
 
     public String getMonitorDevices()
     {
         try
         {
             HashMap<String,Object> result = new HashMap<>();
-
-
 
             ConcurrentHashMap<String,Object> temp = CacheStore.getCacheList();
 

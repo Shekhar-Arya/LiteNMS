@@ -1,9 +1,8 @@
 package litenms.service;
 
 import litenms.dao.DashboardDao;
-import litenms.dao.MonitorDao;
 import litenms.models.DashboardModel;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class DashboardService
 {
 
-    DashboardDao dashboardDao = new DashboardDao();
+    private DashboardDao dashboardDao = new DashboardDao();
 
     public HashMap<String,Integer> getTotalDevicesByStatus()
     {
@@ -52,11 +51,10 @@ public class DashboardService
 
         try
         {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-            String endTime = format.format(new Date());
+            Timestamp endTime = new Timestamp(new Date().getTime());
 
-            String startTime = format.format(new Date(new Date().getTime()- TimeUnit.HOURS.toMillis(1)));
+            Timestamp startTime = new Timestamp(new Date(new Date().getTime()- TimeUnit.HOURS.toMillis(1)).getTime());
 
             result = new HashMap<>();
 

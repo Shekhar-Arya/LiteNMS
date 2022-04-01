@@ -12,7 +12,7 @@ public class PollingAction extends ActionSupport implements ModelDriven<PollingM
 
     private PollingModel model = new PollingModel();
 
-    PollingService pollingService = new PollingService();
+    private PollingService pollingService = new PollingService();
 
     public String getMonitorData()
     {

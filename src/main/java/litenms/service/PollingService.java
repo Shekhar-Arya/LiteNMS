@@ -2,6 +2,8 @@ package litenms.service;
 
 import litenms.dao.PollingDao;
 import litenms.models.PollingModel;
+
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PollingService
 {
-    PollingDao pollingDao = new PollingDao();
+    private PollingDao pollingDao = new PollingDao();
 
     public void addPollingData(PollingModel model)
     {
@@ -30,7 +32,7 @@ public class PollingService
         {
             result = new ArrayList<>();
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             long millis = 0;
 
@@ -40,9 +42,10 @@ public class PollingService
 
             for (int i = 24; i > 0; i--)
             {
-                String startTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i)));
 
-                String endTime = formatter.format(new Date(millis- TimeUnit.HOURS.toMillis(i-1)));
+                Timestamp startTime = new Timestamp(new Date(millis- TimeUnit.HOURS.toMillis(i)).getTime());
+
+                Timestamp endTime = new Timestamp(new Date(millis- TimeUnit.HOURS.toMillis(i-1)).getTime());
 
                 List<PollingModel>  models = pollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
 
@@ -87,11 +90,12 @@ public class PollingService
         {
             int availability = 0;
 
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            long currentTimeInMillis = new Date().getTime();
 
-            String endTime = format.format(new Date());
+            Timestamp endTime = new Timestamp(currentTimeInMillis);
 
-            String startTime = format.format(new Date(new Date().getTime()-TimeUnit.HOURS.toMillis(24)));
+
+            Timestamp startTime = new Timestamp(new Date(currentTimeInMillis-TimeUnit.HOURS.toMillis(24)).getTime());
 
             List<PollingModel> dataForAvailability = pollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
 

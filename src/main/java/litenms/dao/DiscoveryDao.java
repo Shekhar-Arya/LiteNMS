@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DiscoveryDao
 {
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
     public boolean addDeviceForDiscovery(DiscoveryModel discoveryModel)
     {

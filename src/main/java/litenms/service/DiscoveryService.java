@@ -6,18 +6,17 @@ import litenms.commonutils.PingDevice;
 import litenms.commonutils.SSHConnection;
 import litenms.dao.DiscoveryDao;
 import litenms.models.DiscoveryModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DiscoveryService
 {
 
-    PingDevice pingDevice = new PingDevice();
+    private PingDevice pingDevice = new PingDevice();
 
-    SSHConnection sshConnection = new SSHConnection();
+    private SSHConnection sshConnection = new SSHConnection();
 
-    DiscoveryDao discoveryDao = new DiscoveryDao();
+    private DiscoveryDao discoveryDao = new DiscoveryDao();
 
     public boolean addDeviceToDiscovery(DiscoveryModel discoveryModel)
     {

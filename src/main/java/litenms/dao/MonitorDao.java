@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MonitorDao
 {
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
     public List<MonitorModel> getMonitorDevices()
     {

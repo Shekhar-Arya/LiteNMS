@@ -1,16 +1,15 @@
 package litenms.dao;
 
 import litenms.models.PollingModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PollingDao
 {
 
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
     public void addDataOfPolling(PollingModel pollingModel)
     {
@@ -42,7 +41,7 @@ public class PollingDao
 
             statement.setDouble(9,pollingModel.getDiskSpaceUsage());
 
-            statement.setString(10,pollingModel.getDate());
+            statement.setTimestamp(10,Timestamp.valueOf(pollingModel.getDate()));
 
             statement.setInt(11,pollingModel.getAvailability());
 
@@ -96,7 +95,9 @@ public class PollingDao
 
                 model.setDiskSpaceUsage(set.getDouble(10));
 
-                model.setDate(set.getString(11));
+                Timestamp timestamp = set.getTimestamp(11);
+
+                model.setDate(timestamp.toString());
 
                 model.setAvailability(set.getInt(12));
             }
@@ -112,7 +113,7 @@ public class PollingDao
         return model;
     }
 
-    public List<PollingModel> getPollingLastTwentyFourHourData(int id, String startTime,String endTime)
+    public List<PollingModel> getPollingLastTwentyFourHourData(int id, Timestamp startTime, Timestamp endTime)
     {
         Connection connection = null;
 
@@ -130,9 +131,9 @@ public class PollingDao
 
             statement.setInt(1,id);
 
-            statement.setString(2,startTime);
+            statement.setTimestamp(2,startTime);
 
-            statement.setString(3,endTime);
+            statement.setTimestamp(3,endTime);
 
             ResultSet set = statement.executeQuery();
 
@@ -156,7 +157,9 @@ public class PollingDao
 
                 model.setDiskSpaceUsage(set.getDouble(10));
 
-                model.setDate(set.getString(11));
+                Timestamp timestamp = set.getTimestamp(11);
+
+                model.setDate(timestamp.toString());
 
                 model.setAvailability(set.getInt(12));
 

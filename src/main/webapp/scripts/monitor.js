@@ -190,6 +190,8 @@ let monitor =
                 config
             );
 
+            console.log(dataModel.availability);
+
             const donustChart = new Chart($('#doughnutChart'), {
 
                 type: 'doughnut',

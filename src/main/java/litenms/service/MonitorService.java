@@ -10,9 +10,9 @@ import java.util.List;
 public class MonitorService
 {
 
-    MonitorDao monitorDao = new MonitorDao();
+    private MonitorDao monitorDao = new MonitorDao();
 
-    DiscoveryDao discoveryDao = new DiscoveryDao();
+    private DiscoveryDao discoveryDao = new DiscoveryDao();
 
     public boolean addDeviceToMonitor(int id)
     {

@@ -14,9 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SchedulePollingJob implements Job
 {
 
-    DiscoveryDao discoveryDao = new DiscoveryDao();
+    private DiscoveryDao discoveryDao = new DiscoveryDao();
 
-    MonitorDao monitorDao = new MonitorDao();
+    private MonitorDao monitorDao = new MonitorDao();
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext)

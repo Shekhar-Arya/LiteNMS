@@ -6,7 +6,7 @@ public class PingDevice
 {
     private ArrayList<String> commandList = new ArrayList<String>();
 
-    ProcessBuilderUtil processBuilderUtil = new ProcessBuilderUtil();
+    private ProcessBuilderUtil processBuilderUtil = new ProcessBuilderUtil();
 
    public String pingDevice(String ip)
    {

@@ -8,7 +8,7 @@ import java.util.Base64;
 
 public class LoginDao
 {
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
     public boolean checkUserExist(LoginModel loginModel)
     {

@@ -12,7 +12,7 @@ public class DashboardAction extends ActionSupport implements ModelDriven<Dashbo
 
     private DashboardModel model = new DashboardModel();
 
-    DashboardService dashboardService = new DashboardService();
+    private DashboardService dashboardService = new DashboardService();
 
     public String getDashboardData()
     {

@@ -5,6 +5,7 @@ import litenms.models.DashboardModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public class DashboardDao
 {
 
-    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
     public HashMap<String,Integer> getTotalDevicesByStatus()
     {
@@ -49,7 +50,7 @@ public class DashboardDao
         return result;
     }
 
-    public List<DashboardModel> getTopDataOfUsedMemory(String startDate, String endDate)
+    public List<DashboardModel> getTopDataOfUsedMemory(Timestamp startDate, Timestamp endDate)
     {
         Connection connection = null;
 
@@ -63,9 +64,9 @@ public class DashboardDao
 
             statement = connection.prepareStatement("select max(polling.used_memory), polling.monitor_id, monitor.ip from polling, monitor where polling.monitor_id=monitor.id and polling.type = 'SSH' and polling.cpu_usage!=0 and polling.date between ? and ? group by polling.monitor_id order by max(polling.used_memory) desc limit 5;");
 
-            statement.setString(1,startDate);
+            statement.setTimestamp(1,startDate);
 
-            statement.setString(2,endDate);
+            statement.setTimestamp(2,endDate);
 
             ResultSet set = statement.executeQuery();
 
@@ -96,7 +97,7 @@ public class DashboardDao
         return models;
     }
 
-    public List<DashboardModel> getTopDataOfDiskUsage(String startDate, String endDate)
+    public List<DashboardModel> getTopDataOfDiskUsage(Timestamp startDate, Timestamp endDate)
     {
         Connection connection = null;
 
@@ -110,9 +111,9 @@ public class DashboardDao
 
             statement = connection.prepareStatement("select max(polling.disk_usage), polling.monitor_id, monitor.ip from polling, monitor where polling.monitor_id=monitor.id and polling.type = 'SSH' and polling.cpu_usage!=0 and polling.date between ? and ? group by polling.monitor_id order by max(polling.disk_usage) desc limit 5;");
 
-            statement.setString(1,startDate);
+            statement.setTimestamp(1,startDate);
 
-            statement.setString(2,endDate);
+            statement.setTimestamp(2,endDate);
 
             ResultSet set = statement.executeQuery();
 
@@ -143,7 +144,7 @@ public class DashboardDao
         return models;
     }
 
-    public List<DashboardModel> getTopDataOfCpuUsage(String startDate, String endDate)
+    public List<DashboardModel> getTopDataOfCpuUsage(Timestamp startDate, Timestamp endDate)
     {
         Connection connection = null;
 
@@ -157,9 +158,9 @@ public class DashboardDao
 
             statement = connection.prepareStatement("select min(polling.cpu_usage), polling.monitor_id, monitor.ip from polling, monitor where polling.monitor_id=monitor.id and polling.type = 'SSH' and polling.cpu_usage!=0 and polling.date between ? and ? group by polling.monitor_id order by min(polling.cpu_usage) asc limit 5;");
 
-            statement.setString(1,startDate);
+            statement.setTimestamp(1,startDate);
 
-            statement.setString(2,endDate);
+            statement.setTimestamp(2,endDate);
 
             ResultSet set = statement.executeQuery();
 

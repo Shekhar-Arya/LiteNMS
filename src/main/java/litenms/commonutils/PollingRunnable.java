@@ -6,7 +6,8 @@ import litenms.dao.MonitorDao;
 import litenms.models.MonitorModel;
 import litenms.models.PollingModel;
 import litenms.service.PollingService;
-import java.text.SimpleDateFormat;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,13 +15,13 @@ public class PollingRunnable implements Runnable
 {
     private MonitorModel model;
 
-    PingDevice pingDevice = new PingDevice();
+    private PingDevice pingDevice = new PingDevice();
 
-    SSHConnection sshConnection = new SSHConnection();
+    private SSHConnection sshConnection = new SSHConnection();
 
-    PollingService pollingService = new PollingService();
+    private PollingService pollingService = new PollingService();
 
-    MonitorDao monitorDao = new MonitorDao();
+    private MonitorDao monitorDao = new MonitorDao();
 
     PollingRunnable(MonitorModel model)
     {
@@ -162,8 +163,6 @@ public class PollingRunnable implements Runnable
                     }
                 }
 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
                 pollingModel.setMonitor_id(model.getId());
 
                 pollingModel.setAvgRtt(Double.parseDouble(String.format("%.2f", avgRtt)));
@@ -184,7 +183,9 @@ public class PollingRunnable implements Runnable
 
                 pollingModel.setType(model.getType());
 
-                pollingModel.setDate(formatter.format(new Date()));
+                Timestamp timestamp = new Timestamp(new Date().getTime());
+
+                pollingModel.setDate(timestamp.toString());
 
                 int rowsAffected = 0;
 
