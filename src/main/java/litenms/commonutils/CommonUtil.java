@@ -7,6 +7,8 @@ public class CommonUtil
 {
     private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>();
 
+    private static LinkedBlockingQueue<Integer> runDiscoveryList = new LinkedBlockingQueue<>();
+
     public static void addModel(MonitorModel model)
     {
         try
@@ -34,5 +36,34 @@ public class CommonUtil
 
         return model;
     }
+
+    public static void addDiscoveryId(int id)
+    {
+        try
+        {
+            runDiscoveryList.put(id);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static Integer takeDiscoveryId()
+    {
+        Integer id = null;
+
+        try
+        {
+            id =  runDiscoveryList.take();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
 
 }

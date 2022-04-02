@@ -300,6 +300,8 @@
 
 <script src="scripts/ajaxCalls.js"></script>
 
+<script src="scripts/websocket.js"></script>
+
 <script>
 
     $(document).ready(function (){

@@ -46,6 +46,8 @@ let datatable ;
             discovery.runDiscoveryDevice();
 
             discovery.addDeviceToMonitor();
+
+            websocket.websocketForDiscovery();
         });
     },
 
@@ -364,7 +366,7 @@ let datatable ;
         $("#header").removeClass("headerLoading");
 */
 
-        console.log(request.data.message);
+        //console.log(request.data.message);
 
         $(".displayMessageBody").text(request.data.message);
 

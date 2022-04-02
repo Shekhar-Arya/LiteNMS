@@ -2,6 +2,7 @@ package litenms.action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import litenms.commonutils.CommonUtil;
 import litenms.models.DiscoveryModel;
 import litenms.service.DiscoveryService;
 import litenms.service.MonitorService;
@@ -118,14 +119,18 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-            if(discoveryService.runDiscovery(discoveryModel.getId()))
+            CommonUtil.addDiscoveryId(discoveryModel.getId());
+
+            discoveryModel.setMessage("Device Added to Queue for Discovery");
+            
+/*            if(discoveryService.runDiscovery(discoveryModel.getId()))
             {
                 discoveryModel.setMessage("Discovery Successful");
             }
             else
             {
                 discoveryModel.setMessage("Discovery Unsuccessful");
-            }
+            }*/
         }
         catch (Exception e)
         {

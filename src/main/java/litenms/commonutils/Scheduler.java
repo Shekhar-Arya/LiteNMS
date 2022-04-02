@@ -17,6 +17,10 @@ public class Scheduler extends HttpServlet
 
             thread.start();
 
+            Thread thread1 = new Thread(new TakeDataIdForDiscovery());
+
+            thread1.start();
+
             schedulerFactory = new StdSchedulerFactory();
 
             org.quartz.Scheduler scheduler = schedulerFactory.getScheduler();
