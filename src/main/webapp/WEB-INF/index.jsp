@@ -48,6 +48,10 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
 
+<%--    <link href="ExternalStylingAndLibraries/assets/css/toastr.css" rel="stylesheet"/>--%>
+
+    <link href="ExternalStylingAndLibraries/iziToast-master/dist/css/iziToast.min.css" rel="stylesheet"/>
+
     <!-- Template Main CSS File -->
     <link href="ExternalStylingAndLibraries/assets/css/style.css" rel="stylesheet">
 
@@ -86,7 +90,7 @@
         {
             display: block;
 
-            position: absolute;
+            position: fixed;
 
             top:0;
 
@@ -98,7 +102,8 @@
 
             height: 100vh;
 
-            background-color: rgba(0, 0, 0, 0.5);
+            /*background-color: rgba(0, 0, 0, 0.5);*/
+
         }
 
         .headerLoading
@@ -225,17 +230,17 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item" id="discovery" style="cursor: pointer">
+        <li class="nav-item" id="dashboard" style="cursor: pointer">
 
-            <a class="nav-link ">
+            <a class="nav-link collapsed">
 
-                <i class="bi bi-search"></i>
+                <i class="bi bi-grid"></i>
 
-                <span>Discovery</span>
+                <span>Dashboard</span>
 
             </a>
+        </li><!-- End Dashboard Nav -->
 
-        </li><!-- End Monitor Discovery Nav -->
 
         <li class="nav-item"  id="monitor" style="cursor: pointer">
 
@@ -249,12 +254,18 @@
 
         </li><!-- End Monitor Nav -->
 
-        <li class="nav-item" id="dashboard" style="cursor: pointer">
-            <a class="nav-link collapsed">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+        <li class="nav-item" id="discovery" style="cursor: pointer">
+
+            <a class="nav-link ">
+
+                <i class="bi bi-search"></i>
+
+                <span>Discovery</span>
+
             </a>
-        </li><!-- End Dashboard Nav -->
+
+        </li><!-- End Monitor Discovery Nav -->
+
 
     </ul>
 
@@ -290,6 +301,10 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+<%--<script src="ExternalStylingAndLibraries/assets/js/toastr.min.js"></script>--%>
+
+<script src="ExternalStylingAndLibraries/iziToast-master/dist/js/iziToast.min.js" type="text/javascript"></script>
+
 <script src="scripts/login.js"></script>
 
 <script src="scripts/discovery.js"></script>
@@ -316,7 +331,7 @@
 
         if(sessionStorage.getItem("page")==undefined)
         {
-            $("#discovery").click();
+            $("#dashboard").click();
         }
         else
         {

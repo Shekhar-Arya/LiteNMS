@@ -378,11 +378,34 @@ let monitor =
 
     onDeleteMonitorDataSuccess: function (request)
     {
+/*
         $('.modal-dialog').removeClass("modal-fullscreen");
 
         $('.displayMessageBody').html(request.data.message);
 
         $('#displayMessageButton').click();
+*/
+
+        let data = request.data.message;
+
+        if(data.includes("Unsuccessfull"))
+        {
+            iziToast.error({
+                title: 'Monitor',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+        else
+        {
+            iziToast.success({
+                title: 'Monitor',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
 
         monitor.getMonitorDevices();
     },

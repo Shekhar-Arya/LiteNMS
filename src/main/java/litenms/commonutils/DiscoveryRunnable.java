@@ -18,16 +18,20 @@ public class DiscoveryRunnable implements Runnable
     @Override
     public void run()
     {
-        System.out.println(discoveryService.runDiscovery(id));
-
-        if (discoveryService.runDiscovery(id))
+        try
         {
-            socket.handleMessage("Discovery Successfull of "+id);
+            if (discoveryService.runDiscovery(id))
+            {
+                socket.sendMessage("Discovery Successfull");
+            }
+            else
+            {
+                socket.sendMessage("Discovery Unsuccessfull");
+            }
         }
-        else
+        catch (Exception e)
         {
-            socket.handleMessage("Discovery Unsuccessfull of "+id);
+            e.printStackTrace();
         }
-
     }
 }

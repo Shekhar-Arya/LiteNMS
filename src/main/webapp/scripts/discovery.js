@@ -23,7 +23,7 @@ let datatable ;
 
             $("#dashboard").children("a").addClass("collapsed");
 
-            $("#main").html('<div class="pagetitle row mb-5 mt-3"> <h1 class="col-lg-10 col-sm-8">Discovery Table</h1> <div class="col-lg-2 col-sm-4"> <button type="button" class="btn btn-secondary" id="addDevice" data-bs-toggle="modal" data-bs-target="#basicModal">Add Device</button> </div> </div><!-- End Page Title --> <section class="section"> <div class="row"> <div class="col-lg-12"> <div class="card"> <div class="card-body"> <!-- Table with stripped rows --> <table class="display cell-border" id="discoveryTable"> <thead> <tr> <th scope="col">Id</th> <th scope="col">Name</th> <th scope="col">Ip</th> <th scope="col">Type</th> <th scope="col">Action</th> </tr></thead> <tbody id="discoveryTableBody"> </tbody>  </table> <!-- End Table with stripped rows --> </div> </div> </div> </div> </section> <div class="modal fade" id="basicModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Add Device</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <form class="row g-3 needs-validation" id="discoveryForm"> <div class="col-md-12"> <label for="name" class="form-label">Name</label>  <input type="text" class="form-control" id="name" required="required"/> </div> <div class="col-md-6"> <label for="ip" class="form-label">IP/Host</label> <input type="text" class="form-control" id="ip" required/></div> <div class="col-md-6"> <label for="type" class="form-label">Type</label> <select id="type" class="form-select" required> <option selected>Ping</option> <option>SSH</option> </select> </div> <div class="col-md-6" id="usernameDiv" style="display: none"> <label for="username" class="form-label">Username</label> <input type="text" class="form-control" id="username"/> </div> <div class="col-md-6" id="passwordDiv" style="display: none"> <label for="password" class="form-label">Password</label> <input id="password" type="password" class="form-control"/></div> <div class="text-center"> <button type="submit" class="btn btn-primary">Submit</button> <button type="reset" class="btn btn-secondary">Reset</button> </div> </form></div> <div class="modal-footer"> <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div> </div> <button id="editForm" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDiscoveryModal" style="display: none;"></button><div class="modal fade" id="editDiscoveryModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Edit Device</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <form class="row g-3 needs-validation" id="discoveryFormEdit"> <div class="col-md-12" style="display: none;"> <label for="editid" class="form-label">Id</label> <input type="text" class="form-control" id="editid" required="required" value="" disabled/> </div> <div class="col-md-12"> <label for="editname" class="form-label">Name</label> <input type="text" class="form-control" id="editname" required="required"/> </div> <div class="col-md-6"> <label for="editip" class="form-label">IP/Host</label> <input type="text" class="form-control" id="editip" required/></div> <div class="col-md-6"> <label for="edittype" class="form-label">Type</label> <select id="edittype" class="form-select" required disabled> <option selected>Ping</option> <option>SSH</option> </select> </div> <div class="col-md-6" id="editusernameDiv" style="display: none;"> <label for="editusername" class="form-label">Username</label> <input type="text" class="form-control" id="editusername"/> </div> <div class="col-md-6" id="editpasswordDiv" style="display: none;"> <label for="editpassword" class="form-label">Password</label> <input id="editpassword" type="password" class="form-control"/></div> <div class="text-center"> <button type="submit" class="btn btn-primary">Submit</button> <button type="reset" class="btn btn-secondary" style="display: none;">Reset</button> </div> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div></div><!-- End Basic Modal--> <button id="displayMessageButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#displayMessageModal" style="display: none;"></button><div class="modal fade" id="displayMessageModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Action Message</h5> <button id="closeMessageButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body displayMessageBody"> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div></div><!-- End Basic Modal--> <div id="loading" class="d-flex justify-content-center align-items-center"> <div class="spinner-border text-primary" style="width: 7rem; height: 7rem; border-width: 5px; display: none;" role="status"> <span class="visually-hidden">Loading...</span> </div></div>');
+            $("#main").html('<div class="pagetitle row mb-5 mt-3"> <h1 class="col-lg-10 col-sm-8">Discovery Table</h1> <div class="col-lg-2 col-sm-4"> <button type="button" class="btn btn-secondary" id="addDevice" data-bs-toggle="modal" data-bs-target="#basicModal">Add Device</button> </div> </div><!-- End Page Title --> <section class="section"> <div class="row"> <div class="col-lg-12"> <div class="card"> <div class="card-body"> <!-- Table with stripped rows --> <table class="display cell-border" id="discoveryTable"> <thead> <tr> <th scope="col">Id</th> <th scope="col">Name</th> <th scope="col">Ip</th> <th scope="col">Type</th> <th scope="col">Action</th> </tr></thead> <tbody id="discoveryTableBody"> </tbody>  </table> <!-- End Table with stripped rows --> </div> </div> </div> </div> </section> <div class="modal fade" id="basicModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Add Device</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <form class="row g-3 needs-validation" id="discoveryForm"> <div class="col-md-12"> <label for="name" class="form-label">Name</label>  <input type="text" class="form-control" id="name" required="required"/> </div> <div class="col-md-6"> <label for="ip" class="form-label">IP/Host</label> <input type="text" class="form-control" id="ip" required/></div> <div class="col-md-6"> <label for="type" class="form-label">Type</label> <select id="type" class="form-select" required> <option selected>Ping</option> <option>SSH</option> </select> </div> <div class="col-md-6" id="usernameDiv" style="display: none"> <label for="username" class="form-label">Username</label> <input type="text" class="form-control" id="username"/> </div> <div class="col-md-6" id="passwordDiv" style="display: none"> <label for="password" class="form-label">Password</label> <input id="password" type="password" class="form-control"/></div> <div class="text-center"> <button type="submit" class="btn btn-primary">Submit</button> <button type="reset" class="btn btn-secondary">Reset</button> </div> </form></div> <div class="modal-footer"> <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div> </div> <button id="editForm" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDiscoveryModal" style="display: none;"></button><div class="modal fade" id="editDiscoveryModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Edit Device</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <form class="row g-3 needs-validation" id="discoveryFormEdit"> <div class="col-md-12" style="display: none;"> <label for="editid" class="form-label">Id</label> <input type="text" class="form-control" id="editid" required="required" value="" disabled/> </div> <div class="col-md-12"> <label for="editname" class="form-label">Name</label> <input type="text" class="form-control" id="editname" required="required"/> </div> <div class="col-md-6"> <label for="editip" class="form-label">IP/Host</label> <input type="text" class="form-control" id="editip" required/></div> <div class="col-md-6"> <label for="edittype" class="form-label">Type</label> <select id="edittype" class="form-select" required disabled> <option selected>Ping</option> <option>SSH</option> </select> </div> <div class="col-md-6" id="editusernameDiv" style="display: none;"> <label for="editusername" class="form-label">Username</label> <input type="text" class="form-control" id="editusername"/> </div> <div class="col-md-6" id="editpasswordDiv" style="display: none;"> <label for="editpassword" class="form-label">Password</label> <input id="editpassword" type="password" class="form-control"/></div> <div class="text-center"> <button type="submit" class="btn btn-primary">Submit</button> <button type="reset" class="btn btn-secondary" style="display: none;">Reset</button> </div> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div></div><!-- End Basic Modal--> <button id="displayMessageButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#displayMessageModal" style="display: none;"></button><div class="modal fade" id="displayMessageModal" tabindex="-1"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h5 class="modal-title">Action Message</h5> <button id="closeMessageButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body displayMessageBody"> </div> <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> </div> </div> </div></div><!-- End Basic Modal--> <div id="loading" class="d-flex justify-content-center align-items-center"> <div class="spinner-border text-primary" style="width: 7rem; height: 7rem; border-width: 5px; display: none;" role="status"> <span class="visually-hidden">Loading...</span> </div></div>  <div><div id="messageAlert"></div></div> ');
 
             datatable = $("table#discoveryTable").DataTable({
 
@@ -47,7 +47,7 @@ let datatable ;
 
             discovery.addDeviceToMonitor();
 
-            websocket.websocketForDiscovery();
+            createWebsocket.websocketForDiscovery();
         });
     },
 
@@ -112,9 +112,32 @@ let datatable ;
 
         $("button[type='reset']").click();
 
+/*
         $(".displayMessageBody").text(request.data.message);
 
         $("#displayMessageButton").click();
+*/
+
+        let data = request.data.message;
+
+        if(data.includes("Unsuccessfull"))
+        {
+            iziToast.error({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+        else
+        {
+            iziToast.success({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
 
         discovery.getDiscoveryDevices();
     },
@@ -205,9 +228,32 @@ let datatable ;
 
     onDeleteSuccessfull: function (request)
     {
+/*
         $(".displayMessageBody").text(request.data.message);
 
         $("#displayMessageButton").click();
+*/
+
+        let data = request.data.message;
+
+        if(data.includes("Unsuccessfull"))
+        {
+            iziToast.error({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+        else
+        {
+            iziToast.success({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
 
         discovery.getDiscoveryDevices();
     },
@@ -314,9 +360,31 @@ let datatable ;
     {
         $("#editForm").click();
 
+/*
         $(".displayMessageBody").text(request.data.message);
 
         $("#displayMessageButton").click();
+*/
+        let data = request.data.message;
+
+        if(data.includes("Unsuccessfull"))
+        {
+            iziToast.error({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+        else
+        {
+            iziToast.success({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
 
         discovery.getDiscoveryDevices();
     },
@@ -368,11 +436,21 @@ let datatable ;
 
         //console.log(request.data.message);
 
-        $(".displayMessageBody").text(request.data.message);
+       /* $(".displayMessageBody").text(request.data.message);
 
         $("#displayMessageButton").click();
 
-        discovery.getDiscoveryDevices();
+        discovery.getDiscoveryDevices();*/
+
+        // toastr.info('Device added to queue');
+
+        iziToast.success({
+            title: 'Discovery',
+            message: request.data.message,
+            position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+            pauseOnHover: false
+        });
+
     },
 
     addDeviceToMonitor: function ()
@@ -399,9 +477,31 @@ let datatable ;
 
     onAddDeviceToMonitorSuccessFull: function (request)
     {
-        $(".displayMessageBody").text(request.data.message);
+/*        $(".displayMessageBody").text(request.data.message);
 
-        $("#displayMessageButton").click();
+        $("#displayMessageButton").click();*/
+
+        let data = request.data.message;
+
+        if(data.includes("Already"))
+        {
+            iziToast.warning({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+        else
+        {
+            iziToast.success({
+                title: 'Discovery',
+                message: data,
+                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+                pauseOnHover: false
+            });
+        }
+
     }
 
 

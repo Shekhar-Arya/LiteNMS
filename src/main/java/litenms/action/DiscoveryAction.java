@@ -119,18 +119,12 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-            CommonUtil.addDiscoveryId(discoveryModel.getId());
+            int id = discoveryModel.getId();
+
+            CommonUtil.addDiscoveryId(id);
 
             discoveryModel.setMessage("Device Added to Queue for Discovery");
-            
-/*            if(discoveryService.runDiscovery(discoveryModel.getId()))
-            {
-                discoveryModel.setMessage("Discovery Successful");
-            }
-            else
-            {
-                discoveryModel.setMessage("Discovery Unsuccessful");
-            }*/
+
         }
         catch (Exception e)
         {

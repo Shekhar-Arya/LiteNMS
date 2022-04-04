@@ -19,8 +19,8 @@ public class LoginAndLogOutAction extends ActionSupport implements ModelDriven<L
     {
         try
         {
-            if(loginModel.getUsername()!=null){
-
+            if(loginModel.getUsername()!=null)
+            {
                 if(loginService.checkUserExists(loginModel))
                 {
                     sessionMap.put("username",loginModel.getUsername());

@@ -2,16 +2,23 @@ package litenms.commonutils;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 
-@ServerEndpoint("/login/websocket/discovery")
+@ServerEndpoint("/endpoint")
 public class WebSocket
 {
+
+     private static Session session;
+
     @OnOpen
     public void handleOpen(Session session)
     {
+
         try
         {
-            System.out.println("hello");
+//            session.setMaxIdleTimeout(1800000);
+
+            WebSocket.session = session;
         }
         catch (Exception e)
         {
@@ -20,17 +27,9 @@ public class WebSocket
     }
 
     @OnMessage
-    public String handleMessage(String message)
+    public void handleMessage(String message)
     {
 
-        /*System.out.println("From Client to server : "+message);
-        System.out.println("Sending to the Client : "+message+"FromServer");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        return message;
     }
 
 
@@ -45,6 +44,18 @@ public class WebSocket
     public void handleError(Throwable throwable)
     {
         throwable.printStackTrace();
+    }
+
+    public void sendMessage(String message)
+    {
+        try
+        {
+            WebSocket.session.getBasicRemote().sendText(message);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
