@@ -209,19 +209,52 @@ let datatable ;
 
         $("#discoveryTable").on("click",".deleteDiscoveryRow",function (e)
         {
-            let param =
-                {
-                    id:$(e.currentTarget).data("id"),
-                }
-            let request =
-                {
-                    url:"deleteDiscoveryRow",
 
-                    param: param,
+            iziToast.question({
+                timeout: 20000,
+                close: true,
+                overlay: true,
+                displayMode: 'once',
+                id: 'question',
+                zindex: 999,
+                title: 'Delete',
+                message: 'Are you sure?',
+                position: 'center',
+                buttons: [
+                    ['<button><b>YES</b></button>', function (instance, toast) {
 
-                    callback:discovery.onDeleteSuccessfull
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+
+                        let param =
+                            {
+                                id:$(e.currentTarget).data("id"),
+                            }
+                        let request =
+                            {
+                                url:"deleteDiscoveryRow",
+
+                                param: param,
+
+                                callback:discovery.onDeleteSuccessfull
+                            }
+                        ajaxCalls.ajaxPostCall(request);
+
+                    }, true],
+                    ['<button>NO</button>', function (instance, toast) {
+
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                    }],
+                ],
+                onClosing: function(instance, toast, closedBy){
+                    console.info('Closing | closedBy: ' + closedBy);
+                },
+                onClosed: function(instance, toast, closedBy){
+                    console.info('Closed | closedBy: ' + closedBy);
                 }
-            ajaxCalls.ajaxPostCall(request);
+            });
+
         });
     },
 

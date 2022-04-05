@@ -1,5 +1,6 @@
 package litenms.commonutils;
 
+import litenms.models.DiscoveryModel;
 import litenms.service.DiscoveryService;
 
 public class DiscoveryRunnable implements Runnable
@@ -11,22 +12,24 @@ public class DiscoveryRunnable implements Runnable
         this.id = id;
     }
 
-    DiscoveryService discoveryService = new DiscoveryService();
+    private DiscoveryService discoveryService = new DiscoveryService();
 
-    WebSocket socket = new WebSocket();
+    private WebSocket socket = new WebSocket();
 
     @Override
     public void run()
     {
         try
         {
+            DiscoveryModel model = discoveryService.getDiscoveryRow(id);
+
             if (discoveryService.runDiscovery(id))
             {
-                socket.sendMessage("Discovery Successfull");
+                socket.sendMessage(model.getIp()+" Discovery Successfull");
             }
             else
             {
-                socket.sendMessage("Discovery Unsuccessfull");
+                socket.sendMessage(model.getIp()+" Discovery Unsuccessfull");
             }
         }
         catch (Exception e)

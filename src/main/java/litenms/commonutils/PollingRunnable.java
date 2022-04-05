@@ -71,6 +71,8 @@ public class PollingRunnable implements Runnable
 
                         commands.add("df -ht ext4 | grep / | awk '{print $5}'\n");
 
+                        String allCommands = "free -t | grep Total | awk '{print $2}'\nfree -t | grep Total | awk '{print $3}'\nfree -t | grep Total | awk '{print $4}'\nmpstat | grep all\ndf -ht ext4 | grep / | awk '{print $5}'\n";
+
                         try
                         {
                             session = sshConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
@@ -81,7 +83,7 @@ public class PollingRunnable implements Runnable
 
                                 if (channel != null && channel.isConnected())
                                 {
-                                    responseString = sshConnection.runSSHCommands(channel, commands);
+                                    responseString = sshConnection.runSSHCommands(channel, allCommands);
                                 }
                             }
                         }

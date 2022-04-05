@@ -360,20 +360,53 @@ let monitor =
     {
         $("#monitorTable").on("click",".deleteMonitorData",function (e)
         {
-            let param =
-                {
-                    id:$(e.currentTarget).data("id"),
-                }
-            let request =
-                {
-                    url:"deleteMonitorData",
+            iziToast.question({
+                timeout: 20000,
+                close: true,
+                overlay: true,
+                displayMode: 'once',
+                id: 'question',
+                zindex: 999,
+                title: 'Delete',
+                message: 'Are you sure?',
+                position: 'center',
+                buttons: [
+                    ['<button><b>YES</b></button>', function (instance, toast) {
 
-                    param:param,
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
-                    callback: monitor.onDeleteMonitorDataSuccess
+                        let param =
+                            {
+                                id:$(e.currentTarget).data("id"),
+                            }
+                        let request =
+                            {
+                                url:"deleteMonitorData",
+
+                                param:param,
+
+                                callback: monitor.onDeleteMonitorDataSuccess
+                            }
+                        ajaxCalls.ajaxPostCall(request);
+
+
+                    }, true],
+                    ['<button>NO</button>', function (instance, toast) {
+
+                        instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                    }],
+                ],
+                onClosing: function(instance, toast, closedBy){
+                    console.info('Closing | closedBy: ' + closedBy);
+                },
+                onClosed: function(instance, toast, closedBy){
+                    console.info('Closed | closedBy: ' + closedBy);
                 }
-            ajaxCalls.ajaxPostCall(request);
+            });
+
         });
+
     },
 
     onDeleteMonitorDataSuccess: function (request)

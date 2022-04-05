@@ -21,6 +21,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
+
             if(discoveryService.addDeviceToDiscovery(discoveryModel))
             {
                 discoveryModel.setMessage("Device Added Succesfully");
@@ -61,13 +62,15 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
+            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+
             if(discoveryService.deleteDiscoveryRow(discoveryModel.getId()))
             {
-                discoveryModel.setMessage("Device Deleted Successfully");
+                discoveryModel.setMessage(model.getIp()+" Device Deleted Successfully");
             }
             else
             {
-                discoveryModel.setMessage("Unsuccessful Device Deletion");
+                discoveryModel.setMessage(model.getIp()+" Unsuccessful Device Deletion");
             }
         }
         catch (Exception e)
@@ -121,9 +124,11 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
         {
             int id = discoveryModel.getId();
 
+            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+
             CommonUtil.addDiscoveryId(id);
 
-            discoveryModel.setMessage("Device Added to Queue for Discovery");
+            discoveryModel.setMessage(model.getIp()+" Device Added to Queue for Discovery");
 
         }
         catch (Exception e)
@@ -137,13 +142,15 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
+            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+
             if(monitorService.addDeviceToMonitor(discoveryModel.getId()))
             {
-                discoveryModel.setMessage("Device Provision Successfully");
+                discoveryModel.setMessage(model.getIp()+" Device Provision Successfully");
             }
             else
             {
-                discoveryModel.setMessage("Device Already Provisioned");
+                discoveryModel.setMessage(model.getIp()+" Device Already Provisioned");
             }
         }
         catch (Exception e)

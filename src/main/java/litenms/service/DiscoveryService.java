@@ -109,9 +109,13 @@ public class DiscoveryService
 
         try
         {
+/*
             ArrayList<String> commands = new ArrayList<>();
 
             commands.add("uname\n");
+*/
+
+            String commands = "uname\n";
 
             session = sshConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
@@ -131,12 +135,16 @@ public class DiscoveryService
 
                 responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
 
+/*
                 for (String command:commands)
                 {
                     output.add(responseString.substring(responseString.indexOf(command.trim()),responseString.indexOf(model.getUsername()+"@")).replace(command.trim(),""));
 
                     responseString = responseString.substring(responseString.indexOf(model.getUsername()+"@")+model.getUsername().length()+1);
                 }
+*/
+
+                output.add(responseString.substring(responseString.indexOf(commands.trim()),responseString.indexOf(model.getUsername()+"@")).replace(commands.trim(),""));
 
                 String sshResult = output.get(0);
 

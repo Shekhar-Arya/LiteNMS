@@ -63,7 +63,7 @@ public class SSHConnection
         return channelShell;
     }
 
-    public String runSSHCommands(ChannelShell channel, ArrayList<String> commands)
+    public String runSSHCommands(ChannelShell channel, String commands)
     {
         String responseString = "";
 
@@ -78,10 +78,14 @@ public class SSHConnection
 
             writer = new BufferedWriter(new OutputStreamWriter(channel.getOutputStream()));
 
+/*
             for (String command:commands)
             {
                 writer.write(command);
             }
+*/
+
+            writer.write(commands);
 
             writer.write("exit\n");
 
