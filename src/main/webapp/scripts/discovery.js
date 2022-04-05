@@ -112,12 +112,6 @@ let datatable ;
 
         $("button[type='reset']").click();
 
-/*
-        $(".displayMessageBody").text(request.data.message);
-
-        $("#displayMessageButton").click();
-*/
-
         let data = request.data.message;
 
         if(data.includes("Unsuccessfull"))
@@ -261,12 +255,6 @@ let datatable ;
 
     onDeleteSuccessfull: function (request)
     {
-/*
-        $(".displayMessageBody").text(request.data.message);
-
-        $("#displayMessageButton").click();
-*/
-
         let data = request.data.message;
 
         if(data.includes("Unsuccessfull"))
@@ -393,11 +381,6 @@ let datatable ;
     {
         $("#editForm").click();
 
-/*
-        $(".displayMessageBody").text(request.data.message);
-
-        $("#displayMessageButton").click();
-*/
         let data = request.data.message;
 
         if(data.includes("Unsuccessfull"))
@@ -467,16 +450,6 @@ let datatable ;
         $("#header").removeClass("headerLoading");
 */
 
-        //console.log(request.data.message);
-
-       /* $(".displayMessageBody").text(request.data.message);
-
-        $("#displayMessageButton").click();
-
-        discovery.getDiscoveryDevices();*/
-
-        // toastr.info('Device added to queue');
-
         iziToast.success({
             title: 'Discovery',
             message: request.data.message,
@@ -510,10 +483,6 @@ let datatable ;
 
     onAddDeviceToMonitorSuccessFull: function (request)
     {
-/*        $(".displayMessageBody").text(request.data.message);
-
-        $("#displayMessageButton").click();*/
-
         let data = request.data.message;
 
         if(data.includes("Already"))

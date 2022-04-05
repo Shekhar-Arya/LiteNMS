@@ -18,7 +18,7 @@ public class TakeDataIdForDiscovery implements Runnable
 
             while (true)
             {
-                Integer id = CommonUtil.takeDiscoveryId();
+                int id = CommonUtil.takeDiscoveryId();
 
                 service.execute(new DiscoveryRunnable(id));
             }

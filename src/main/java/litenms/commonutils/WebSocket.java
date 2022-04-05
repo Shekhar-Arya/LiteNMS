@@ -26,20 +26,6 @@ public class WebSocket
         }
     }
 
-    @OnMessage
-    public void handleMessage(String message)
-    {
-
-    }
-
-
-
-    @OnClose
-    public void handleClose()
-    {
-
-    }
-
     @OnError
     public void handleError(Throwable throwable)
     {

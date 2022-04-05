@@ -4,19 +4,12 @@ let createWebsocket = {
     websocketForDiscovery: function ()
     {
         var websocket = new WebSocket("wss://localhost:8443/endpoint");
-
-        websocket.onopen = function (message) {processOnOpen(message);};
-
+        
         websocket.onmessage = function (message) {processOnMessage(message);};
 
         websocket.onclose = function (message) {processOnClose(message);};
 
         websocket.onerror = function (message) {processOnError(message);};
-
-        function processOnOpen(message)
-        {
-
-        }
 
         function processOnMessage(message)
         {
@@ -44,15 +37,11 @@ let createWebsocket = {
             discovery.getDiscoveryDevices();
         }
 
-        function sendMessageToServer()
-        {
-
-        }
-
         function processOnClose(message)
         {
             createWebsocket.websocketForDiscovery();
         }
+
         function processOnError(message)
         {
             console.log(message.data);

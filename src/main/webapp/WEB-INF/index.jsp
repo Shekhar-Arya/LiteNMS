@@ -48,8 +48,6 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
 
-<%--    <link href="ExternalStylingAndLibraries/assets/css/toastr.css" rel="stylesheet"/>--%>
-
     <link href="ExternalStylingAndLibraries/iziToast-master/dist/css/iziToast.min.css" rel="stylesheet"/>
 
     <!-- Template Main CSS File -->
@@ -300,8 +298,6 @@
 <script src="ExternalStylingAndLibraries/assets/js/main.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
-<%--<script src="ExternalStylingAndLibraries/assets/js/toastr.min.js"></script>--%>
 
 <script src="ExternalStylingAndLibraries/iziToast-master/dist/js/iziToast.min.js" type="text/javascript"></script>
 

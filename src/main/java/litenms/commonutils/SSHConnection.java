@@ -6,7 +6,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class SSHConnection
 {
@@ -77,13 +76,6 @@ public class SSHConnection
             reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
 
             writer = new BufferedWriter(new OutputStreamWriter(channel.getOutputStream()));
-
-/*
-            for (String command:commands)
-            {
-                writer.write(command);
-            }
-*/
 
             writer.write(commands);
 

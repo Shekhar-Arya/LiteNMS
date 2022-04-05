@@ -1,5 +1,4 @@
 
-
 let dashboard = {
 
     loadDashboardPage: function ()

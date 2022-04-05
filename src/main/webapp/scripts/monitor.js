@@ -411,13 +411,6 @@ let monitor =
 
     onDeleteMonitorDataSuccess: function (request)
     {
-/*
-        $('.modal-dialog').removeClass("modal-fullscreen");
-
-        $('.displayMessageBody').html(request.data.message);
-
-        $('#displayMessageButton').click();
-*/
 
         let data = request.data.message;
 

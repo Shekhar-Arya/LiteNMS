@@ -21,7 +21,6 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-
             if(discoveryService.addDeviceToDiscovery(discoveryModel))
             {
                 discoveryModel.setMessage("Device Added Succesfully");
@@ -124,7 +123,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
         {
             int id = discoveryModel.getId();
 
-            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+            DiscoveryModel model = discoveryService.getDiscoveryRow(id);
 
             CommonUtil.addDiscoveryId(id);
 
