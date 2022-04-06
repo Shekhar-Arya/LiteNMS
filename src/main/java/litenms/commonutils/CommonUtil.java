@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommonUtil
 {
-    private static LinkedBlockingQueue<MonitorModel> discoveryModels = new LinkedBlockingQueue<>();
+    private static LinkedBlockingQueue<MonitorModel> pollingModels = new LinkedBlockingQueue<>();
 
     private static LinkedBlockingQueue<Integer> runDiscoveryList = new LinkedBlockingQueue<>();
 
@@ -13,7 +13,7 @@ public class CommonUtil
     {
         try
         {
-            discoveryModels.put(model);
+            pollingModels.put(model);
         }
         catch (InterruptedException e)
         {
@@ -27,7 +27,7 @@ public class CommonUtil
 
         try
         {
-            model =  discoveryModels.take();
+            model =  pollingModels.take();
         }
         catch (InterruptedException e)
         {

@@ -53,7 +53,7 @@ public class SSHConnection
         {
             channelShell = (ChannelShell) session.openChannel("shell");
 
-            channelShell.connect();
+            channelShell.connect(5000);
         }
         catch (Exception e)
         {

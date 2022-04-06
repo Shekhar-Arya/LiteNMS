@@ -12,13 +12,13 @@ public class DiscoveryRunnable implements Runnable
         this.id = id;
     }
 
-    private WebSocket socket = new WebSocket();
-
     @Override
     public void run()
     {
         try
         {
+            WebSocket socket = new WebSocket();
+
             DiscoveryModel model = DiscoveryService.getDiscoveryRow(id);
 
             if (DiscoveryService.runDiscovery(id))
