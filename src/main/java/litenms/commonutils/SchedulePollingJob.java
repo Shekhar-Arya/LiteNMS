@@ -13,11 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SchedulePollingJob implements Job
 {
-
-    private DiscoveryDao discoveryDao = new DiscoveryDao();
-
-    private MonitorDao monitorDao = new MonitorDao();
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext)
     {
@@ -37,11 +32,11 @@ public class SchedulePollingJob implements Job
             }
             else
             {
-                sshCredList = discoveryDao.getAllSSHCred();
+                sshCredList = DiscoveryDao.getAllSSHCred();
 
                 CacheStore.setCacheList("sshCredList",sshCredList);
 
-                monitorModels = monitorDao.getMonitorDevices();
+                monitorModels = MonitorDao.getMonitorDevices();
 
                 CacheStore.setCacheList("monitorList",monitorModels);
             }

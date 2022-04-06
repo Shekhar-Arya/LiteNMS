@@ -13,15 +13,11 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
 {
     private DiscoveryModel discoveryModel = new DiscoveryModel();
 
-    private DiscoveryService discoveryService = new DiscoveryService();
-
-    private MonitorService monitorService = new MonitorService();
-
     public String addDeviceForDiscovery()
     {
         try
         {
-            if(discoveryService.addDeviceToDiscovery(discoveryModel))
+            if(DiscoveryService.addDeviceToDiscovery(discoveryModel))
             {
                 discoveryModel.setMessage("Device Added Succesfully");
             }
@@ -43,7 +39,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
         {
             HashMap<String,Object> result = new HashMap<>();
 
-            List<DiscoveryModel> models = discoveryService.getDiscoveryDevices();
+            List<DiscoveryModel> models = DiscoveryService.getDiscoveryDevices();
 
             result.put("result",models);
 
@@ -61,9 +57,9 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+            DiscoveryModel model = DiscoveryService.getDiscoveryRow(discoveryModel.getId());
 
-            if(discoveryService.deleteDiscoveryRow(discoveryModel.getId()))
+            if(DiscoveryService.deleteDiscoveryRow(discoveryModel.getId()))
             {
                 discoveryModel.setMessage(model.getIp()+" Device Deleted Successfully");
             }
@@ -85,7 +81,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
         {
             HashMap<String,Object> result = new HashMap<>();
 
-            result.put("result", discoveryService.getDiscoveryRow(discoveryModel.getId()));
+            result.put("result", DiscoveryService.getDiscoveryRow(discoveryModel.getId()));
 
             discoveryModel.setResult(result);
         }
@@ -101,7 +97,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-            if(discoveryService.updateDiscoveryRow(discoveryModel))
+            if(DiscoveryService.updateDiscoveryRow(discoveryModel))
             {
                 discoveryModel.setMessage("Device Updated Successfully");
             }
@@ -123,7 +119,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
         {
             int id = discoveryModel.getId();
 
-            DiscoveryModel model = discoveryService.getDiscoveryRow(id);
+            DiscoveryModel model = DiscoveryService.getDiscoveryRow(id);
 
             CommonUtil.addDiscoveryId(id);
 
@@ -141,9 +137,9 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Discov
     {
         try
         {
-            DiscoveryModel model = discoveryService.getDiscoveryRow(discoveryModel.getId());
+            DiscoveryModel model = DiscoveryService.getDiscoveryRow(discoveryModel.getId());
 
-            if(monitorService.addDeviceToMonitor(discoveryModel.getId()))
+            if(MonitorService.addDeviceToMonitor(discoveryModel.getId()))
             {
                 discoveryModel.setMessage(model.getIp()+" Device Provision Successfully");
             }

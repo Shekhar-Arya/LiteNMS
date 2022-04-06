@@ -19,7 +19,7 @@ public class DatabaseConnection
         }
     }
 
-    public Connection getConnection()
+    public static Connection getConnection()
     {
         Connection connection = null;
         try
@@ -34,7 +34,7 @@ public class DatabaseConnection
         return connection;
     }
 
-    public void closeConnection(Connection connection, PreparedStatement preparedStatement)
+    public static void closeConnection(Connection connection, PreparedStatement preparedStatement)
     {
         try
         {

@@ -5,14 +5,12 @@ import litenms.service.DiscoveryService;
 
 public class DiscoveryRunnable implements Runnable
 {
-    private Integer id = null;
+    private int id ;
 
-    DiscoveryRunnable(Integer id)
+    DiscoveryRunnable(int id)
     {
         this.id = id;
     }
-
-    private DiscoveryService discoveryService = new DiscoveryService();
 
     private WebSocket socket = new WebSocket();
 
@@ -21,9 +19,9 @@ public class DiscoveryRunnable implements Runnable
     {
         try
         {
-            DiscoveryModel model = discoveryService.getDiscoveryRow(id);
+            DiscoveryModel model = DiscoveryService.getDiscoveryRow(id);
 
-            if (discoveryService.runDiscovery(id))
+            if (DiscoveryService.runDiscovery(id))
             {
                 socket.sendMessage(model.getIp()+" Discovery Successfull");
             }

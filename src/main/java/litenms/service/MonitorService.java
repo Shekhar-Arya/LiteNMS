@@ -9,34 +9,29 @@ import java.util.List;
 
 public class MonitorService
 {
-
-    private MonitorDao monitorDao = new MonitorDao();
-
-    private DiscoveryDao discoveryDao = new DiscoveryDao();
-
-    public boolean addDeviceToMonitor(int id)
+    public static boolean addDeviceToMonitor(int id)
     {
         DiscoveryModel model = null;
 
         try
         {
-            model = discoveryDao.getDiscoveryRow(id);
+            model = DiscoveryDao.getDiscoveryRow(id);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return monitorDao.addDeviceToMonitor(model);
+        return MonitorDao.addDeviceToMonitor(model);
     }
 
-    public List<MonitorModel> getMonitorDevices()
+    public static List<MonitorModel> getMonitorDevices()
     {
-        return monitorDao.getMonitorDevices();
+        return MonitorDao.getMonitorDevices();
     }
 
 
-    public boolean deleteMonitorData(int id)
+    public static boolean deleteMonitorData(int id)
     {
-        return monitorDao.deleteMonitorData(id);
+        return MonitorDao.deleteMonitorData(id);
     }
 }

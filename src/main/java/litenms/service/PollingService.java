@@ -12,19 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 public class PollingService
 {
-    private PollingDao pollingDao = new PollingDao();
-
-    public void addPollingData(PollingModel model)
+    public static void addPollingData(PollingModel model)
     {
-        pollingDao.addDataOfPolling(model);
+        PollingDao.addDataOfPolling(model);
     }
 
-    public PollingModel getPollingLatestData(int id)
+    public static PollingModel getPollingLatestData(int id)
     {
-      return pollingDao.getPollingLatestData(id);
+      return PollingDao.getPollingLatestData(id);
     }
 
-    public List<PollingModel> getPollingLastTwentyFourHourData(int id)
+    public static List<PollingModel> getPollingLastTwentyFourHourData(int id)
     {
         List<PollingModel> result = null;
 
@@ -47,7 +45,7 @@ public class PollingService
 
                 Timestamp endTime = new Timestamp(new Date(millis- TimeUnit.HOURS.toMillis(i-1)).getTime());
 
-                List<PollingModel>  models = pollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+                List<PollingModel>  models = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
 
                 PollingModel model = new PollingModel();
 
@@ -82,7 +80,7 @@ public class PollingService
         return result;
     }
 
-    public int getListForAvailabaility(int id)
+    public static int getListForAvailabaility(int id)
     {
         int avgAvailability = 0;
 
@@ -97,7 +95,7 @@ public class PollingService
 
             Timestamp startTime = new Timestamp(new Date(currentTimeInMillis-TimeUnit.HOURS.toMillis(24)).getTime());
 
-            List<PollingModel> dataForAvailability = pollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
+            List<PollingModel> dataForAvailability = PollingDao.getPollingLastTwentyFourHourData(id,startTime,endTime);
 
             if(dataForAvailability.size()!=0)
             {

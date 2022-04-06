@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ProcessBuilderUtil
 {
-    public String runCommand(ArrayList<String> commandList)
+    public static String runCommand(ArrayList<String> commandList)
     {
         ProcessBuilder builder = null;
 

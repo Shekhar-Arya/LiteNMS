@@ -9,8 +9,6 @@ public class Scheduler extends HttpServlet
     @Override
     public void init()
     {
-        SchedulerFactory schedulerFactory = null;
-
         try
         {
             Thread thread = new Thread(new TakeDataForPolling());
@@ -21,7 +19,7 @@ public class Scheduler extends HttpServlet
 
             thread1.start();
 
-            schedulerFactory = new StdSchedulerFactory();
+            SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
             org.quartz.Scheduler scheduler = schedulerFactory.getScheduler();
 

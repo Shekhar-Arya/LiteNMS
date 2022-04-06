@@ -9,9 +9,7 @@ import java.util.List;
 public class PollingDao
 {
 
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
-
-    public void addDataOfPolling(PollingModel pollingModel)
+    public static void addDataOfPolling(PollingModel pollingModel)
     {
         Connection connection = null;
 
@@ -19,7 +17,7 @@ public class PollingDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("insert into polling (monitor_id,type,avg_rtt,packet_loss,total_memory,used_memory,free_memory,cpu_usage,disk_usage,date,availability) values (?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -53,11 +51,11 @@ public class PollingDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public PollingModel getPollingLatestData(int id)
+    public static PollingModel getPollingLatestData(int id)
     {
         Connection connection = null;
 
@@ -69,7 +67,7 @@ public class PollingDao
         {
             model =  new PollingModel();
 
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("select * from polling where monitor_id = ? order by date desc limit 1");
 
@@ -108,12 +106,12 @@ public class PollingDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return model;
     }
 
-    public List<PollingModel> getPollingLastTwentyFourHourData(int id, Timestamp startTime, Timestamp endTime)
+    public static List<PollingModel> getPollingLastTwentyFourHourData(int id, Timestamp startTime, Timestamp endTime)
     {
         Connection connection = null;
 
@@ -123,7 +121,7 @@ public class PollingDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             pollingModelList = new ArrayList<>();
 
@@ -172,7 +170,7 @@ public class PollingDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return pollingModelList;
     }

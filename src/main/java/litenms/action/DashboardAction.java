@@ -12,17 +12,15 @@ public class DashboardAction extends ActionSupport implements ModelDriven<Dashbo
 
     private DashboardModel model = new DashboardModel();
 
-    private DashboardService dashboardService = new DashboardService();
-
     public String getDashboardData()
     {
         try
         {
             HashMap<String,Object> result = new HashMap<>();
 
-            result.put("totalStatusData",dashboardService.getTotalDevicesByStatus());
+            result.put("totalStatusData",DashboardService.getTotalDevicesByStatus());
 
-            result.put("topFiveData",dashboardService.getTopDataForDashboard());
+            result.put("topFiveData",DashboardService.getTopDataForDashboard());
 
             model.setResult(result);
         }

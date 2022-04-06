@@ -10,10 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DashboardService
 {
-
-    private DashboardDao dashboardDao = new DashboardDao();
-
-    public HashMap<String,Integer> getTotalDevicesByStatus()
+    public static HashMap<String,Integer> getTotalDevicesByStatus()
     {
         HashMap<String,Integer> result = null;
 
@@ -27,7 +24,7 @@ public class DashboardService
 
             temp.put("Unknown",0);
 
-            result = dashboardDao.getTotalDevicesByStatus();
+            result = DashboardDao.getTotalDevicesByStatus();
 
             for (String key:temp.keySet())
             {
@@ -45,7 +42,7 @@ public class DashboardService
         return result;
     }
 
-    public HashMap<String,Object> getTopDataForDashboard()
+    public static HashMap<String,Object> getTopDataForDashboard()
     {
         HashMap<String,Object> result = null;
 
@@ -58,11 +55,11 @@ public class DashboardService
 
             result = new HashMap<>();
 
-            List<DashboardModel> dashboardModelsOfUsedMemory = dashboardDao.getTopDataOfUsedMemory(startTime,endTime);
+            List<DashboardModel> dashboardModelsOfUsedMemory = DashboardDao.getTopDataOfUsedMemory(startTime,endTime);
 
-            List<DashboardModel> dashboardModelsOfCpuUsage = dashboardDao.getTopDataOfCpuUsage(startTime,endTime);
+            List<DashboardModel> dashboardModelsOfCpuUsage = DashboardDao.getTopDataOfCpuUsage(startTime,endTime);
 
-            List<DashboardModel> dashboardModelsOfDiskUsage = dashboardDao.getTopDataOfDiskUsage(startTime,endTime);
+            List<DashboardModel> dashboardModelsOfDiskUsage = DashboardDao.getTopDataOfDiskUsage(startTime,endTime);
 
             result.put("cpu_usage",dashboardModelsOfCpuUsage);
 

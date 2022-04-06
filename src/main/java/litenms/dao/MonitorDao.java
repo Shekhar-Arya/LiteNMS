@@ -12,9 +12,7 @@ import java.util.List;
 
 public class MonitorDao
 {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
-
-    public List<MonitorModel> getMonitorDevices()
+    public static List<MonitorModel> getMonitorDevices()
     {
         Connection connection = null;
 
@@ -24,7 +22,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             monitorModels = new ArrayList<>();
 
@@ -55,14 +53,14 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return monitorModels;
     }
 
 
 
-    public boolean addDeviceToMonitor(DiscoveryModel discoveryModel)
+    public static boolean addDeviceToMonitor(DiscoveryModel discoveryModel)
     {
         Connection connection = null;
 
@@ -70,7 +68,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             if(getDeviceFromMonitor(discoveryModel.getIp(),discoveryModel.getType()).getIp() == null)
             {
@@ -103,13 +101,13 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
     }
 
 
 
-    public MonitorModel getDeviceFromMonitor(String ip, String type)
+    public static MonitorModel getDeviceFromMonitor(String ip, String type)
     {
         Connection connection = null;
 
@@ -119,7 +117,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             model = new MonitorModel();
 
@@ -150,12 +148,12 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return model;
     }
 
-    public int updateMonitorStatus(String status, int id)
+    public static int updateMonitorStatus(String status, int id)
     {
         Connection connection = null;
 
@@ -165,7 +163,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("update monitor set status = ? where id = ?");
 
@@ -183,12 +181,12 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return rowsAffected;
     }
 
-    public boolean deleteMonitorData(int id)
+    public static boolean deleteMonitorData(int id)
     {
         Connection connection = null;
 
@@ -196,7 +194,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("delete from monitor where id = ?");
 
@@ -222,11 +220,11 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
     }
 
-    public String getMonitorIpById(int id)
+    public static String getMonitorIpById(int id)
     {
         Connection connection = null;
 
@@ -236,7 +234,7 @@ public class MonitorDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("select ip from monitor where id = ?");
 
@@ -255,7 +253,7 @@ public class MonitorDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
     return ip;
     }

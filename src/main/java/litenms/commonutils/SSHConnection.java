@@ -9,7 +9,7 @@ import java.io.*;
 
 public class SSHConnection
 {
-    public Session getSSHSession(String username, String password, String host)
+    public static Session getSSHSession(String username, String password, String host)
     {
         Session session = null;
         try
@@ -30,7 +30,7 @@ public class SSHConnection
         return session;
     }
 
-    public void closeSSHSession(Session session)
+    public static void closeSSHSession(Session session)
     {
         try
         {
@@ -45,7 +45,7 @@ public class SSHConnection
         }
     }
 
-    public ChannelShell getSSHChannel(Session session)
+    public static ChannelShell getSSHChannel(Session session)
     {
         ChannelShell channelShell = null;
 
@@ -62,7 +62,7 @@ public class SSHConnection
         return channelShell;
     }
 
-    public String runSSHCommands(ChannelShell channel, String commands)
+    public static String runSSHCommands(ChannelShell channel, String commands)
     {
         String responseString = "";
 

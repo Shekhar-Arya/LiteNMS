@@ -4,17 +4,14 @@ import java.util.ArrayList;
 
 public class PingDevice
 {
-    private ArrayList<String> commandList = new ArrayList<String>();
-
-    private ProcessBuilderUtil processBuilderUtil = new ProcessBuilderUtil();
-
-   public String pingDevice(String ip)
+   public static String pingDevice(String ip)
    {
-
        String result = "";
 
        try
        {
+           ArrayList<String> commandList = new ArrayList<String>();
+
            commandList.clear();
 
            commandList.add("ping");
@@ -25,7 +22,7 @@ public class PingDevice
 
            commandList.add(ip);
 
-           result = processBuilderUtil.runCommand(commandList);
+           result = ProcessBuilderUtil.runCommand(commandList);
        }
        catch (Exception e)
        {

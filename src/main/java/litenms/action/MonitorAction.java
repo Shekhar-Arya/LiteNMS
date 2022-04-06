@@ -14,8 +14,6 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 {
     private MonitorModel monitorModel = new MonitorModel();
 
-    private MonitorService monitorService = new MonitorService();
-
     public String getMonitorDevices()
     {
         try
@@ -26,7 +24,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
 
             if(temp==null || temp.get("monitorList")==null)
             {
-                List<MonitorModel> monitorModels =  monitorService.getMonitorDevices();
+                List<MonitorModel> monitorModels =  MonitorService.getMonitorDevices();
 
                 result.put("result",monitorModels);
 
@@ -50,7 +48,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<MonitorM
     {
         try
         {
-            if (monitorService.deleteMonitorData(monitorModel.getId()))
+            if (MonitorService.deleteMonitorData(monitorModel.getId()))
             {
                 monitorModel.setMessage("Successfully Deleted");
             }

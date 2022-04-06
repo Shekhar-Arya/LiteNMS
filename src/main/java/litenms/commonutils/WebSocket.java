@@ -13,10 +13,8 @@ public class WebSocket
     @OnOpen
     public void handleOpen(Session session)
     {
-
         try
         {
-
             WebSocket.session = session;
         }
         catch (Exception e)

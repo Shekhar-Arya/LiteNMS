@@ -15,14 +15,6 @@ public class PollingRunnable implements Runnable
 {
     private MonitorModel model;
 
-    private PingDevice pingDevice = new PingDevice();
-
-    private SSHConnection sshConnection = new SSHConnection();
-
-    private PollingService pollingService = new PollingService();
-
-    private MonitorDao monitorDao = new MonitorDao();
-
     PollingRunnable(MonitorModel model)
     {
         this.model = model;
@@ -35,7 +27,7 @@ public class PollingRunnable implements Runnable
         {
             PollingModel pollingModel = new PollingModel();
 
-            String pingData = pingDevice.pingDevice(model.getIp());
+            String pingData = PingDevice.pingDevice(model.getIp());
 
             if(pingData!=null && !pingData.isEmpty())
             {
@@ -75,21 +67,21 @@ public class PollingRunnable implements Runnable
 
                         try
                         {
-                            session = sshConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
+                            session = SSHConnection.getSSHSession(model.getUsername(),model.getPassword(),model.getIp());
 
                             if(session!=null && session.isConnected())
                             {
-                                channel = sshConnection.getSSHChannel(session);
+                                channel = SSHConnection.getSSHChannel(session);
 
                                 if (channel != null && channel.isConnected())
                                 {
-                                    responseString = sshConnection.runSSHCommands(channel, allCommands);
+                                    responseString = SSHConnection.runSSHCommands(channel, allCommands);
                                 }
                             }
                         }
                         finally
                         {
-                            sshConnection.closeSSHSession(session);
+                            SSHConnection.closeSSHSession(session);
                         }
 
                         if (responseString!=null && !responseString.isEmpty())
@@ -193,16 +185,16 @@ public class PollingRunnable implements Runnable
 
                 if (packetLoss > 50)
                 {
-                    rowsAffected = monitorDao.updateMonitorStatus("Down", model.getId());
+                    rowsAffected = MonitorDao.updateMonitorStatus("Down", model.getId());
                 }
                 else
                 {
-                    rowsAffected = monitorDao.updateMonitorStatus("Up", model.getId());
+                    rowsAffected = MonitorDao.updateMonitorStatus("Up", model.getId());
                 }
 
                 if (rowsAffected!=0)
                 {
-                    pollingService.addPollingData(pollingModel);
+                    PollingService.addPollingData(pollingModel);
                 }
             }
         }

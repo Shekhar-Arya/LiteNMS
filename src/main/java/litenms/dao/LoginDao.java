@@ -8,9 +8,7 @@ import java.util.Base64;
 
 public class LoginDao
 {
-    private DatabaseConnection databaseConnection = new DatabaseConnection();
-
-    public boolean checkUserExist(LoginModel loginModel)
+    public static boolean checkUserExist(LoginModel loginModel)
     {
         Connection connection = null;
 
@@ -18,7 +16,7 @@ public class LoginDao
 
         try
         {
-            connection = databaseConnection.getConnection();
+            connection = DatabaseConnection.getConnection();
 
             statement = connection.prepareStatement("select password from user where user_name=? and password=?");
 
@@ -39,7 +37,7 @@ public class LoginDao
         }
         finally
         {
-            databaseConnection.closeConnection(connection,statement);
+            DatabaseConnection.closeConnection(connection,statement);
         }
         return false;
     }
