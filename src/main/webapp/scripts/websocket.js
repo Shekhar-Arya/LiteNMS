@@ -4,7 +4,7 @@ let createWebsocket = {
     websocketForDiscovery: function ()
     {
         var websocket = new WebSocket("wss://localhost:8443/endpoint");
-        
+
         websocket.onmessage = function (message) {processOnMessage(message);};
 
         websocket.onclose = function (message) {processOnClose(message);};

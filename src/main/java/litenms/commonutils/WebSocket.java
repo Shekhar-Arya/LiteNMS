@@ -16,7 +16,6 @@ public class WebSocket
 
         try
         {
-//            session.setMaxIdleTimeout(1800000);
 
             WebSocket.session = session;
         }

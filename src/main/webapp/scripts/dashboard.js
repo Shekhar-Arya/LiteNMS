@@ -1,3 +1,6 @@
+var moniterInterval;
+
+var dashboardInterval;
 
 let dashboard = {
 

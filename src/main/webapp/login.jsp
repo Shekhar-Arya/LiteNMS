@@ -184,8 +184,6 @@
 
 <script src="scripts/login.js"></script>
 
-<script src="scripts/websocket.js"></script>
-
 <script>
     $(document).ready(function ()
     {

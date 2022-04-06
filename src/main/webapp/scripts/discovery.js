@@ -1,6 +1,3 @@
-var moniterInterval;
-
-var dashboardInterval;
 
 let datatable ;
 
